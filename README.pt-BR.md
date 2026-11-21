@@ -16,13 +16,26 @@ A SDC atende ~1.500 lojas (B2B) e clientes de e-commerce a partir de um galpão 
 
 Detalhes: [layout e endereçamento](docs/layout.md) · [fluxos de processo](docs/processes.md)
 
+## Como rodar
+
+```bash
+pip install -r requirements.txt
+python src/generate_data.py          # escala de 10%, ~30 s -> data/raw/ (Parquet)
+python src/validate_data.py          # integridade + conservação de estoque + resumo de indicadores
+python src/export_legacy.py          # opcional: CSVs "sujos" de sistema legado em data/legacy/ para treino de limpeza
+```
+
+Use `--scale 1.0` para o CD em tamanho completo (bem maior e mais lento). Mesma semente + mesma escala = dados idênticos.
+Os dados têm problemas operacionais realistas que as próximas fases precisam **encontrar com dados**.
+O gerador é aberto, então o gabarito é tecnicamente descobrível: para o exercício valer, analise os dados primeiro e leia o gerador depois.
+
 ## Roteiro
 
 | Fase | Entrega | Status |
 |---|---|---|
 | 0. Fundação | Repositório, estrutura, premissas documentadas | Concluída |
 | 1. Layout e processos | Zonas, endereçamento, fluxos | Concluída |
-| 2. Gerador de dados | Dados sintéticos com problemas plantados | Planejada |
+| 2. Gerador de dados | 24 meses de operação sintética com problemas ocultos, [modelo de dados](docs/data_model.md), exportação suja estilo sistema legado | Concluída |
 | 3. Banco de dados | Modelo estrela em SQL e consultas de indicadores | Planejada |
 | 4. Diagnóstico e estoque | Indicadores, ABC/XYZ, previsão, estoque de segurança, dashboard v1 | Planejada |
 | 5. Slotting | Alocação otimizada de endereços | Planejada |

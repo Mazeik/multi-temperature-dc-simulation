@@ -16,13 +16,27 @@ SDC serves ~1,500 stores (B2B) and e-commerce customers from a ~25,000 m² facil
 
 Details: [layout & addressing](docs/layout.md) · [process flows](docs/processes.md)
 
+## Quick start
+
+```bash
+pip install -r requirements.txt
+python src/generate_data.py          # 10% scale, ~30 s -> data/raw/ (Parquet)
+python src/validate_data.py          # integrity + stock-conservation checks + KPI summary
+python src/export_legacy.py          # optional: dirty legacy-style CSVs in data/legacy/ for cleaning practice
+```
+
+Use `--scale 1.0` for the full-size facility (much larger and slower). Same seed + same scale = identical data.
+The generated data contains realistic operational problems that the later phases must **find with data**.
+The generator is open source, so the answer key is technically discoverable: for the exercise to be meaningful,
+analyze the data first and read the generator afterwards.
+
 ## Roadmap
 
 | Phase | Deliverable | Status |
 |---|---|---|
 | 0. Foundation | Repository, structure, documented assumptions | Done |
 | 1. Layout & processes | Zones, addressing, process flows | Done |
-| 2. Data generator | Synthetic data with planted problems | Planned |
+| 2. Data generator | 24 months of synthetic operations with hidden problems, [data model](docs/data_model.md), legacy-style dirty export | Done |
 | 3. Database | SQL star schema and KPI queries | Planned |
 | 4. Diagnosis & inventory | KPIs, ABC/XYZ, forecasting, safety stock, dashboard v1 | Planned |
 | 5. Slotting | Optimized storage allocation | Planned |

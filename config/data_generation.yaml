@@ -1,0 +1,135 @@
+# Parâmetros do gerador de dados sintéticos (Fase 2).
+# Todos os valores são ESTIMATIVAS de ordem de grandeza e podem ser ajustados aqui.
+# Os parâmetros físicos do CD (posições, docas, SKUs) ficam em parameters.yaml e layout.yaml.
+
+calendar:
+  warmup_days: 60               # dias simulados antes do início para o estoque "assentar" (não são gravados)
+  weekday_factor:               # seg ter qua qui sex sáb dom
+    b2b:       [1.12, 1.08, 1.02, 1.02, 1.10, 0.85, 0.12]
+    ecommerce: [1.05, 1.00, 0.98, 0.98, 1.05, 1.10, 0.90]
+  growth_per_year: { b2b: 0.04, ecommerce: 0.22 }
+  special_days:                 # multiplicador de pedidos em datas específicas (Black Friday etc.)
+    "2024-11-28": { ecommerce: 1.4 }
+    "2024-11-29": { ecommerce: 2.4, b2b: 1.15 }
+    "2024-11-30": { ecommerce: 1.6 }
+    "2025-11-27": { ecommerce: 1.4 }
+    "2025-11-28": { ecommerce: 2.6, b2b: 1.15 }
+    "2025-11-29": { ecommerce: 1.7 }
+
+seasonality:                    # índice mensal da demanda por zona (jan..dez)
+  dry:     [0.92, 0.90, 1.08, 1.05, 0.98, 0.95, 0.95, 0.97, 0.98, 1.05, 1.12, 1.30]
+  chilled: [0.95, 0.92, 1.00, 1.18, 0.97, 0.95, 0.92, 0.95, 0.97, 1.02, 1.10, 1.35]
+  frozen:  [1.25, 1.22, 1.10, 0.95, 0.82, 0.75, 0.72, 0.80, 0.92, 1.05, 1.20, 1.40]
+
+demand:
+  zone_share:                   # participação de cada zona nas linhas de pedido
+    b2b:       { dry: 0.70, chilled: 0.18, frozen: 0.12 }
+    ecommerce: { dry: 0.85, chilled: 0.10, frozen: 0.05 }
+  zone_scale: { dry: 0.58, chilled: 1.00, frozen: 0.55 }   # calibração do volume por zona
+  popularity_sigma: 1.1         # concentração da demanda (lognormal); em unidades ~20% dos SKUs fazem ~75-80% do volume
+  ecom_units_per_line: 1.23
+  ecom_enabled_share: { dry: 0.60, chilled: 0.35, frozen: 0.20 }
+  regions:
+    b2b:       { MG: 0.52, SP: 0.33, RJ: 0.15 }
+    ecommerce: { MG: 0.30, SP: 0.45, RJ: 0.25 }
+  b2b_size_sigma: 0.7           # dispersão do tamanho dos clientes (lognormal)
+
+catalog:
+  min_sale_share: 0.25          # lote vira "invendável" quando restar menos que 25% da vida útil
+  categories:                   # share = peso dentro da zona; intervalos [mín, máx]
+    - { name: Mercearia,           zone: dry,     share: 0.28, upc: [6, 12, 12, 24],  cpp: [40, 80], unit_kg: [0.4, 1.5],  unit_cost: [3, 18],  shelf: [270, 365, 540] }
+    - { name: Bebidas,             zone: dry,     share: 0.22, upc: [6, 6, 12, 12],   cpp: [50, 90], unit_kg: [0.5, 2.1],  unit_cost: [2, 12],  shelf: [180, 270, 365] }
+    - { name: Biscoitos e Doces,   zone: dry,     share: 0.18, upc: [12, 24, 36, 48], cpp: [45, 100], unit_kg: [0.1, 0.5], unit_cost: [1.5, 9], shelf: [180, 270, 365] }
+    - { name: Higiene e Limpeza,   zone: dry,     share: 0.20, upc: [6, 12, 12, 24],  cpp: [40, 90], unit_kg: [0.2, 2.0],  unit_cost: [2, 25],  shelf: [540, 720, 1080] }
+    - { name: Matinais e Cereais,  zone: dry,     share: 0.12, upc: [10, 12, 20],     cpp: [40, 80], unit_kg: [0.2, 1.0],  unit_cost: [3, 20],  shelf: [270, 365, 540] }
+    - { name: Laticínios,          zone: chilled, share: 0.45, upc: [12, 12, 24, 48], cpp: [40, 80], unit_kg: [0.15, 1.0], unit_cost: [2, 14],  shelf: [21, 30, 45, 60, 90] }
+    - { name: Frios e Embutidos,   zone: chilled, share: 0.30, upc: [10, 12, 20],     cpp: [30, 60], unit_kg: [0.2, 1.0],  unit_cost: [5, 35],  shelf: [30, 45, 60, 90] }
+    - { name: Massas Frescas,      zone: chilled, share: 0.10, upc: [10, 12, 20],     cpp: [30, 60], unit_kg: [0.3, 0.5],  unit_cost: [4, 15],  shelf: [15, 21, 30] }
+    - { name: Sucos Refrigerados,  zone: chilled, share: 0.15, upc: [6, 12],          cpp: [40, 70], unit_kg: [1.0, 1.5],  unit_cost: [4, 16],  shelf: [15, 21, 30] }
+    - { name: Sorvetes,            zone: frozen,  share: 0.35, upc: [6, 8, 12],       cpp: [30, 60], unit_kg: [0.5, 2.0],  unit_cost: [6, 30],  shelf: [270, 365, 540] }
+    - { name: Carnes e Aves,       zone: frozen,  share: 0.35, upc: [6, 10, 12],      cpp: [30, 55], unit_kg: [0.5, 2.0],  unit_cost: [8, 50],  shelf: [180, 270, 365] }
+    - { name: Pratos Prontos,      zone: frozen,  share: 0.20, upc: [10, 12, 20],     cpp: [30, 55], unit_kg: [0.3, 0.6],  unit_cost: [6, 22],  shelf: [180, 270, 365] }
+    - { name: Vegetais Congelados, zone: frozen,  share: 0.10, upc: [12, 20, 24],     cpp: [35, 60], unit_kg: [0.3, 1.0],  unit_cost: [3, 12],  shelf: [270, 365, 540] }
+  brands: ["Vale Verde", "Serra Azul", "Casa Nova", "Campo Bom", "Rio Claro", "Sol Nascente", "Terra Boa",
+           "Monte Alto", "Pedra Branca", "Boa Mesa", "Lar Doce", "Ponte Velha", "Alvorada", "Primavera",
+           "Cantinho", "Fazenda Real", "Horizonte", "Estrela do Sul", "Ouro Fino", "Nativa"]
+  variants: ["Tradicional", "Integral", "Light", "Premium", "Família", "Econômico", "Zero", "Original", "Sabor Casa"]
+  sizes: ["200g", "350g", "500g", "1kg", "2kg", "500ml", "1L", "2L"]
+
+inventory_policy:               # regra de reposição única, igual para todos os SKUs de uma zona
+  safety_stock_days: { dry: 4.0, chilled: 2.5, frozen: 4.0 }
+  order_cover_days:  { dry: 5.0, chilled: 2.5, frozen: 4.0 }
+  forecast_alpha: 0.04          # média móvel exponencial da demanda (~25 dias)
+  min_order_cases: 4
+  initial_remaining_life: [0.55, 0.95]
+
+suppliers:
+  count: { dry: 100, chilled: 30, frozen: 20 }
+  lead_time_days: { dry: [5, 12], chilled: [2, 4], frozen: [3, 6] }
+  lt_cv: 0.18                   # variação do prazo de entrega dos fornecedores normais
+  remaining_mean: 0.88          # % de vida útil restante na chegada (fornecedor normal)
+  remaining_sd: 0.05
+  min_remaining_at_receipt: 0.70
+  reject_enforcement: 0.60      # chance de o recebimento aplicar a regra de vida útil mínima
+  slow_suppliers: { dry: 2, chilled: 1, frozen: 0, lt_multiplier: 1.7, lt_cv: 0.45, delay_mean_min: 120 }
+  short_life_suppliers: { dry: 1, chilled: 1, frozen: 0, remaining_mean: 0.58, remaining_sd: 0.07 }
+
+receiving:
+  truck_capacity_pallets: { dry: 26, chilled: 24, frozen: 24 }
+  dock_setup_min: 15
+  unload_min_per_pallet: { dry: 2.8, chilled: 3.5, frozen: 3.8 }
+  schedule: { peak_share: 0.60, peak_hours: [7, 11], day_hours: [6, 17] }
+  punctuality: { mean_delay_min: 12, sd_min: 35 }
+  forklifts: { dry: 16, chilled: 9, frozen: 7 }   # empilhadeiras de armazenagem (capacidade escala com 'scale')
+  forklift_pallets_per_hour: 13.0
+  putaway_errors:
+    base_rate: 0.004
+    shift_multiplier: [1.0, 3.2, 1.0]   # turnos 1, 2 e 3
+    problem_operator_multiplier: 6.0
+    operators: 14
+
+cold_chain:
+  truck_temp_c: { chilled: [3.2, 1.1], frozen: [-19.0, 1.0] }   # [média, desvio]
+  reject_above_c: { chilled: 8.0, frozen: -15.0 }
+  excursion_base_prob: 0.002
+  excursion_overrun_prob: 0.10          # probabilidade extra quando a exposição passa do limite
+  failure_window: { start_day: 430, duration_days: 14, exposure_multiplier: 2.6, extra_prob: 0.30 }
+
+outbound:
+  pick_capacity_factor: 1.12            # capacidade de separação em relação à média de linhas/dia
+  sunday_capacity: 0.30
+  transit_days: { MG: 1, SP: 2, RJ: 2 }
+  ecom_cutoff_hour: 15
+  transport_delay_prob: 0.035
+  fefo_violation_prob: 0.18             # fatia de SKU-dias em que a separação não segue o FEFO
+  return_rate: { b2b: 0.012, ecommerce: 0.035 }
+
+cycle_count:
+  per_day: 70                           # contagens/dia na escala 100% (escala linear)
+  class_weights: { A: 0.5, B: 0.3, C: 0.2 }
+  count_error_prob: 0.025
+  unexpected_find_prob: 0.015
+
+damage:
+  pallet_day_prob: 0.00015
+
+promotions:
+  campaigns_per_year: 26
+  duration_days: [7, 14]
+  uplift: [1.8, 4.0]
+  communicated_share: 0.40
+  notice_days: 14
+
+recalls:
+  days: [250, 520]                      # dias do período em que ocorre recall de um lote
+
+dead_stock:
+  share_of_dry: 0.04                    # SKUs de longa validade descontinuados, mas com estoque parado
+  discontinued_day_range: [-45, 400]
+  initial_pallets: [1, 3]
+
+master_data_errors:
+  zero_or_missing_weight: 0.012
+  outlier_weight: 0.006
+  duplicate_description: 0.015
+  missing_category: 0.008
