@@ -1,0 +1,16 @@
+﻿tabela;linhas;colunas;linhas_duplicadas;colunas_com_vazio
+dim_sku;600;19;0;category (5), unit_weight_kg (4), pick_face_location_id (296), unit_bin_location_id (347), discontinued_date (582)
+dim_supplier;17;5;0;-
+dim_customer;3150;5;0;-
+dim_location;2940;11;0;aisle (1,126), bay (1,126), level (1,126), slot (1,126)
+dim_lot;71072;5;0;-
+fact_order_line;1505052;13;0;-
+fact_receipt;105819;24;0;stored_ts (8,934), dock_to_stock_min (8,934), truck_temp_c (64,874), dock_exposure_min (66,030), putaway_operator_id (8,934), putaway_shift (8,934), putaway_location_id (8,934)
+fact_movement;1597871;12;0;from_location_id (96,885), to_location_id (1,456,469)
+fact_inventory_daily;706306;5;0;-
+fact_occupancy_daily;2193;5;0;-
+fact_purchase_order;66198;8;0;arrival_date (720)
+fact_cycle_count;4431;10;0;system_sku_id (49), counted_sku_id (16)
+fact_return;23664;7;0;-
+aux_promotion;1152;6;0;communicated_to_planning_date (651)
+aux_recall;2;5;0;-

@@ -25,6 +25,8 @@ python src/validate_data.py          # integridade + conservação de estoque + 
 python src/export_legacy.py          # opcional: CSVs "sujos" de sistema legado em data/legacy/ para treino de limpeza
 python src/build_db.py               # Fase 3: carrega data/raw em um modelo estrela SQLite (data/sdc.db) e confere contagens
 python src/run_kpis.py               # Fase 3: roda as consultas de KPI (fill rate, OTIF, dock-to-stock, perdas, giro...)
+python notebooks/build_notebooks.py  # Fase 4: executa os notebooks de análise (04a-04e) -> reports/phase4/
+python src/export_powerbi.py         # Fase 4: tabelas do painel -> powerbi/data/ (ver powerbi/README.md)
 ```
 
 Use `--scale 1.0` para o CD em tamanho completo (bem maior e mais lento). Mesma semente + mesma escala = dados idênticos.
@@ -39,13 +41,31 @@ O gerador é aberto, então o gabarito é tecnicamente descobrível: para o exer
 | 1. Layout e processos | Zonas, endereçamento, fluxos | Concluída |
 | 2. Gerador de dados | 24 meses de operação sintética com problemas ocultos, [modelo de dados](docs/data_model.md), exportação suja estilo sistema legado | Concluída |
 | 3. Banco de dados | Modelo estrela em SQLite ([`sql/01_schema.sql`](sql/01_schema.sql)) e consultas de indicadores ([`sql/02_kpis.sql`](sql/02_kpis.sql)) | Concluída |
-| 4. Diagnóstico e estoque | Indicadores, ABC/XYZ, previsão, estoque de segurança, dashboard v1 | Planejada |
+| 4. Diagnóstico e estoque | Qualidade dos dados, investigação de KPIs, ABC/XYZ, previsão, estoque de segurança e ponto de pedido, vencimento/FEFO, [modelo do dashboard v1](powerbi/README.md) | Concluída |
 | 5. Slotting | Alocação otimizada de endereços | Planejada |
 | 6. Simulação | Simulação de eventos discretos (SimPy) e cenários | Planejada |
 | 7. Picking e mão de obra | Estratégias de separação, roteirização, dimensionamento | Planejada |
 | 8. Custos e cenários | Custeio por atividade, retorno e [cenários de trade-off](docs/scenarios.md) para a gerência | Planejada |
 | 9. Qualidade | FMEA, inventário cíclico, rastreio de recall, POPs | Planejada |
 | 10. Fechamento | Relatório executivo e dashboard final | Planejada |
+
+## Resultados da Fase 4 (diagnóstico)
+
+Relatório completo: [reports/phase4_summary.md](reports/phase4_summary.md) · notebooks `04a`–`04e` em [notebooks/](notebooks/).
+
+- **OTIF de 52%, puxado pela ruptura e não pelo transporte:** o pedido B2B (~32 linhas) sai completo
+  só 23% das vezes. A causa é o ponto de pedido fixo em dias por zona, que ignora o lead time de cada
+  fornecedor. A ruptura chega a 15% onde o PP fica abaixo do lead time. Com estoque de segurança por
+  SKU (nível de serviço 98/95/90% pela curva ABC), o capital em estoque sobe cerca de **+2%** (estimativa).
+- **A perda por vencimento nasce no recebimento:** lotes aceitos abaixo da regra de 70% de vida útil
+  (dois fornecedores) geram **72% das unidades vencidas**. O FEFO é violado em 19% dos SKU-dias.
+- **Cadeia do frio:** um evento de duas semanas em jan/2026 causou 1/3 da perda por frio dos 24 meses
+  (a exposição na doca dobrou). De forma crônica, 61% dos paletes congelados passam do limite de 15 min na doca.
+- **Falhas de processo:** 57% das promoções não chegam ao planejamento (fill rate de 86% contra 97%) e
+  71% dos caminhões chegam entre 7h e 12h. O erro de putaway é 4× maior no turno 2 e 6–7× maior em um operador.
+  No pico de dezembro, a fila antes da liberação do pedido vai de 0,3 para 1,3 dia.
+
+![PP praticado × lead time real](reports/phase4/figures/04d_pp_vs_leadtime.png)
 
 ## Estrutura do repositório
 

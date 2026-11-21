@@ -1,0 +1,11 @@
+﻿tabela;regra;ocorrencias;exemplos;gravidade;impacto
+fact_receipt;exposição na doca acima do limite (frio);15073;129, 130, 131, 136, 137, 138, 139, 254;alta;quebra da cadeia do frio, risco sanitário
+fact_receipt;palete ACEITO com vida útil < 70% (regra de recebimento furada);6095;19, 20, 21, 22, 23, 24, 30, 155;alta;perda por vencimento e ruptura de FEFO no cliente
+fact_receipt;palete aceito de caminhão com temperatura fora da faixa;2179;123, 124, 295, 296, 297, 298, 299, 300;alta;produto possivelmente comprometido entrou no estoque
+aux_promotion;promoção sem data de comunicação ao planejamento;651;52, 53, 54, 55, 56, 57, 58, 59;alta;demanda de promoção não planejada -> ruptura
+dim_sku;peso unitário > 50 kg (provável erro de unidade g/kg);4;199, 238, 377, 599;alta;palete calculado com toneladas: risco de bloquear alocação/segurança
+dim_sku;descrição duplicada (SKUs diferentes, mesmo texto);18;435, 357, 168, 348, 397, 279, 525, 85;média;"risco de separar o item errado; cadastro em duplicidade"
+dim_sku;peso unitário vazio;4;14, 57, 240, 245;média;frete, carga de empilhadeira e cubagem
+dim_sku;peso unitário = 0;3;242, 556, 579;média;frete e cubagem subestimados
+fact_order_line;linhas com pedido antes de 01/11/2024 (resto do warm-up);155;113673, 113674, 113675, 113676, 113677, 113678, 113679, 113680;baixa;excluir dos KPIs mensais
+dim_sku;categoria vazia;5;211, 239, 311, 464, 478;baixa;relatórios por categoria incompletos

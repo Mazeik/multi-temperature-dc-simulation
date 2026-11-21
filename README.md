@@ -25,6 +25,8 @@ python src/validate_data.py          # integrity + stock-conservation checks + K
 python src/export_legacy.py          # optional: dirty legacy-style CSVs in data/legacy/ for cleaning practice
 python src/build_db.py               # Phase 3: loads data/raw into a SQLite star schema (data/sdc.db), checks row counts
 python src/run_kpis.py               # Phase 3: runs the KPI queries (fill rate, OTIF, dock-to-stock, losses, turnover...)
+python notebooks/build_notebooks.py  # Phase 4: runs the analysis notebooks (04a-04e) -> reports/phase4/
+python src/export_powerbi.py         # Phase 4: dashboard tables -> powerbi/data/ (see powerbi/README.md)
 ```
 
 Use `--scale 1.0` for the full-size facility (much larger and slower). Same seed + same scale = identical data.
@@ -40,13 +42,31 @@ analyze the data first and read the generator afterwards.
 | 1. Layout & processes | Zones, addressing, process flows | Done |
 | 2. Data generator | 24 months of synthetic operations with hidden problems, [data model](docs/data_model.md), legacy-style dirty export | Done |
 | 3. Database | SQLite star schema ([`sql/01_schema.sql`](sql/01_schema.sql)) and KPI queries ([`sql/02_kpis.sql`](sql/02_kpis.sql)) | Done |
-| 4. Diagnosis & inventory | KPIs, ABC/XYZ, forecasting, safety stock, dashboard v1 | Planned |
+| 4. Diagnosis & inventory | Data quality, KPI deep-dive, ABC/XYZ, forecasting, safety stock & reorder point, expiry/FEFO, [dashboard v1 model](powerbi/README.md) | Done |
 | 5. Slotting | Optimized storage allocation | Planned |
 | 6. Simulation | Discrete-event simulation (SimPy) and scenarios | Planned |
 | 7. Picking & labor | Picking strategies, routing, workforce sizing | Planned |
 | 8. Costs & scenarios | Activity-based costing, ROI and [trade-off scenarios](docs/scenarios.md) for management | Planned |
 | 9. Quality | FMEA, cycle counting, recall traceability, SOPs | Planned |
 | 10. Wrap-up | Executive report and final dashboard | Planned |
+
+## Phase 4 findings (diagnosis)
+
+Full write-up: [reports/phase4_summary.md](reports/phase4_summary.md) · notebooks `04a`–`04e` in [notebooks/](notebooks/).
+
+- **OTIF 52%, driven by stockouts, not transport:** B2B orders (~32 lines) are complete only 23% of the time.
+  The root cause is a reorder point fixed in days per zone, blind to each supplier's lead time.
+  Stockouts reach 15% where the reorder point falls short of lead time. A per-SKU safety stock
+  (98/95/90% service by ABC class) is estimated at **+2% inventory value**.
+- **Expiry losses start at receiving:** lots accepted below the 70% shelf-life rule (two suppliers)
+  account for **72% of expired units**. FEFO is broken on 19% of SKU-days.
+- **Cold chain:** one two-week event in Jan/2026 caused a third of the 24-month cold losses (dock exposure doubled).
+  Chronically, 61% of frozen pallets exceed the 15-minute dock limit.
+- **Process gaps:** 57% of promotions never reach planning (fill rate 86% vs 97%) and 71% of trucks arrive between 7–12h.
+  Putaway errors are 4× higher on shift 2 and 6–7× higher for one operator.
+  During the December peak, the queue before order release grows from 0.3 to 1.3 days.
+
+![Reorder point vs real lead time](reports/phase4/figures/04d_pp_vs_leadtime.png)
 
 ## Repository structure
 

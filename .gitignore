@@ -15,3 +15,9 @@ Thumbs.db
 
 # Gabarito dos problemas plantados (não publicar)
 CLAUDE.local.md
+
+# Contexto pessoal do Claude Code (não publicar)
+CLAUDE.md
+
+# Exportações para o Power BI (regeneradas por src/export_powerbi.py)
+powerbi/data/

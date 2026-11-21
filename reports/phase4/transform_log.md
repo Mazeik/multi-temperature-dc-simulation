@@ -1,0 +1,6 @@
+- 2026-11-21 15:46 | 04a | perfil de 15 tabelas; 10 regras com ocorrência -> data_quality_issues.csv
+- 2026-11-21 15:46 | 04b | investigação de KPIs: OTIF por canal/mês, ruptura, promoções, ciclo do pedido, fornecedores, dock-to-stock, frio, putaway, ocupação, acuracidade (só leitura; sem transformação de dados)
+- 2026-11-21 15:46 | 04c | ABC/XYZ de 600 SKUs (receita = und pedidas x preço; CV semanal, 103 semanas completas) -> sku_abc_xyz.csv
+- 2026-11-21 15:47 | 04d | política atual inferida (estoque no dia do PO / demanda média); ES/PP por SKU (z por ABC: A 98%, B 95%, C 90%) para 599 SKUs -> sku_safety_stock_rop.csv; previsão semanal por zona (sazonal ajustado), backtest 26 semanas
+- 2026-11-21 15:48 | 04e | FEFO em 275,866 SKU-dias (estoque do dia anterior; lote vendável = dias restantes >= min_sale_days); risco de vencimento em 2026-10-31 (demanda média 90 d); estoque parado (descontinuado / >90 d sem venda / cobertura >180 d)
+- 2026-11-21 15:48 | export_powerbi | tabelas do painel exportadas para powerbi/data/ (Parquet); fact_order = 120,902 pedidos (soma de linhas confere: 1,504,897)
