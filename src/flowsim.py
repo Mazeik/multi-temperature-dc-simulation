@@ -75,8 +75,9 @@ def preparar_caminhoes(ini, fim):
             .reset_index())
 
 
-def preparar_pedidos(ini, fim, slot, prm, dist_col="dist_face_m"):
-    """Um registro por pedido x zona (sub-pedido), com o tempo de separação já calculado.
+def preparar_linhas(ini, fim, slot, prm, dist_col="dist_face_m"):
+    """Uma linha por linha de pedido, com distância do ponto de coleta, tempo de pegar e tempo de
+    retrátil (base para preparar_pedidos e para as estratégias de separação da Fase 7).
 
     slot: tabela da Fase 5 (reports/phase5/sku_slotting_base.csv) com, por SKU, a distância da
           face no cenário escolhido (`dist_col`; vazio = sem face), a distância média do pulmão e
@@ -104,7 +105,17 @@ def preparar_pedidos(ini, fim, slot, prm, dist_col="dist_face_m"):
     # Uma descida de palete atende várias linhas na noite: tempo rateado por visita (Fase 5)
     ol["retratil_s"] = ((1 - frac) * ol.descidas_por_visita
                         * (prm["retrieval_s"] + 2 * ol.dist_pulmao_m / prm["reach"]))
+    ol["unidade"] = unit
+    return ol
 
+
+def preparar_pedidos(ini, fim, slot, prm, dist_col="dist_face_m"):
+    """Um registro por pedido x zona (sub-pedido), com o tempo de separação já calculado.
+
+    Tempo do separador = preparo + ida e volta até o ponto mais distante da rota + tempo por linha.
+    Tempo da retrátil = para cada linha sem face (ou face vazia, 1 - f): baixar o palete (rateado).
+    """
+    ol = preparar_linhas(ini, fim, slot, prm, dist_col)
     sub = (ol.groupby(["order_id", "zone"])
            .agg(channel=("channel", "first"), order_ts=("order_ts", "first"), n_lines=("sku_id", "size"),
                 dist_max=("dist_rota", "max"), pick_s=("pick_s", "sum"), retratil_s=("retratil_s", "sum"))

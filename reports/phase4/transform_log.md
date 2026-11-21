@@ -8,3 +8,5 @@
 - 2026-11-21 17:44 | 05b | slotting por zona: COI e PuLP/HiGHS (designação SKU x face, 1:1, zona); fração na face pela curva de giro da 05a; sensibilidade de reabastecimento; 458 remanejamentos; ganhos -> reports/savings_register.csv
 - 2026-11-21 18:05 | 06a | simulação SimPy validada na escala 10% (caminhões reais, dock-to-stock) e calibrada em escala cheia (bootstrap x10; separadores e retráteis da noite = 1,3x necessidade de out/2025)
 - 2026-11-21 19:05 | 06b | cenários S0–S6 em escala cheia (bootstrap x10), janela set/2025–jan/2026, medição a partir de out/2025
+- 2026-11-21 19:20 | 07a | produtividade por canal/zona (out/2025); batch e-commerce k=[1, 4, 8, 12] em pedidos reais; roteirização em 2000 listas sorteadas na planta cheia (retorno, S-shape)
+- 2026-11-21 19:23 | 07b | previsão 12 meses (mês anterior x fator de nível, x10); horas/linha do modelo calibrado; pessoas = horas/noite / (8h x 0.85 x (1-0.05)); fixo = 3º maior mês fora do pico

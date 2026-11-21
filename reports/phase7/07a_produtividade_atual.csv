@@ -1,0 +1,7 @@
+﻿channel;zone;subpedidos;linhas;horas;viagem_h;linhas_por_hora;linhas_por_subpedido;pct_tempo_andando
+B2B;chilled;1612;13913;202,53;27,82;68,7;8,63;13,73
+B2B;dry;1613;32356;820,17;134,19;39,45;20,06;16,36
+B2B;frozen;1572;5466;144,01;40,76;37,95;3,48;28,3
+ECOM;chilled;1742;2282;73,67;22,37;30,98;1,31;30,36
+ECOM;dry;3510;11485;310,31;213,52;37,01;3,27;68,81
+ECOM;frozen;601;653;32,04;14,68;20,38;1,09;45,8

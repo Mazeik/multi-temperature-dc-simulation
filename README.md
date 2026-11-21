@@ -46,7 +46,7 @@ analyze the data first and read the generator afterwards.
 | 4. Diagnosis & inventory | Data quality, KPI deep-dive, ABC/XYZ, forecasting, safety stock & reorder point, expiry/FEFO, [dashboard v1 model](powerbi/README.md) | Done |
 | 5. Slotting | Pick-face assignment (PuLP + HiGHS vs COI rule), replenishment policy, transition plan — [summary](reports/phase5_summary.md) | Done |
 | 6. Simulation | SimPy model of receiving and night picking, validated on real trucks and calibrated on the order queue; peak, fleet, dock, scheduling and slotting scenarios — [summary](reports/phase6_summary.md) | Done |
-| 7. Picking & labor | Picking strategies, routing, workforce sizing | Planned |
+| 7. Picking & labor | E-commerce batch picking, routing on the full-scale layout, 12-month staffing plan per shift — [summary](reports/phase7_summary.md) | Done |
 | 8. Costs & scenarios | Activity-based costing, ROI and [trade-off scenarios](docs/scenarios.md) for management | Planned |
 | 9. Quality | FMEA, cycle counting, recall traceability, SOPs | Planned |
 | 10. Cost reduction program | Whole-facility cost baseline (cost per order/line/pallet, cost-to-serve), savings pipeline from phases 4–9 with investment and payback | Planned |
@@ -87,6 +87,14 @@ order queue. Picking capacity is the peak-season risk: Christmas +40% without pr
 staff, and saves ≈R$ 287k of temporary labor per peak season. Distributed dock scheduling cuts
 cold-truck yard waits at zero cost. Cold-dock exposure turns out to be a process issue, not a forklift
 shortage. Details: [reports/phase6_summary.md](reports/phase6_summary.md).
+
+## Phase 7 findings (picking & labor)
+
+E-commerce pickers spend ~70% of their time walking. Batching 8 orders per cart triples lines/hour
+(35 → 104). On the full-scale layout, popularity-based slotting cuts route length by ~43%, far more
+than the routing policy does (~11%). A 12-month staffing plan (fixed crew + peak temporaries) costs
+R$ 15.5M/yr, against R$ 18.4M for a crew sized for the peak all year. The improved methods bring it
+to R$ 13.0M. Details: [reports/phase7_summary.md](reports/phase7_summary.md).
 
 ## Repository structure
 

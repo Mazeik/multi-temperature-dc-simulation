@@ -76,3 +76,15 @@ simulation:
   unit_area_xy: [117.0, 90.0]    # centro do picking fracionado (config/layout.yaml)
   pickers: { dry: 68, chilled: 17, frozen: 11 }   # separadores por turno (calibrado na 06a: necessidade de out/2025 x 1,3)
   forklifts_night: { dry: 29, chilled: 5, frozen: 4 }  # retráteis no turno da separação (calibrado na 06a)
+
+# Fase 7 - estratégias de separação e dimensionamento de mão de obra (ESTIMATIVAS)
+picking_strategy:
+  batch_sizes: [1, 4, 8, 12]     # pedidos de e-commerce por carrinho (1 = pedido a pedido, atual)
+  sort_time_per_line_s: 6        # colocar a unidade no volume certo do carrinho (batch)
+  routing_sample_orders: 2000    # listas de separação sorteadas para comparar rotas na planta cheia
+labor:
+  utilization_target: 0.85       # ocupação planejada (folga para variação, pausas, ginástica laboral)
+  absenteeism: 0.05              # faltas e afastamentos
+  shift_hours: 8
+  nights_per_month: 26           # segunda a sábado (domingo é turno reduzido, ver simulation)
+  temp_premium: 1.25             # temporário custa 25% a mais por hora (agência, treinamento)

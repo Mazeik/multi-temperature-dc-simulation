@@ -45,7 +45,7 @@ O gerador é aberto, então o gabarito é tecnicamente descobrível: para o exer
 | 4. Diagnóstico e estoque | Qualidade dos dados, investigação de KPIs, ABC/XYZ, previsão, estoque de segurança e ponto de pedido, vencimento/FEFO, [modelo do dashboard v1](powerbi/README.md) | Concluída |
 | 5. Slotting | Faces de picking (PuLP + HiGHS × regra COI), política de reabastecimento, plano de transição — [resumo](reports/phase5_summary.md) | Concluída |
 | 6. Simulação | Modelo SimPy de recebimento e separação noturna, validado com os caminhões reais e calibrado pela fila de pedidos; cenários de pico, frota, docas, agendamento e slotting — [resumo](reports/phase6_summary.md) | Concluída |
-| 7. Picking e mão de obra | Estratégias de separação, roteirização, dimensionamento | Planejada |
+| 7. Picking e mão de obra | Separação em lote no e-commerce, roteirização na planta cheia, quadro de 12 meses por turno — [resumo](reports/phase7_summary.md) | Concluída |
 | 8. Custos e cenários | Custeio por atividade, retorno e [cenários de trade-off](docs/scenarios.md) para a gerência | Planejada |
 | 9. Qualidade | FMEA, inventário cíclico, rastreio de recall, POPs | Planejada |
 | 10. Programa de redução de custos | Linha de base de custo do galpão (custo por pedido/linha/palete, cost-to-serve), pipeline de economias das fases 4–9 com investimento e payback | Planejada |
@@ -87,6 +87,14 @@ fila de 8 dias. O slotting da Fase 5 leva a separação de dezembro de 17% para 
 prevista, sem contratar ninguém, e evita ≈ R$ 287 mil em temporários por temporada. O agendamento
 distribuído reduz a espera do caminhão frio sem custo. A exposição de frio na doca é problema de
 processo, não de falta de empilhadeira. Detalhes em [reports/phase6_summary.md](reports/phase6_summary.md).
+
+## Resultados da Fase 7 (separação e mão de obra)
+
+No e-commerce, o separador passa ~70% do tempo andando. Com carrinho de 8 pedidos, as linhas por hora
+triplicam (35 → 104). Na planta em escala cheia, o slotting por popularidade encurta a rota em ~43%,
+bem mais do que a regra de percurso (~11%). O plano de quadro para 12 meses (fixo + temporários no
+pico) custa R$ 15,5 mi/ano, contra R$ 18,4 mi com quadro fixo dimensionado para o pico; com os métodos
+melhorados, cai para R$ 13,0 mi. Detalhes em [reports/phase7_summary.md](reports/phase7_summary.md).
 
 ## Estrutura do repositório
 
