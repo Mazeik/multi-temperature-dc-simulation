@@ -28,7 +28,7 @@ Detalhes: [layout e endereçamento](docs/layout.md) · [fluxos de processo](docs
 | 5. Slotting | Alocação otimizada de endereços | Planejada |
 | 6. Simulação | Simulação de eventos discretos (SimPy) e cenários | Planejada |
 | 7. Picking e mão de obra | Estratégias de separação, roteirização, dimensionamento | Planejada |
-| 8. Custos | Custeio por atividade, retorno das propostas | Planejada |
+| 8. Custos e cenários | Custeio por atividade, retorno e [cenários de trade-off](docs/scenarios.md) para a gerência | Planejada |
 | 9. Qualidade | FMEA, inventário cíclico, rastreio de recall, POPs | Planejada |
 | 10. Fechamento | Relatório executivo e dashboard final | Planejada |
 

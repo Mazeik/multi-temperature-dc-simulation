@@ -28,7 +28,7 @@ Details: [layout & addressing](docs/layout.md) · [process flows](docs/processes
 | 5. Slotting | Optimized storage allocation | Planned |
 | 6. Simulation | Discrete-event simulation (SimPy) and scenarios | Planned |
 | 7. Picking & labor | Picking strategies, routing, workforce sizing | Planned |
-| 8. Costs | Activity-based costing, ROI of proposals | Planned |
+| 8. Costs & scenarios | Activity-based costing, ROI and [trade-off scenarios](docs/scenarios.md) for management | Planned |
 | 9. Quality | FMEA, cycle counting, recall traceability, SOPs | Planned |
 | 10. Wrap-up | Executive report and final dashboard | Planned |
 

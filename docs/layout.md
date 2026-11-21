@@ -34,7 +34,7 @@ Cada endereço tem coordenadas (x, y, z) do ponto de parada no centro da rua. El
 ## Decisões de projeto
 | Decisão | Escolha | Por quê | Alternativa descartada |
 |---|---|---|---|
-| Estrutura de armazenagem | Porta-palete seletivo em todas as zonas | Acesso direto a qualquer palete, obrigatório para FEFO e bloqueio de lote | Drive-in nas câmaras: +30 a 40% de densidade e menos energia, mas fere o FEFO. Será avaliado como cenário na Fase 8 (custos) |
+| Estrutura de armazenagem | Porta-palete seletivo em todas as zonas | Acesso direto a qualquer palete, obrigatório para FEFO e bloqueio de lote | Drive-in nas câmaras: +30 a 40% de densidade e menos energia, mas fere o FEFO. Registrado como cenário S01 em [`scenarios.md`](scenarios.md), a quantificar na Fase 8 |
 | Equipamento | Empilhadeira retrátil, corredor de 3,0 m | Alcança o 6º nível (~9 m) com corredor estreito | Contrabalançada: exige ~3,5 m de corredor (perderia ~2 ruas) |
 | Fluxo | Em U, docas do seco compartilhadas | Recebimento de dia e expedição de madrugada não disputam a doca; menos docas ociosas | Fluxo em I (docas em faces opostas): mais segregado, mas exigiria ~2× docas |
 | Picking | Nível 1 do porta-palete para caixas; área de estantes e flow rack para unidades (e-commerce) | Separa o picking por caixa (B2B) do fracionado (B2C) | Picking de unidades no porta-palete: muitos deslocamentos para pedidos de 4 linhas |
