@@ -8,14 +8,20 @@ A supply chain portfolio project: a simplified **digital twin** of a large multi
 
 ## The business case
 
-SDC serves ~1,500 stores (B2B) and e-commerce customers from a ~25,000 m² facility with ~18,500 pallet positions, ~6,000 SKUs and 24 docks. Real-world constraints make it hard: FEFO and shelf-life control, lot traceability and recall, cold-chain dock exposure limits, pallet/case/unit picking, and strong seasonality.
+SDC serves ~1,500 stores (B2B) and e-commerce customers from a ~25,000 m² facility with 18,144 pallet positions, ~6,000 SKUs and 24 docks. Real-world constraints make it hard: FEFO and shelf-life control, lot traceability and recall, cold-chain dock exposure limits, pallet/case/unit picking, and strong seasonality.
+
+## Facility layout
+
+![Facility layout](docs/img/layout.png)
+
+Details: [layout & addressing](docs/layout.md) · [process flows](docs/processes.md)
 
 ## Roadmap
 
 | Phase | Deliverable | Status |
 |---|---|---|
-| 0. Foundation | Repository, structure, documented assumptions | In progress |
-| 1. Layout & processes | Zones, addressing, process flows | Planned |
+| 0. Foundation | Repository, structure, documented assumptions | Done |
+| 1. Layout & processes | Zones, addressing, process flows | Done |
 | 2. Data generator | Synthetic data with planted problems | Planned |
 | 3. Database | SQL star schema and KPI queries | Planned |
 | 4. Diagnosis & inventory | KPIs, ABC/XYZ, forecasting, safety stock, dashboard v1 | Planned |

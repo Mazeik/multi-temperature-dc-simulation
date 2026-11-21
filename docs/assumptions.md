@@ -13,8 +13,8 @@
 | Localização | Sul de Minas, atende MG, SP e RJ |
 | Área | ~25.000 m², pé-direito de 12 m |
 | Zonas | Seco, resfriado (0 a 8 °C), congelado (≤ -18 °C), antecâmara, cross-docking, devoluções/avarias |
-| Posições palete | ~18.500 (seco 14.000 · resfriado 2.500 · congelado 2.000) |
-| SKUs | ~6.000 |
+| Posições palete | 18.144, calibrado na Fase 1 (seco 13.824 · resfriado 2.400 · congelado 1.920) |
+| SKUs | ~6.000 (seco ~4.500 · resfriado ~900 · congelado ~600) |
 | Docas | 24 (16 seco · 4 resfriado · 4 congelado) |
 | B2B | ~1.500 lojas, ~800 pedidos/dia, ~35 linhas/pedido |
 | E-commerce | ~1.500 pedidos/dia, ~4 linhas/pedido |
@@ -48,3 +48,4 @@ FEFO, controle por lote e validade, vida útil mínima no recebimento, tempo má
 | Data | Decisão |
 |---|---|
 | 2026-11-21 | Escolhido CD multitemperatura de bens de consumo; README em inglês + português; nome SDC |
+| 2026-11-21 | Fase 1: galpão 200 × 125 m, porta-palete seletivo 6 níveis, retrátil, fluxo em U, antecâmara. Detalhes em `layout.md` |

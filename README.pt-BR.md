@@ -8,14 +8,20 @@ Projeto de portfólio em supply chain: um **gêmeo digital** simplificado de um 
 
 ## O caso de negócio
 
-A SDC atende ~1.500 lojas (B2B) e clientes de e-commerce a partir de um galpão de ~25.000 m², com ~18.500 posições de palete, ~6.000 SKUs e 24 docas. As restrições reais deixam o problema difícil: FEFO e controle de validade, rastreabilidade de lote e recall, limite de exposição na doca (cadeia do frio), separação de palete/caixa/unidade e forte sazonalidade.
+A SDC atende ~1.500 lojas (B2B) e clientes de e-commerce a partir de um galpão de ~25.000 m², com 18.144 posições de palete, ~6.000 SKUs e 24 docas. As restrições reais deixam o problema difícil: FEFO e controle de validade, rastreabilidade de lote e recall, limite de exposição na doca (cadeia do frio), separação de palete/caixa/unidade e forte sazonalidade.
+
+## Layout do galpão
+
+![Planta do CD](docs/img/layout.png)
+
+Detalhes: [layout e endereçamento](docs/layout.md) · [fluxos de processo](docs/processes.md)
 
 ## Roteiro
 
 | Fase | Entrega | Status |
 |---|---|---|
-| 0. Fundação | Repositório, estrutura, premissas documentadas | Em andamento |
-| 1. Layout e processos | Zonas, endereçamento, fluxos | Planejada |
+| 0. Fundação | Repositório, estrutura, premissas documentadas | Concluída |
+| 1. Layout e processos | Zonas, endereçamento, fluxos | Concluída |
 | 2. Gerador de dados | Dados sintéticos com problemas plantados | Planejada |
 | 3. Banco de dados | Modelo estrela em SQL e consultas de indicadores | Planejada |
 | 4. Diagnóstico e estoque | Indicadores, ABC/XYZ, previsão, estoque de segurança, dashboard v1 | Planejada |

@@ -1,6 +1,6 @@
 # Parâmetros do CD fictício (Sapucaí Distribution Center - SDC)
 # ATENÇÃO: todos os valores são ESTIMATIVAS de ordem de grandeza.
-# Serão calibrados na Fase 1 (layout e endereçamento). Edite aqui, nunca no código.
+# Posições de palete calibradas na Fase 1 (derivadas de config/layout.yaml). Edite aqui, nunca no código.
 
 simulation:
   seed: 42            # semente fixa: mesma semente = mesmos dados (reprodutibilidade)
@@ -14,9 +14,9 @@ facility:
   area_m2: 25000
   ceiling_height_m: 12
   zones:
-    dry:      { pallet_positions: 14000, temp_c: "ambiente" }
-    chilled:  { pallet_positions: 2500,  temp_c: "0 a 8" }
-    frozen:   { pallet_positions: 2000,  temp_c: "<= -18" }
+    dry:      { pallet_positions: 13824, temp_c: "ambiente" }
+    chilled:  { pallet_positions: 2400,  temp_c: "0 a 8" }
+    frozen:   { pallet_positions: 1920,  temp_c: "<= -18" }
   docks:
     dry: 16
     chilled: 4
@@ -24,6 +24,7 @@ facility:
 
 catalog:
   skus: 6000
+  skus_by_zone: { dry: 4500, chilled: 900, frozen: 600 }   # estimativa
   suppliers: 150
 
 demand:

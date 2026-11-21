@@ -1,0 +1,67 @@
+# Layout físico do CD (Fase 1). Coordenadas em metros.
+# Origem (0, 0) = canto da face das docas. x = ao longo das docas; y = profundidade do galpão.
+# Valores são ESTIMATIVAS de projeto baseadas em padrões de mercado (palete PBR, porta-palete seletivo).
+
+building:
+  width_m: 200          # x
+  depth_m: 125          # y  -> 200 x 125 = 25.000 m²
+  clear_height_m: 12
+
+# Porta-palete seletivo para palete PBR (1,00 x 1,20 m)
+rack:
+  bay_width_m: 2.7      # largura de um prédio (2 paletes lado a lado + montante)
+  rack_depth_m: 1.1     # profundidade de uma fileira de estante
+  flue_m: 0.2           # vão entre estantes costas com costas
+  aisle_width_m: 3.0    # corredor para empilhadeira retrátil
+  levels: 6             # nível 1 = picking (chão); níveis 2 a 6 = pulmão (reserva)
+  pick_levels: [1]
+  slots_per_level: 2    # apartamentos por nível
+  level_height_m: 1.8
+
+# Blocos de porta-palete. origin = canto inferior esquerdo do bloco.
+# As ruas (corredores) correm na direção y, perpendiculares às docas.
+rack_blocks:
+  dry:
+    prefix: D
+    origin: [2.0, 30.0]
+    aisles: 18
+    sections: 2           # duas seções separadas por um corredor transversal
+    bays_per_section: 16
+    cross_aisle_m: 4.0
+  frozen:
+    prefix: F
+    origin: [137.3, 27.0]
+    aisles: 4
+    sections: 1
+    bays_per_section: 20
+  chilled:
+    prefix: C
+    origin: [163.6, 27.0]
+    aisles: 5
+    sections: 1
+    bays_per_section: 20
+
+# Áreas de apoio: [x, y, largura, profundidade]
+areas:
+  receiving_dry:    {rect: [0, 0, 45, 25],     label: "Recebimento e conferência (seco)"}
+  shipping_dry:     {rect: [45, 0, 55, 25],    label: "Consolidação e expedição (seco)"}
+  cross_docking:    {rect: [100, 0, 18, 25],   label: "Cross-\ndocking"}
+  returns:          {rect: [118, 0, 16, 25],   label: "Devoluções,\navarias e\nquarentena"}
+  ecommerce_pack:   {rect: [101, 30, 32, 28],  label: "Embalagem e-commerce"}
+  unit_picking:     {rect: [101, 60, 32, 60],  label: "Picking fracionado\n(estantes e flow rack)"}
+  antechamber:      {rect: [136, 0, 56, 20],   label: "Antecâmara climatizada (0 a 10 °C)"}
+  frozen_chamber:   {rect: [136, 22, 24, 63],  label: "Câmara de congelados (≤ -18 °C)"}
+  chilled_chamber:  {rect: [162, 22, 30, 63],  label: "Câmara de resfriados (0 a 8 °C)"}
+  machine_room:     {rect: [136, 88, 24, 18],  label: "Sala de máquinas (frio)"}
+  battery_charging: {rect: [162, 88, 36, 18],  label: "Recarga de baterias e manutenção"}
+  admin:            {rect: [136, 109, 62, 14], label: "Administrativo, vestiários e refeitório"}
+  gatehouse:        {rect: [192, 0, 8, 20],    label: "Portaria"}
+
+unit_picking:
+  shelf_bins_estimate: 4000   # posições de prateleira para itens fracionados (estimativa)
+
+# Docas na face y = 0. Docas do seco são compartilhadas: recebimento de dia, expedição de madrugada (fluxo em U).
+docks:
+  - {zone: dry,     count: 16, x_start: 18,  spacing_m: 4}
+  - {zone: frozen,  count: 4,  x_start: 148, spacing_m: 4}
+  - {zone: chilled, count: 4,  x_start: 164, spacing_m: 4}
