@@ -1,0 +1,4 @@
+﻿cenario;custo_ano_R$;visitas_na_face_%;horas_retratil_ano;km_separador_ano;economia_vs_atual_%
+Atual;1882180,8;26,4;23957,5;91242,5;0,0
+COI;1539683,2;48,0;17482,8;84668,0;18,2
+Ótimo (PuLP);1538399,1;47,8;17500,2;84402,2;18,3

@@ -43,12 +43,13 @@ analyze the data first and read the generator afterwards.
 | 2. Data generator | 24 months of synthetic operations with hidden problems, [data model](docs/data_model.md), legacy-style dirty export | Done |
 | 3. Database | SQLite star schema ([`sql/01_schema.sql`](sql/01_schema.sql)) and KPI queries ([`sql/02_kpis.sql`](sql/02_kpis.sql)) | Done |
 | 4. Diagnosis & inventory | Data quality, KPI deep-dive, ABC/XYZ, forecasting, safety stock & reorder point, expiry/FEFO, [dashboard v1 model](powerbi/README.md) | Done |
-| 5. Slotting | Optimized storage allocation | Planned |
+| 5. Slotting | Pick-face assignment by velocity (PuLP + HiGHS vs COI rule), replenishment policy, transition plan — [summary](reports/phase5_summary.md) | Done |
 | 6. Simulation | Discrete-event simulation (SimPy) and scenarios | Planned |
 | 7. Picking & labor | Picking strategies, routing, workforce sizing | Planned |
 | 8. Costs & scenarios | Activity-based costing, ROI and [trade-off scenarios](docs/scenarios.md) for management | Planned |
 | 9. Quality | FMEA, cycle counting, recall traceability, SOPs | Planned |
-| 10. Wrap-up | Executive report and final dashboard | Planned |
+| 10. Cost reduction program | Whole-facility cost baseline (cost per order/line/pallet, cost-to-serve), savings pipeline from phases 4–9 with investment and payback | Planned |
+| 11. Wrap-up | Executive report and final dashboard | Planned |
 
 ## Phase 4 findings (diagnosis)
 
@@ -67,6 +68,15 @@ Full write-up: [reports/phase4_summary.md](reports/phase4_summary.md) · noteboo
   During the December peak, the queue before order release grows from 0.3 to 1.3 days.
 
 ![Reorder point vs real lead time](reports/phase4/figures/04d_pp_vs_leadtime.png)
+
+## Phase 5 findings (slotting)
+
+Pick faces had been assigned in SKU-code order, so 71 of 122 A-items had no face and needed a reach
+truck for every pick. Re-slotting by velocity cuts estimated picking + replenishment cost by
+**18%** (PuLP/HiGHS assignment model; a simple COI rule gets almost the same result), with a payback
+under 2 days. Keeping faces replenished adds about the same again. Details:
+[reports/phase5_summary.md](reports/phase5_summary.md). Savings are logged in
+[reports/savings_register.csv](reports/savings_register.csv) for the Phase 10 cost program.
 
 ## Repository structure
 

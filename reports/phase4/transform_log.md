@@ -4,3 +4,5 @@
 - 2026-11-21 15:47 | 04d | política atual inferida (estoque no dia do PO / demanda média); ES/PP por SKU (z por ABC: A 98%, B 95%, C 90%) para 599 SKUs -> sku_safety_stock_rop.csv; previsão semanal por zona (sazonal ajustado), backtest 26 semanas
 - 2026-11-21 15:48 | 04e | FEFO em 275,866 SKU-dias (estoque do dia anterior; lote vendável = dias restantes >= min_sale_days); risco de vencimento em 2026-10-31 (demanda média 90 d); estoque parado (descontinuado / >90 d sem venda / cobertura >180 d)
 - 2026-11-21 15:48 | export_powerbi | tabelas do painel exportadas para powerbi/data/ (Parquet); fact_order = 120,902 pedidos (soma de linhas confere: 1,504,897)
+- 2026-11-21 17:05 | 05a | base de slotting: 600 SKUs, 304 faces; visitas = PICK de caixas (sem unit_bin) / 2 anos; distância retilínea ida/volta; custo com premissas de config/parameters.yaml -> reports/phase5/
+- 2026-11-21 17:06 | 05b | slotting por zona: COI e PuLP/HiGHS (designação SKU x face, 1:1, zona); fração na face pela curva de giro da 05a; sensibilidade de reabastecimento; 462 remanejamentos; ganhos -> reports/savings_register.csv

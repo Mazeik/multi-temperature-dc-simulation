@@ -42,12 +42,13 @@ O gerador é aberto, então o gabarito é tecnicamente descobrível: para o exer
 | 2. Gerador de dados | 24 meses de operação sintética com problemas ocultos, [modelo de dados](docs/data_model.md), exportação suja estilo sistema legado | Concluída |
 | 3. Banco de dados | Modelo estrela em SQLite ([`sql/01_schema.sql`](sql/01_schema.sql)) e consultas de indicadores ([`sql/02_kpis.sql`](sql/02_kpis.sql)) | Concluída |
 | 4. Diagnóstico e estoque | Qualidade dos dados, investigação de KPIs, ABC/XYZ, previsão, estoque de segurança e ponto de pedido, vencimento/FEFO, [modelo do dashboard v1](powerbi/README.md) | Concluída |
-| 5. Slotting | Alocação otimizada de endereços | Planejada |
+| 5. Slotting | Faces de picking por giro (PuLP + HiGHS × regra COI), política de reabastecimento, plano de transição — [resumo](reports/phase5_summary.md) | Concluída |
 | 6. Simulação | Simulação de eventos discretos (SimPy) e cenários | Planejada |
 | 7. Picking e mão de obra | Estratégias de separação, roteirização, dimensionamento | Planejada |
 | 8. Custos e cenários | Custeio por atividade, retorno e [cenários de trade-off](docs/scenarios.md) para a gerência | Planejada |
 | 9. Qualidade | FMEA, inventário cíclico, rastreio de recall, POPs | Planejada |
-| 10. Fechamento | Relatório executivo e dashboard final | Planejada |
+| 10. Programa de redução de custos | Linha de base de custo do galpão (custo por pedido/linha/palete, cost-to-serve), pipeline de economias das fases 4–9 com investimento e payback | Planejada |
+| 11. Fechamento | Relatório executivo e dashboard final | Planejada |
 
 ## Resultados da Fase 4 (diagnóstico)
 
@@ -66,6 +67,15 @@ Relatório completo: [reports/phase4_summary.md](reports/phase4_summary.md) · n
   No pico de dezembro, a fila antes da liberação do pedido vai de 0,3 para 1,3 dia.
 
 ![PP praticado × lead time real](reports/phase4/figures/04d_pp_vs_leadtime.png)
+
+## Resultados da Fase 5 (slotting)
+
+As faces de picking estavam na ordem do código do SKU: 71 dos 122 itens da curva A não tinham face
+e precisavam da retrátil em toda separação. Reorganizar as faces pelo giro reduz o custo estimado de
+separação + reabastecimento em **18%** (modelo de designação em PuLP/HiGHS; a regra simples COI chega
+quase ao mesmo resultado), com payback de menos de 2 dias. Manter a face abastecida dobra esse ganho.
+Detalhes em [reports/phase5_summary.md](reports/phase5_summary.md). Os ganhos ficam registrados em
+[reports/savings_register.csv](reports/savings_register.csv) para o programa de custos da Fase 10.
 
 ## Estrutura do repositório
 

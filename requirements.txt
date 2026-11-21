@@ -8,5 +8,6 @@ statsmodels
 jupyterlab
 
 # Fase 5-7 (instalar quando chegar lá)
-# pulp       # otimização (slotting)
+pulp>=3,<4   # otimização (slotting) - Fase 5 (API clássica: LpVariable, lpSum)
+highspy      # solver HiGHS usado pelo PuLP
 # simpy      # simulação de eventos discretos

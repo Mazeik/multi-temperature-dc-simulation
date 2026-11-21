@@ -43,3 +43,19 @@ operations:
   max_dock_exposure_min:                # tempo máximo de exposição na doca (estimativa)
     chilled: 30
     frozen: 15
+
+# Fase 5 - produtividade e custo de mão de obra (ESTIMATIVAS de mercado, a calibrar com cronoanálise)
+productivity:
+  walk_speed_m_s: 1.0            # separador com paleteira elétrica, média com paradas
+  reach_truck_speed_m_s: 1.5     # empilhadeira retrátil no corredor
+  pick_time_per_line_s: 20       # pegar caixas na face e conferir (por linha)
+  reserve_retrieval_s: 90        # retrátil baixa o palete do pulmão, separação e devolução
+  replenish_time_s: 180          # um reabastecimento pulmão -> face (retrátil)
+  relocation_time_s: 300         # remanejar 1 SKU de face (transição do slotting)
+  travel_origin:                 # ponto de partida/chegada do separador (x, y em metros)
+    dry: [72.5, 25.0]            # frente da área de consolidação/expedição do seco
+    chilled: [164.0, 20.0]       # porta da antecâmara climatizada
+    frozen: [164.0, 20.0]
+labor_cost:                      # custo carregado (salário + encargos + benefícios), R$/hora
+  picker_brl_h: 28.0
+  reach_truck_brl_h: 45.0        # operador + custo horário do equipamento
