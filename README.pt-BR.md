@@ -27,6 +27,7 @@ python src/build_db.py               # Fase 3: carrega data/raw em um modelo est
 python src/run_kpis.py               # Fase 3: roda as consultas de KPI (fill rate, OTIF, dock-to-stock, perdas, giro...)
 python notebooks/build_notebooks.py  # Fase 4: executa os notebooks de análise (04a-04e) -> reports/phase4/
 python src/export_powerbi.py         # Fase 4: tabelas do painel -> powerbi/data/ (ver powerbi/README.md)
+# Fases 5-6 rodam dentro dos notebooks (05a/05b slotting, 06a/06b simulação ~30 min)
 ```
 
 Use `--scale 1.0` para o CD em tamanho completo (bem maior e mais lento). Mesma semente + mesma escala = dados idênticos.
@@ -43,7 +44,7 @@ O gerador é aberto, então o gabarito é tecnicamente descobrível: para o exer
 | 3. Banco de dados | Modelo estrela em SQLite ([`sql/01_schema.sql`](sql/01_schema.sql)) e consultas de indicadores ([`sql/02_kpis.sql`](sql/02_kpis.sql)) | Concluída |
 | 4. Diagnóstico e estoque | Qualidade dos dados, investigação de KPIs, ABC/XYZ, previsão, estoque de segurança e ponto de pedido, vencimento/FEFO, [modelo do dashboard v1](powerbi/README.md) | Concluída |
 | 5. Slotting | Faces de picking (PuLP + HiGHS × regra COI), política de reabastecimento, plano de transição — [resumo](reports/phase5_summary.md) | Concluída |
-| 6. Simulação | Simulação de eventos discretos (SimPy) e cenários | Planejada |
+| 6. Simulação | Modelo SimPy de recebimento e separação noturna, validado com os caminhões reais e calibrado pela fila de pedidos; cenários de pico, frota, docas, agendamento e slotting — [resumo](reports/phase6_summary.md) | Concluída |
 | 7. Picking e mão de obra | Estratégias de separação, roteirização, dimensionamento | Planejada |
 | 8. Custos e cenários | Custeio por atividade, retorno e [cenários de trade-off](docs/scenarios.md) para a gerência | Planejada |
 | 9. Qualidade | FMEA, inventário cíclico, rastreio de recall, POPs | Planejada |
@@ -77,6 +78,15 @@ mais próxima". Os melhores candidatos à face são os SKUs com muitas visitas p
 vendidos. Manter a face abastecida dá quase o mesmo ganho de novo.
 Detalhes em [reports/phase5_summary.md](reports/phase5_summary.md). Os ganhos ficam registrados em
 [reports/savings_register.csv](reports/savings_register.csv) para o programa de custos da Fase 10.
+
+## Resultados da Fase 6 (simulação)
+
+Um modelo SimPy alimentado com os caminhões e pedidos reais reproduz o dock-to-stock e a fila mensal
+de pedidos observados. O risco do pico é a capacidade de separação: o Natal +40% sem preparação gera
+fila de 8 dias. O slotting da Fase 5 leva a separação de dezembro de 17% para 77% dos pedidos na noite
+prevista, sem contratar ninguém, e evita ≈ R$ 287 mil em temporários por temporada. O agendamento
+distribuído reduz a espera do caminhão frio sem custo. A exposição de frio na doca é problema de
+processo, não de falta de empilhadeira. Detalhes em [reports/phase6_summary.md](reports/phase6_summary.md).
 
 ## Estrutura do repositório
 

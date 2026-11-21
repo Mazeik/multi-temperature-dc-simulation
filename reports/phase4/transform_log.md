@@ -5,4 +5,6 @@
 - 2026-11-21 15:48 | 04e | FEFO em 275,866 SKU-dias (estoque do dia anterior; lote vendável = dias restantes >= min_sale_days); risco de vencimento em 2026-10-31 (demanda média 90 d); estoque parado (descontinuado / >90 d sem venda / cobertura >180 d)
 - 2026-11-21 15:48 | export_powerbi | tabelas do painel exportadas para powerbi/data/ (Parquet); fact_order = 120,902 pedidos (soma de linhas confere: 1,504,897)
 - 2026-11-21 17:24 | 05a | base de slotting: 600 SKUs, 304 faces; visitas = PICK de caixas (sem unit_bin) / 2 anos; distância retilínea ida/volta; custo com premissas de config/parameters.yaml -> reports/phase5/
-- 2026-11-21 17:26 | 05b | slotting por zona: COI e PuLP/HiGHS (designação SKU x face, 1:1, zona); fração na face pela curva de giro da 05a; sensibilidade de reabastecimento; 458 remanejamentos; ganhos -> reports/savings_register.csv
+- 2026-11-21 17:44 | 05b | slotting por zona: COI e PuLP/HiGHS (designação SKU x face, 1:1, zona); fração na face pela curva de giro da 05a; sensibilidade de reabastecimento; 458 remanejamentos; ganhos -> reports/savings_register.csv
+- 2026-11-21 18:05 | 06a | simulação SimPy validada na escala 10% (caminhões reais, dock-to-stock) e calibrada em escala cheia (bootstrap x10; separadores e retráteis da noite = 1,3x necessidade de out/2025)
+- 2026-11-21 19:05 | 06b | cenários S0–S6 em escala cheia (bootstrap x10), janela set/2025–jan/2026, medição a partir de out/2025

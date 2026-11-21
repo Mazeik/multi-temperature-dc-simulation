@@ -57,7 +57,7 @@ def main():
         nb.cells = ler_celulas(fonte.read_text(encoding="utf-8"))
         nb.metadata["kernelspec"] = {"name": "python3", "display_name": "Python 3", "language": "python"}
         print(f"Executando {fonte.name} ...")
-        NotebookClient(nb, timeout=900, kernel_name="python3",
+        NotebookClient(nb, timeout=3600, kernel_name="python3",
                        resources={"metadata": {"path": str(PASTA)}}).execute()
         destino = PASTA / f"{fonte.stem}.ipynb"
         nbformat.write(nb, destino)

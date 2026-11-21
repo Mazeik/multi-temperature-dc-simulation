@@ -1,3 +1,5 @@
 ﻿fase;acao;indicador;antes;depois;ganho_fisico;premissa_custo;brl_ano_estimado;investimento_brl
 5;Slotting das faces por giro (modelo PuLP);custo anual separação+reabastecimento (R$);1129897;1038398;visitas na face 26% -> 39%;"config/parameters.yaml (labor_cost, productivity); escala 10%";91499,0;1718
 5;Reabastecimento por mínimo (face atende 85% das visitas);custo anual separação+reabastecimento (R$);1038398;950241;face atende >= 85% das visitas;"idem; ganho sobre o slotting ótimo";88157,0;0
+6;Slotting otimizado reduz temporários no pico (simulação Natal +40%);custo do reforço de equipe nov-jan (R$);1704768;1417728;"separadores +59 -> +49; retráteis noite +24 -> +20";"config/parameters.yaml labor_cost; 78 noites; escala cheia";287040,0;0
+6;Agendamento distribuído de docas (simulação);espera p90 do caminhão resfriado no pátio (min);348;274;"menos fila de caminhão frio; dock-to-stock menor nas 3 zonas";sem valor em R$ (custo de estadia de caminhão não modelado);0,0;0

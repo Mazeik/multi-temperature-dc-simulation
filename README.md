@@ -27,6 +27,7 @@ python src/build_db.py               # Phase 3: loads data/raw into a SQLite sta
 python src/run_kpis.py               # Phase 3: runs the KPI queries (fill rate, OTIF, dock-to-stock, losses, turnover...)
 python notebooks/build_notebooks.py  # Phase 4: runs the analysis notebooks (04a-04e) -> reports/phase4/
 python src/export_powerbi.py         # Phase 4: dashboard tables -> powerbi/data/ (see powerbi/README.md)
+# Phases 5-6 run inside the notebooks (05a/05b slotting, 06a/06b simulation ~30 min)
 ```
 
 Use `--scale 1.0` for the full-size facility (much larger and slower). Same seed + same scale = identical data.
@@ -44,7 +45,7 @@ analyze the data first and read the generator afterwards.
 | 3. Database | SQLite star schema ([`sql/01_schema.sql`](sql/01_schema.sql)) and KPI queries ([`sql/02_kpis.sql`](sql/02_kpis.sql)) | Done |
 | 4. Diagnosis & inventory | Data quality, KPI deep-dive, ABC/XYZ, forecasting, safety stock & reorder point, expiry/FEFO, [dashboard v1 model](powerbi/README.md) | Done |
 | 5. Slotting | Pick-face assignment (PuLP + HiGHS vs COI rule), replenishment policy, transition plan — [summary](reports/phase5_summary.md) | Done |
-| 6. Simulation | Discrete-event simulation (SimPy) and scenarios | Planned |
+| 6. Simulation | SimPy model of receiving and night picking, validated on real trucks and calibrated on the order queue; peak, fleet, dock, scheduling and slotting scenarios — [summary](reports/phase6_summary.md) | Done |
 | 7. Picking & labor | Picking strategies, routing, workforce sizing | Planned |
 | 8. Costs & scenarios | Activity-based costing, ROI and [trade-off scenarios](docs/scenarios.md) for management | Planned |
 | 9. Quality | FMEA, cycle counting, recall traceability, SOPs | Planned |
@@ -77,6 +78,15 @@ about 20% more than a simple "most-picked SKU nearest" rule. The best face candi
 many visits per pallet, not the top sellers. Keeping faces replenished adds about the same again.
 Details: [reports/phase5_summary.md](reports/phase5_summary.md). Savings are logged in
 [reports/savings_register.csv](reports/savings_register.csv) for the Phase 10 cost program.
+
+## Phase 6 findings (simulation)
+
+A SimPy model fed with the real trucks and orders reproduces the observed dock-to-stock and the monthly
+order queue. Picking capacity is the peak-season risk: Christmas +40% without preparation produces an
+8-day order queue. Re-slotting (Phase 5) lifts December on-time picking from 17% to 77% with no extra
+staff, and saves ≈R$ 287k of temporary labor per peak season. Distributed dock scheduling cuts
+cold-truck yard waits at zero cost. Cold-dock exposure turns out to be a process issue, not a forklift
+shortage. Details: [reports/phase6_summary.md](reports/phase6_summary.md).
 
 ## Repository structure
 

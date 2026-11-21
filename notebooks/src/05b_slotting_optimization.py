@@ -152,6 +152,10 @@ cen = pd.DataFrame({"Atual": resumo_cenario(base, "dist_face_m", "custo_atual"),
                     "Ótimo (PuLP)": resumo_cenario(base, "dist_otima", "custo_otimo")}).T
 cen["economia_vs_atual_%"] = 100 * (1 - cen["custo_ano_R$"] / cen.loc["Atual", "custo_ano_R$"])
 save(cen.reset_index(names="cenario").round(1), "05b_cenarios", out=PHASE5)
+# Tabela por SKU com as faces de cada cenário (usada pela simulação da Fase 6)
+save(base[["sku_id", "zone", "abc", "visitas_ano", "paletes_ano", "f", "dist_pulmao_m", "descidas_por_visita",
+           "dist_face_m", "dist_coi", "dist_otima", "custo_atual", "custo_coi", "custo_otimo"]].round(4),
+     "sku_slotting_scenarios", out=PHASE5)
 cen.round(1)
 
 # %%
