@@ -1,0 +1,14 @@
+# Ambiente Python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Dados gerados localmente (regenerados pelo código; nunca versionar)
+data/*
+!data/.gitkeep
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/

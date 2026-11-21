@@ -1,0 +1,11 @@
+# Fase 0-4 (MVP)
+pandas
+numpy
+pyyaml
+matplotlib
+statsmodels
+jupyterlab
+
+# Fase 5-7 (instalar quando chegar lá)
+# pulp       # otimização (slotting)
+# simpy      # simulação de eventos discretos
