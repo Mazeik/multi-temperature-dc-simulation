@@ -42,7 +42,7 @@ O gerador é aberto, então o gabarito é tecnicamente descobrível: para o exer
 | 2. Gerador de dados | 24 meses de operação sintética com problemas ocultos, [modelo de dados](docs/data_model.md), exportação suja estilo sistema legado | Concluída |
 | 3. Banco de dados | Modelo estrela em SQLite ([`sql/01_schema.sql`](sql/01_schema.sql)) e consultas de indicadores ([`sql/02_kpis.sql`](sql/02_kpis.sql)) | Concluída |
 | 4. Diagnóstico e estoque | Qualidade dos dados, investigação de KPIs, ABC/XYZ, previsão, estoque de segurança e ponto de pedido, vencimento/FEFO, [modelo do dashboard v1](powerbi/README.md) | Concluída |
-| 5. Slotting | Faces de picking por giro (PuLP + HiGHS × regra COI), política de reabastecimento, plano de transição — [resumo](reports/phase5_summary.md) | Concluída |
+| 5. Slotting | Faces de picking (PuLP + HiGHS × regra COI), política de reabastecimento, plano de transição — [resumo](reports/phase5_summary.md) | Concluída |
 | 6. Simulação | Simulação de eventos discretos (SimPy) e cenários | Planejada |
 | 7. Picking e mão de obra | Estratégias de separação, roteirização, dimensionamento | Planejada |
 | 8. Custos e cenários | Custeio por atividade, retorno e [cenários de trade-off](docs/scenarios.md) para a gerência | Planejada |
@@ -70,10 +70,11 @@ Relatório completo: [reports/phase4_summary.md](reports/phase4_summary.md) · n
 
 ## Resultados da Fase 5 (slotting)
 
-As faces de picking estavam na ordem do código do SKU: 71 dos 122 itens da curva A não tinham face
-e precisavam da retrátil em toda separação. Reorganizar as faces pelo giro reduz o custo estimado de
-separação + reabastecimento em **18%** (modelo de designação em PuLP/HiGHS; a regra simples COI chega
-quase ao mesmo resultado), com payback de menos de 2 dias. Manter a face abastecida dobra esse ganho.
+As faces de picking estavam na ordem do código do SKU: 71 dos 122 itens da curva A não tinham face.
+Um modelo de designação em PuLP/HiGHS reduz o custo estimado de separação + reabastecimento em
+**~8%** (payback de cerca de uma semana), uns 20% a mais que a regra simples "o mais visitado na face
+mais próxima". Os melhores candidatos à face são os SKUs com muitas visitas por palete, não os mais
+vendidos. Manter a face abastecida dá quase o mesmo ganho de novo.
 Detalhes em [reports/phase5_summary.md](reports/phase5_summary.md). Os ganhos ficam registrados em
 [reports/savings_register.csv](reports/savings_register.csv) para o programa de custos da Fase 10.
 

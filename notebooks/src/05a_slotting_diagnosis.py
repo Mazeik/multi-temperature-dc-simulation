@@ -75,6 +75,20 @@ base = base.merge(faces[["location_id", "dist_m"]].rename(columns={"location_id"
 # SKU sem histórico de pulmão: usa a distância média do pulmão da zona (premissa)
 base["dist_pulmao_m"] = base.dist_pulmao_m.fillna(base.groupby("zone").dist_pulmao_m.transform("mean"))
 
+# Quantas descidas de palete a retrátil faz por visita ao pulmão? Um palete baixado na noite atende
+# todas as linhas daquele SKU naquela noite. Descidas ≈ pares (palete, dia) distintos.
+descidas = q("""SELECT m.sku_id, COUNT(*) AS visitas_pulmao,
+                       COUNT(DISTINCT m.lpn || '-' || m.date_key) AS descidas
+                FROM fact_movement m JOIN dim_location l ON l.location_id = m.from_location_id
+                WHERE m.movement_type = 'PICK' AND l.location_type IN ('reserve', 'overflow')
+                GROUP BY m.sku_id""")
+descidas["descidas_por_visita"] = descidas.descidas / descidas.visitas_pulmao
+base = base.merge(descidas[["sku_id", "descidas_por_visita"]], on="sku_id", how="left")
+base["descidas_por_visita"] = base.descidas_por_visita.fillna(
+    base.groupby("zone").descidas_por_visita.transform("median"))
+print("Descidas de palete por visita ao pulmão (mediana por zona):")
+print(base.groupby("zone").descidas_por_visita.median().round(2))
+
 resumo = base.groupby(["zone", "tem_face"]).agg(skus=("sku_id", "size"), visitas_ano=("visitas_ano", "sum"))
 resumo["pct_visitas_zona"] = (100 * resumo.visitas_ano / resumo.groupby("zone").visitas_ano.transform("sum")).round(1)
 resumo.round(0)
@@ -152,7 +166,8 @@ for z, g in put_sku.groupby("zone"):
 # Por SKU e por ano, com as premissas de `config/parameters.yaml`:
 # - **Visita na face:** separador anda ida e volta até a face + tempo de separação.
 # - **Visita no pulmão:** separador anda até a rua + separação + **retrátil** (baixar o palete:
-#   tempo fixo + ida e volta da retrátil).
+#   tempo fixo + ida e volta da retrátil). Como um palete baixado atende várias linhas na mesma
+#   noite, o custo da retrátil é rateado: × descidas por visita (seção 2, ≈ 0,15–0,3).
 # - **Reabastecimento:** cada palete que passa pela face exige um reabastecimento da retrátil.
 # - A fração das visitas atendida pela face (≈60%) é a observada na seção 4, por zona.
 
@@ -168,7 +183,7 @@ c_p, c_r = custo["picker_brl_h"] / 3600, custo["reach_truck_brl_h"] / 3600   # R
 
 # Custo de UMA visita pelo pulmão (separador + retrátil), por SKU
 base["custo_visita_pulmao"] = ((2 * base.dist_pulmao_m / v_a + t_pick) * c_p
-                               + (t_ret + 2 * base.dist_pulmao_m / v_r) * c_r)
+                               + base.descidas_por_visita * (t_ret + 2 * base.dist_pulmao_m / v_r) * c_r)
 # Custo de UMA visita numa face a d metros (separador)
 def custo_visita_face(d):
     return (2 * d / v_a + t_pick) * c_p

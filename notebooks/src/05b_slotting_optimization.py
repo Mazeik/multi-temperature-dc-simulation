@@ -139,7 +139,8 @@ def resumo_cenario(df, dist_col, custo_col):
     tem = df[dist_col].notna()
     f = np.where(tem, df.f, 0)
     visitas_face = (df.visitas_ano * f).sum()
-    horas_ret = ((df.visitas_ano * (1 - f) * (prod["reserve_retrieval_s"] + 2 * df.dist_pulmao_m / v_r)
+    horas_ret = ((df.visitas_ano * (1 - f) * df.descidas_por_visita
+                  * (prod["reserve_retrieval_s"] + 2 * df.dist_pulmao_m / v_r)
                   + np.where(tem, df.paletes_ano * f, 0) * (prod["replenish_time_s"] + 2 * df.dist_pulmao_m / v_r))
                  .sum() / 3600)
     dist_km = (df.visitas_ano * (f * 2 * df[dist_col].fillna(0) + (1 - f) * 2 * df.dist_pulmao_m)).sum() / 1000
@@ -169,13 +170,18 @@ ax.legend(["Atual", "COI", "Ótimo (PuLP)"]); ax.set_title("Custo anual de separ
 savefig(fig, "05b_cenarios_zona", out=PHASE5)
 
 # %% [markdown]
-# **Leitura:** a maior parte do ganho vem de **dar face aos SKUs certos** (tirar visitas da retrátil)
-# — e a regra simples COI já captura quase tudo. O otimizador acrescenta pouco sobre o COI porque, com
-# um SKU por face e custo proporcional às visitas, o problema tem estrutura "bem-comportada". Mensagem
-# para a gestão: **não é preciso software caro para capturar o ganho; é preciso disciplina de revisar
-# o slotting pela curva de giro** (ex.: trimestralmente). O modelo PuLP serve para validar a regra e
-# para incorporar restrições reais depois (peso por nível, família de produto, segregação de
-# químicos de alimentos, mais de uma face por SKU).
+# **Leitura:**
+# - Reorganizar as faces reduz o custo de separação + reabastecimento em **≈8%**; a regra simples COI
+#   captura **≈7%**. O otimizador rende **~20% a mais de ganho** que a regra prática.
+# - Por quê: o SKU de giro **muito alto** não é o melhor candidato à face. Um palete baixado do pulmão
+#   atende muitas linhas dele na mesma noite (a descida da retrátil se dilui), e na face ele exigiria
+#   reabastecimento o tempo todo. A face rende mais para SKUs com **muitas visitas por palete**
+#   (muitas linhas pequenas) — exatamente o critério do *cube-per-order index* "de verdade", que
+#   considera visitas **e** volume. Por isso o ótimo tem menos visitas na face (39%) que o COI (48%)
+#   e mesmo assim custa menos.
+# - Mensagem para a gestão: revisar o slotting por **visitas e volume**, não só por "mais vendido".
+#   O modelo PuLP já está pronto para restrições reais (peso por nível, família de produto,
+#   segregação de químicos de alimentos, mais de uma face por SKU).
 
 # %% [markdown]
 # ## 5. Reabastecimento: quanto vale manter a face abastecida?

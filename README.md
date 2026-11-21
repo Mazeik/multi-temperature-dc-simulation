@@ -43,7 +43,7 @@ analyze the data first and read the generator afterwards.
 | 2. Data generator | 24 months of synthetic operations with hidden problems, [data model](docs/data_model.md), legacy-style dirty export | Done |
 | 3. Database | SQLite star schema ([`sql/01_schema.sql`](sql/01_schema.sql)) and KPI queries ([`sql/02_kpis.sql`](sql/02_kpis.sql)) | Done |
 | 4. Diagnosis & inventory | Data quality, KPI deep-dive, ABC/XYZ, forecasting, safety stock & reorder point, expiry/FEFO, [dashboard v1 model](powerbi/README.md) | Done |
-| 5. Slotting | Pick-face assignment by velocity (PuLP + HiGHS vs COI rule), replenishment policy, transition plan — [summary](reports/phase5_summary.md) | Done |
+| 5. Slotting | Pick-face assignment (PuLP + HiGHS vs COI rule), replenishment policy, transition plan — [summary](reports/phase5_summary.md) | Done |
 | 6. Simulation | Discrete-event simulation (SimPy) and scenarios | Planned |
 | 7. Picking & labor | Picking strategies, routing, workforce sizing | Planned |
 | 8. Costs & scenarios | Activity-based costing, ROI and [trade-off scenarios](docs/scenarios.md) for management | Planned |
@@ -71,11 +71,11 @@ Full write-up: [reports/phase4_summary.md](reports/phase4_summary.md) · noteboo
 
 ## Phase 5 findings (slotting)
 
-Pick faces had been assigned in SKU-code order, so 71 of 122 A-items had no face and needed a reach
-truck for every pick. Re-slotting by velocity cuts estimated picking + replenishment cost by
-**18%** (PuLP/HiGHS assignment model; a simple COI rule gets almost the same result), with a payback
-under 2 days. Keeping faces replenished adds about the same again. Details:
-[reports/phase5_summary.md](reports/phase5_summary.md). Savings are logged in
+Pick faces had been assigned in SKU-code order: 71 of 122 A-items had no face. A PuLP/HiGHS
+assignment model cuts estimated picking + replenishment cost by **~8%** (payback about one week),
+about 20% more than a simple "most-picked SKU nearest" rule. The best face candidates are SKUs with
+many visits per pallet, not the top sellers. Keeping faces replenished adds about the same again.
+Details: [reports/phase5_summary.md](reports/phase5_summary.md). Savings are logged in
 [reports/savings_register.csv](reports/savings_register.csv) for the Phase 10 cost program.
 
 ## Repository structure
