@@ -23,6 +23,8 @@ pip install -r requirements.txt
 python src/generate_data.py          # 10% scale, ~30 s -> data/raw/ (Parquet)
 python src/validate_data.py          # integrity + stock-conservation checks + KPI summary
 python src/export_legacy.py          # optional: dirty legacy-style CSVs in data/legacy/ for cleaning practice
+python src/build_db.py               # Phase 3: loads data/raw into a SQLite star schema (data/sdc.db), checks row counts
+python src/run_kpis.py               # Phase 3: runs the KPI queries (fill rate, OTIF, dock-to-stock, losses, turnover...)
 ```
 
 Use `--scale 1.0` for the full-size facility (much larger and slower). Same seed + same scale = identical data.
@@ -37,7 +39,7 @@ analyze the data first and read the generator afterwards.
 | 0. Foundation | Repository, structure, documented assumptions | Done |
 | 1. Layout & processes | Zones, addressing, process flows | Done |
 | 2. Data generator | 24 months of synthetic operations with hidden problems, [data model](docs/data_model.md), legacy-style dirty export | Done |
-| 3. Database | SQL star schema and KPI queries | Planned |
+| 3. Database | SQLite star schema ([`sql/01_schema.sql`](sql/01_schema.sql)) and KPI queries ([`sql/02_kpis.sql`](sql/02_kpis.sql)) | Done |
 | 4. Diagnosis & inventory | KPIs, ABC/XYZ, forecasting, safety stock, dashboard v1 | Planned |
 | 5. Slotting | Optimized storage allocation | Planned |
 | 6. Simulation | Discrete-event simulation (SimPy) and scenarios | Planned |

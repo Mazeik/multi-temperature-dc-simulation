@@ -23,6 +23,8 @@ pip install -r requirements.txt
 python src/generate_data.py          # escala de 10%, ~30 s -> data/raw/ (Parquet)
 python src/validate_data.py          # integridade + conservação de estoque + resumo de indicadores
 python src/export_legacy.py          # opcional: CSVs "sujos" de sistema legado em data/legacy/ para treino de limpeza
+python src/build_db.py               # Fase 3: carrega data/raw em um modelo estrela SQLite (data/sdc.db) e confere contagens
+python src/run_kpis.py               # Fase 3: roda as consultas de KPI (fill rate, OTIF, dock-to-stock, perdas, giro...)
 ```
 
 Use `--scale 1.0` para o CD em tamanho completo (bem maior e mais lento). Mesma semente + mesma escala = dados idênticos.
@@ -36,7 +38,7 @@ O gerador é aberto, então o gabarito é tecnicamente descobrível: para o exer
 | 0. Fundação | Repositório, estrutura, premissas documentadas | Concluída |
 | 1. Layout e processos | Zonas, endereçamento, fluxos | Concluída |
 | 2. Gerador de dados | 24 meses de operação sintética com problemas ocultos, [modelo de dados](docs/data_model.md), exportação suja estilo sistema legado | Concluída |
-| 3. Banco de dados | Modelo estrela em SQL e consultas de indicadores | Planejada |
+| 3. Banco de dados | Modelo estrela em SQLite ([`sql/01_schema.sql`](sql/01_schema.sql)) e consultas de indicadores ([`sql/02_kpis.sql`](sql/02_kpis.sql)) | Concluída |
 | 4. Diagnóstico e estoque | Indicadores, ABC/XYZ, previsão, estoque de segurança, dashboard v1 | Planejada |
 | 5. Slotting | Alocação otimizada de endereços | Planejada |
 | 6. Simulação | Simulação de eventos discretos (SimPy) e cenários | Planejada |

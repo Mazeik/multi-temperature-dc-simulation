@@ -12,3 +12,6 @@ data/*
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Gabarito dos problemas plantados (não publicar)
+CLAUDE.local.md
