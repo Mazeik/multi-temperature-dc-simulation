@@ -10,3 +10,6 @@
 - 2026-11-21 19:05 | 06b | cenários S0–S6 em escala cheia (bootstrap x10), janela set/2025–jan/2026, medição a partir de out/2025
 - 2026-11-21 19:20 | 07a | produtividade por canal/zona (out/2025); batch e-commerce k=[1, 4, 8, 12] em pedidos reais; roteirização em 2000 listas sorteadas na planta cheia (retorno, S-shape)
 - 2026-11-21 19:23 | 07b | previsão 12 meses (mês anterior x fator de nível, x10); horas/linha do modelo calibrado; pessoas = horas/noite / (8h x 0.85 x (1-0.05)); fixo = 3º maior mês fora do pico
+- 2026-11-21 20:58 | 08a | custeio ABC ano-base 2025-11-01..2026-11-01 em escala cheia (x10); separação pelo modelo calibrado; indiretos rateados pela MO direta; custo de servir por canal (rateio por unidades na zona)
+- 2026-11-21 21:05 | 08b | energia por zona; espera de carretas por simulação fev–mai/2026 x3; perda crônica de frio = ano-base menos 06–18/jan/2026; VPL 5 anos a 15%; custo de hora paga (fator 1.24)
+- 2026-11-21 21:07 | 08c | S01: perfil lote/SKU nas câmaras (24 meses); pistas de 5 paletes; capacidade útil por opção; necessidade = pico x 1,05^5; custo VP 5 anos a 15%

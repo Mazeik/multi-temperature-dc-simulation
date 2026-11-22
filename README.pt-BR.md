@@ -46,7 +46,7 @@ O gerador é aberto, então o gabarito é tecnicamente descobrível: para o exer
 | 5. Slotting | Faces de picking (PuLP + HiGHS × regra COI), política de reabastecimento, plano de transição — [resumo](reports/phase5_summary.md) | Concluída |
 | 6. Simulação | Modelo SimPy de recebimento e separação noturna, validado com os caminhões reais e calibrado pela fila de pedidos; cenários de pico, frota, docas, agendamento e slotting — [resumo](reports/phase6_summary.md) | Concluída |
 | 7. Picking e mão de obra | Separação em lote no e-commerce, roteirização na planta cheia, quadro de 12 meses por turno — [resumo](reports/phase7_summary.md) | Concluída |
-| 8. Custos e cenários | Custeio por atividade, retorno e [cenários de trade-off](docs/scenarios.md) para a gerência | Planejada |
+| 8. Custos e cenários | Custeio por atividade, custo de servir, carteira de investimentos (VPL/payback), decisão S01 da estrutura das câmaras — [resumo](reports/phase8_summary.md) | Concluída |
 | 9. Qualidade | FMEA, inventário cíclico, rastreio de recall, POPs | Planejada |
 | 10. Programa de redução de custos | Linha de base de custo do galpão (custo por pedido/linha/palete, cost-to-serve), pipeline de economias das fases 4–9 com investimento e payback | Planejada |
 | 11. Fechamento | Relatório executivo e dashboard final | Planejada |
@@ -95,6 +95,16 @@ triplicam (35 → 104). Na planta em escala cheia, o slotting por popularidade e
 bem mais do que a regra de percurso (~11%). O plano de quadro para 12 meses (fixo + temporários no
 pico) custa R$ 15,5 mi/ano, contra R$ 18,4 mi com quadro fixo dimensionado para o pico; com os métodos
 melhorados, cai para R$ 13,0 mi. Detalhes em [reports/phase7_summary.md](reports/phase7_summary.md).
+
+## Resultados da Fase 8 (custos e cenários)
+
+O custeio por atividade estima o custo do CD em ≈ R$ 97 mi/ano (3,5% da receita movimentada). Perdas de
+produto são ~63% desse valor, quase tudo da cadeia do frio. O e-commerce custa 5× mais por unidade que o
+B2B. Na carteira de investimentos, o kit de doca fria com POP lidera (VPL de 5 anos ≈ R$ 47 mi). Duas
+docas frias extras, os carrinhos do e-commerce, o agendamento e o slotting se pagam em meses. No cenário
+S01, o drive-in não serve para o perfil de SKUs e lotes (só ~28% de cada pista é usável respeitando o
+FEFO). A decisão real é entre seletivo + ampliação da câmara e estantes móveis, e depende de orçamentos.
+Detalhes em [reports/phase8_summary.md](reports/phase8_summary.md).
 
 ## Estrutura do repositório
 

@@ -88,3 +88,48 @@ labor:
   shift_hours: 8
   nights_per_month: 26           # segunda a sábado (domingo é turno reduzido, ver simulation)
   temp_premium: 1.25             # temporário custa 25% a mais por hora (agência, treinamento)
+
+# Fase 8 - custos (ESTIMATIVAS de ordem de grandeza, Sul de Minas, preços de 2026; calibrar com dados reais)
+costs:
+  base_year: ["2025-11-01", "2026-11-01"]   # últimos 12 meses dos dados = ano-base do custeio
+  rent_brl_m2_month: { dry: 24.0, cold: 55.0 }   # aluguel/ocupação; câmara fria inclui isolamento amortizado
+  area_m2:                        # área atribuída a cada zona (layout.yaml + rateio das áreas de apoio)
+    dry: 16500                    # bloco seco + recebimento/expedição seco + fracionado + embalagem
+    chilled: 2450                 # câmara 30x63 + metade da antecâmara (56x20)
+    frozen: 2070                  # câmara 24x63 + metade da antecâmara
+    support: 3980                 # adm., sala de máquinas, baterias, portaria, circulação (vai para indiretos)
+  energy_tariff_brl_kwh: 0.78     # tarifa média industrial (A4 verde, com impostos)
+  energy_kwh_m3_year: { chilled: 35, frozen: 60, antechamber: 30 }   # refrigeração por volume
+  energy_dry_kwh_m2_year: 18      # iluminação, ventilação e tomadas no seco
+  chamber_height_m: 12
+  antechamber_m3: 8960            # 56 x 20 x 8 m
+  racking_capex_brl_position: { selective: 450, drive_in: 620, mobile: 1600 }
+  racking_life_years: 15
+  indirect_staff_brl_year: 2400000   # supervisão, PCP, qualidade, TI/WMS, administrativo do CD
+  supervisor_span: 15             # 1 líder para cada 15 operadores diretos
+  supervisor_brl_month: 9500
+  packing_min_per_ecom_order: 1.5
+  loading_min_per_pallet_out: 3.0
+  return_min_per_line: 5.0
+  count_min_per_location: 3.0
+  inventory_carrying_rate_year: 0.15    # custo de capital do estoque (taxa de oportunidade)
+  wacc_year: 0.15                 # taxa para VPL dos investimentos
+  horizon_years: 5
+investments:                      # CAPEX e premissas de benefício (estimativas)
+  cold_dock_capex_brl: 380000     # doca fria: nivelador, porta rápida, selagem, adequação da antecâmara
+  reefer_detention_brl_h: 180     # custo de estadia/espera de carreta frigorífica (diária rateada)
+  cart_capex_brl: 7000            # carrinho multi-volume (8 caixas)
+  scanner_capex_brl: 6500         # coletor/leitor por carrinho
+  carts_per_ecom_picker: 1.0
+  cold_dock_kit_capex_brl: 95000  # por doca: cortina de ar, vedação, alarme de tempo de doca
+  cold_loss_reduction_share: 0.40 # parte das perdas crônicas de frio evitada com o kit + POP (sensibilidade)
+  slotting_capex_brl: 25000       # remanejamento em escala cheia (horas de retrátil + horas extras)
+s01:                              # cenário S01 - estrutura das câmaras frias (ESTIMATIVAS de fornecedores/literatura)
+  lane_depth: 5                   # paletes por pista de drive-in
+  drive_in_density_gain: 0.35     # +30 a 40% de posições no mesmo volume (docs/scenarios.md)
+  mobile_density_gain: 0.80       # estantes móveis: quase sem corredores fixos
+  drive_in_move_extra_share: 0.40 # cada entrada/saída de palete leva +40% de tempo (entrar na pista)
+  mobile_move_extra_min: 1.0      # abrir o corredor da estante móvel
+  drive_in_damage_rate_year: 0.03 # manutenção de estrutura por avaria (% do CAPEX ao ano)
+  cold_chamber_build_brl_m2: 4500 # construir câmara nova (isolamento, piso, refrigeração)
+  positions_per_m2_selective: 1.27  # 2.400 posições / 1.890 m² (câmara de resfriados)

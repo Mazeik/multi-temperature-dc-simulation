@@ -1,0 +1,6 @@
+﻿projeto;capex;beneficio_ano;fonte_do_beneficio;vpl_5a;payback_meses;tir
+Kit de doca fria + POP (8 docas);760000;14135536,76;40% da perda crônica de frio;46624511,613;0,645;18,599
++1 doca fria em cada câmara (após agendamento);760000;1826955,112;espera de carreta frigorífica (simulação);5364236,891;4,992;2,399
+Carrinho multi-volume no e-commerce;148500;1226177,928;horas de separação (Fase 7);3961838,593;1,453;8,257
+Agendamento distribuído de docas;0;952209,458;espera de carreta (simulação);3191953,788;0,0;
+Slotting otimizado;25000;952940,253;horas de separação e retrátil (Fase 5);3169403,527;0,315;38,118

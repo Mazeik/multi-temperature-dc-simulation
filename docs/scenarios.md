@@ -6,7 +6,7 @@ Formato: cada cenário compara alternativas com os mesmos indicadores. A anális
 
 | ID | Cenário | Origem | Quantificar na fase | Status |
 |---|---|---|---|---|
-| S01 | Estrutura de armazenagem nas câmaras frias | Fase 1 | 8 (custos) | Aberto |
+| S01 | Estrutura de armazenagem nas câmaras frias | Fase 1 | 8 (custos) | Quantificado; aguarda orçamentos |
 
 ## S01 — Porta-palete seletivo × drive-in nas câmaras frias
 
@@ -19,4 +19,13 @@ Formato: cada cenário compara alternativas com os mesmos indicadores. A anális
 
 **Indicadores de comparação (Fase 8):** posições por zona, custo de energia por palete/mês, perdas por vencimento, aderência ao FEFO, investimento (CAPEX), produtividade (paletes/h) e ocupação no pico sazonal.
 
-**Recomendação:** pendente de quantificação.
+**Quantificação (Fase 8, [`08c`](../notebooks/08c_s01_cold_storage.ipynb)):** cada SKU frio tem em média 2–3
+paletes em ~2 lotes. Por isso, um drive-in que respeite o FEFO usa só ~28% de cada pista e tem **menos**
+capacidade útil que o seletivo. Misturando lotes, 74–86% dos paletes ficariam presos atrás de outro lote.
+O misto (C) aproveita só 2–3% dos paletes e empata com o seletivo. Uma 4ª opção foi incluída: **D. estantes
+móveis** (+80% de posições, acesso a todo palete). Custo em 5 anos (valor presente, estimado): A + ampliação
+da câmara ≈ R$ 9,0 mi; D ≈ R$ 13,3 mi; B ≈ R$ 26–27 mi.
+
+**Recomendação:** descartar o drive-in. Decidir entre **A + ampliação** (mais barato com as premissas
+atuais) e **D estantes móveis**, que resolve o transbordo do pico já, sem obra. D vale a pena se custar até
+~R$ 1.040/posição ou se a obra de câmara passar de ~R$ 7.350/m². Próximo passo: orçamentos reais das duas.

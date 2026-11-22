@@ -47,7 +47,7 @@ analyze the data first and read the generator afterwards.
 | 5. Slotting | Pick-face assignment (PuLP + HiGHS vs COI rule), replenishment policy, transition plan — [summary](reports/phase5_summary.md) | Done |
 | 6. Simulation | SimPy model of receiving and night picking, validated on real trucks and calibrated on the order queue; peak, fleet, dock, scheduling and slotting scenarios — [summary](reports/phase6_summary.md) | Done |
 | 7. Picking & labor | E-commerce batch picking, routing on the full-scale layout, 12-month staffing plan per shift — [summary](reports/phase7_summary.md) | Done |
-| 8. Costs & scenarios | Activity-based costing, ROI and [trade-off scenarios](docs/scenarios.md) for management | Planned |
+| 8. Costs & scenarios | Activity-based costing, cost-to-serve, investment portfolio (NPV/payback), S01 cold-storage racking decision — [summary](reports/phase8_summary.md) | Done |
 | 9. Quality | FMEA, cycle counting, recall traceability, SOPs | Planned |
 | 10. Cost reduction program | Whole-facility cost baseline (cost per order/line/pallet, cost-to-serve), savings pipeline from phases 4–9 with investment and payback | Planned |
 | 11. Wrap-up | Executive report and final dashboard | Planned |
@@ -95,6 +95,16 @@ E-commerce pickers spend ~70% of their time walking. Batching 8 orders per cart 
 than the routing policy does (~11%). A 12-month staffing plan (fixed crew + peak temporaries) costs
 R$ 15.5M/yr, against R$ 18.4M for a crew sized for the peak all year. The improved methods bring it
 to R$ 13.0M. Details: [reports/phase7_summary.md](reports/phase7_summary.md).
+
+## Phase 8 findings (costs & scenarios)
+
+Activity-based costing puts the DC at ≈R$ 97M/yr (3.5% of goods handled, estimated). Product losses
+make up ~63% of that, almost all from the cold chain. E-commerce costs 5× more per unit than B2B. A
+cold-dock kit plus SOP leads the investment portfolio (5-year NPV ≈R$ 47M). Two extra cold docks, the
+e-commerce carts, dock scheduling and slotting each pay back within months. Scenario S01: drive-in does
+not fit the SKU/lot profile (only ~28% of each lane is usable under FEFO). The real choice is selective
+racking + chamber expansion vs mobile racking, pending quotes. Details:
+[reports/phase8_summary.md](reports/phase8_summary.md).
 
 ## Repository structure
 

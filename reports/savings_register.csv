@@ -6,3 +6,8 @@
 7;Separação em lote do e-commerce (carrinho de 8 pedidos);horas de separação e-commerce/ano;49922;16672;linhas/h e-commerce 35 -> 104;"picker_brl_h do config; escala cheia; out/2025 x 12";930996,0;carrinhos multi-volume + leitor (a orçar)
 7;Roteirização S-shape/melhor rota no WMS (B2B seco);horas de caminhada B2B seco/ano;16103;14323;só a regra de percurso, slotting atual;"picker_brl_h; escala cheia; experimento na planta cheia";49836,0;configuração do WMS
 7;Quadro fixo + temporários (vs. fixo dimensionado para o pico);custo anual de mão de obra direta (R$);18416794;15511997;temporários só em nov-jan;"labor_cost + temp_premium do config; escala cheia; método atual";2904797,0;0
+8;Kit de doca fria + POP (8 docas) (investimento);benefício anual (R$);0;14135537;40% da perda crônica de frio;"VPL 5a 46,625 mil; payback 0.6 meses; escala cheia";14135537,0;760000
+8;+1 doca fria em cada câmara (após agendamento) (investimento);benefício anual (R$);0;1826955;espera de carreta frigorífica (simulação);"VPL 5a 5,364 mil; payback 5.0 meses; escala cheia";1826955,0;760000
+8;Carrinho multi-volume no e-commerce (investimento);benefício anual (R$);0;1226178;horas de separação (Fase 7);"VPL 5a 3,962 mil; payback 1.5 meses; escala cheia";1226178,0;148500
+8;Agendamento distribuído de docas (investimento);benefício anual (R$);0;952209;espera de carreta (simulação);"VPL 5a 3,192 mil; payback 0.0 meses; escala cheia";952209,0;0
+8;Slotting otimizado (investimento);benefício anual (R$);0;952940;horas de separação e retrátil (Fase 5);"VPL 5a 3,169 mil; payback 0.3 meses; escala cheia";952940,0;25000
