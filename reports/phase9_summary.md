@@ -34,7 +34,7 @@ A ocorrência foi convertida da **taxa medida nos dados**.
 | Palete passa do tempo máximo de doca (45% dos paletes frios) | 9 | 9 | 8 | **648** | Cronômetro + alarme por palete, putaway prioritário, conferência na câmara (POP-01) | 108 |
 | Falha de equipamento da câmara | 10 | 7 | 7 | 490 | Preventiva + telemetria com alarme 24h | 40 |
 | Carga congelada aceita acima de −18 °C (17%) | 8 | 8 | 6 | 384 | Aceite pelo termógrafo; −18 a −15 °C vai para quarentena (POP-01) | 120 |
-| Câmara acima de 100% (palete no chão) | 6 | 8 | 5 | 240 | ES/PP por SKU, slotting, decisão S01 | 90 |
+| Câmara acima de 100% (palete no chão; 31% dos dias) | 6 | 9 | 5 | 270 | ES/PP por SKU, slotting, decisão S01 | 90 |
 | Lote com < 70% de vida aceito | 6 | 5 | 7 | 210 | Bloqueio no WMS; scorecard F004/F014 | 24 |
 | Palete no endereço errado | 5 | 4 | 6 | 120 | Leitura obrigatória do endereço (POP-02) | 30 |
 
