@@ -47,7 +47,7 @@ O gerador é aberto, então o gabarito é tecnicamente descobrível: para o exer
 | 6. Simulação | Modelo SimPy de recebimento e separação noturna, validado com os caminhões reais e calibrado pela fila de pedidos; cenários de pico, frota, docas, agendamento e slotting — [resumo](reports/phase6_summary.md) | Concluída |
 | 7. Picking e mão de obra | Separação em lote no e-commerce, roteirização na planta cheia, quadro de 12 meses por turno — [resumo](reports/phase7_summary.md) | Concluída |
 | 8. Custos e cenários | Custeio por atividade, custo de servir, carteira de investimentos (VPL/payback), decisão S01 da estrutura das câmaras — [resumo](reports/phase8_summary.md) | Concluída |
-| 9. Qualidade | FMEA, inventário cíclico, rastreio de recall, POPs | Planejada |
+| 9. Qualidade | Pareto das perdas, Ishikawa 6M, FMEA do recebimento frio, rastreio de recall, inventário cíclico ABC, [POPs](docs/sops/) — [resumo](reports/phase9_summary.md) | Concluída |
 | 10. Programa de redução de custos | Linha de base de custo do galpão (custo por pedido/linha/palete, cost-to-serve), pipeline de economias das fases 4–9 com investimento e payback | Planejada |
 | 11. Fechamento | Relatório executivo e dashboard final | Planejada |
 
@@ -105,6 +105,16 @@ docas frias extras, os carrinhos do e-commerce, o agendamento e o slotting se pa
 S01, o drive-in não serve para o perfil de SKUs e lotes (só ~28% de cada pista é usável respeitando o
 FEFO). A decisão real é entre seletivo + ampliação da câmara e estantes móveis, e depende de orçamentos.
 Detalhes em [reports/phase8_summary.md](reports/phase8_summary.md).
+
+## Resultados da Fase 9 (qualidade)
+
+Três causas da cadeia do frio concentram ~80% das perdas de produto. A FMEA do recebimento refrigerado,
+com a ocorrência tirada das taxas medidas, coloca em primeiro o palete que passa do tempo de doca
+(RPN 648), seguido da falha de equipamento da câmara e da carga congelada aceita acima de −18 °C. Os dois
+recalls são rastreados de ponta a ponta com balanço de massa de 100% e apontam o mesmo fornecedor e o
+mesmo SKU. O inventário cíclico conta mais os itens C que os A; um programa ABC por risco corrige isso.
+Quatro POPs transformam os achados em padrão de trabalho. Detalhes em
+[reports/phase9_summary.md](reports/phase9_summary.md).
 
 ## Estrutura do repositório
 

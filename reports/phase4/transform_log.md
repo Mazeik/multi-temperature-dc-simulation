@@ -13,3 +13,6 @@
 - 2026-11-21 20:58 | 08a | custeio ABC ano-base 2025-11-01..2026-11-01 em escala cheia (x10); separação pelo modelo calibrado; indiretos rateados pela MO direta; custo de servir por canal (rateio por unidades na zona)
 - 2026-11-21 21:05 | 08b | energia por zona; espera de carretas por simulação fev–mai/2026 x3; perda crônica de frio = ano-base menos 06–18/jan/2026; VPL 5 anos a 15%; custo de hora paga (fator 1.24)
 - 2026-11-21 21:07 | 08c | S01: perfil lote/SKU nas câmaras (24 meses); pistas de 5 paletes; capacidade útil por opção; necessidade = pico x 1,05^5; custo VP 5 anos a 15%
+- 2026-11-21 21:47 | 09a | Pareto de perdas (baixas + devoluções descartadas) por causa; Ishikawa 6M com evidências; FMEA do recebimento frio com ocorrência convertida da taxa medida
+- 2026-11-21 21:48 | 09b | rastreio de ponta a ponta dos 2 recalls (recebimento, guarda, expedição, clientes, baixa) e balanço de massa
+- 2026-11-21 21:50 | 09c | acuracidade por classe/tipo/zona/natureza; cobertura = contagens/ano ÷ endereços ocupados (~1 por palete); programa ABC 12/4/2 por ano + gatilhos

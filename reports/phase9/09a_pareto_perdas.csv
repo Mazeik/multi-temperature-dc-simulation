@@ -1,0 +1,12 @@
+﻿causa;R$_ano;pct;pct_acum
+Frio crônico: congelado;24762103,5;35,3;35,3
+Frio: falha de jan/2026 (evento);20676296,6;29,5;64,8
+Frio crônico: resfriado;10576738,4;15,1;79,9
+Devolução: avaria no transporte/manuseio;4550164,0;6,5;86,4
+Devolução: validade curta;2882637,7;4,1;90,5
+Recall (lote de fornecedor);1847529,6;2,6;93,1
+Vencimento: lote aceito < 70% de vida;1310756,1;1,9;95,0
+Devolução: recusa do cliente;1192599,0;1,7;96,7
+Avaria no armazém;1026110,9;1,5;98,1
+Vencimento: demais lotes;652732,7;0,9;99,1
+Devolução: item errado (erro de separação);644710,5;0,9;100,0

@@ -48,7 +48,7 @@ analyze the data first and read the generator afterwards.
 | 6. Simulation | SimPy model of receiving and night picking, validated on real trucks and calibrated on the order queue; peak, fleet, dock, scheduling and slotting scenarios — [summary](reports/phase6_summary.md) | Done |
 | 7. Picking & labor | E-commerce batch picking, routing on the full-scale layout, 12-month staffing plan per shift — [summary](reports/phase7_summary.md) | Done |
 | 8. Costs & scenarios | Activity-based costing, cost-to-serve, investment portfolio (NPV/payback), S01 cold-storage racking decision — [summary](reports/phase8_summary.md) | Done |
-| 9. Quality | FMEA, cycle counting, recall traceability, SOPs | Planned |
+| 9. Quality | Loss Pareto, 6M fishbone, FMEA of cold receiving, recall traceability, ABC cycle counting, [SOPs](docs/sops/) — [summary](reports/phase9_summary.md) | Done |
 | 10. Cost reduction program | Whole-facility cost baseline (cost per order/line/pallet, cost-to-serve), savings pipeline from phases 4–9 with investment and payback | Planned |
 | 11. Wrap-up | Executive report and final dashboard | Planned |
 
@@ -105,6 +105,15 @@ e-commerce carts, dock scheduling and slotting each pay back within months. Scen
 not fit the SKU/lot profile (only ~28% of each lane is usable under FEFO). The real choice is selective
 racking + chamber expansion vs mobile racking, pending quotes. Details:
 [reports/phase8_summary.md](reports/phase8_summary.md).
+
+## Phase 9 findings (quality)
+
+Three cold-chain causes concentrate ~80% of product losses. An FMEA of refrigerated receiving, with
+occurrence taken from measured rates, ranks pallets exceeding dock time first (RPN 648), followed by
+chamber equipment failure and frozen loads accepted above −18 °C. Both recalls trace end-to-end with a
+100% mass balance and point to the same supplier and SKU. Cycle counting covers C items more often than
+A items; a risk-based ABC program fixes that. Four SOPs turn the findings into standard work. Details:
+[reports/phase9_summary.md](reports/phase9_summary.md).
 
 ## Repository structure
 

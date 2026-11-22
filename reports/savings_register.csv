@@ -11,3 +11,4 @@
 8;Carrinho multi-volume no e-commerce (investimento);benefício anual (R$);0;1226178;horas de separação (Fase 7);"VPL 5a 3,962 mil; payback 1.5 meses; escala cheia";1226178,0;148500
 8;Agendamento distribuído de docas (investimento);benefício anual (R$);0;952209;espera de carreta (simulação);"VPL 5a 3,192 mil; payback 0.0 meses; escala cheia";952209,0;0
 8;Slotting otimizado (investimento);benefício anual (R$);0;952940;horas de separação e retrátil (Fase 5);"VPL 5a 3,169 mil; payback 0.3 meses; escala cheia";952940,0;25000
+9;Programa de inventário cíclico por ABC (custo adicional);horas de contagem/ano;1108;4558;acuracidade 96% -> meta 98,5%;"custo de hora paga; escala cheia";-119641,0;0
