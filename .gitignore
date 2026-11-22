@@ -21,3 +21,9 @@ CLAUDE.md
 
 # Exportações para o Power BI (regeneradas por src/export_powerbi.py)
 powerbi/data/
+
+# Rascunhos pessoais (post do LinkedIn etc.)
+drafts/
+
+# Configuração local do preview do Claude
+.claude/

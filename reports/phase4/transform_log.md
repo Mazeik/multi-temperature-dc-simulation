@@ -21,3 +21,4 @@
 - 2026-11-22 09:52 | 10c | custo de servir por cliente e SKU (ABC: linhas, palete-dia, valor em estoque, paletes recebidos, reabastecimentos, baixas diretas por SKU); fecha com a Fase 8; valores por entidade em escala dos dados, totais x10
 - 2026-11-22 09:53 | 10c | custo de servir por cliente e SKU (ABC: linhas, palete-dia, valor em estoque, paletes recebidos, reabastecimentos, baixas diretas por SKU); fecha com a Fase 8; valores por entidade em escala dos dados, totais x10
 - 2026-11-22 09:54 | 10c | custo de servir por cliente e SKU (ABC: linhas, palete-dia, valor em estoque, paletes recebidos, reabastecimentos, baixas diretas por SKU); fecha com a Fase 8; valores por entidade em escala dos dados, totais x10
+- 2026-11-22 10:45 | 10b | Monte Carlo 10000 sorteios (semente 42), triangulares e captura por risco de config/cost_program.yaml, iniciativas independentes; horizonte 12 meses; KPIs medidos no ano-base

@@ -1,4 +1,4 @@
-# Power BI · Dashboard v1 (Fase 4)
+# Power BI · Dashboard v1 (Fase 4) e final (Fase 11)
 
 > *EN summary: star-schema model, relationships, DAX measures (explained) and page layout for the
 > v1 operations dashboard. Data comes from `python src/export_powerbi.py` → `powerbi/data/*.parquet`.*
@@ -177,3 +177,88 @@ Dock-to-Stock ≈ 55 min, Recusa ≈ 8,4%, Acuracidade ≈ 96,0% (mesmos valores
 
 Formatação condicional sugerida: OTIF < 90% vermelho; Ocupação > 85% âmbar e > 100% vermelho.
 Paleta fixa por zona (igual aos notebooks): seco `#C8963E`, resfriado `#3A86C8`, congelado `#6B4FA0`.
+
+---
+
+# Power BI · Dashboard final (v2, Fase 11)
+
+> *EN summary: v2 adds three pages (cost baseline, savings program, cost-to-serve) fed by the Phase 10
+> CSV tables. A static HTML version of the same views is in `docs/dashboard/index.html`.*
+
+A versão sem Power BI (para quem só quer olhar) está em [`docs/dashboard/index.html`](../docs/dashboard/index.html),
+gerada por `python src/build_dashboard.py`. O .pbix abaixo é para praticar modelagem e DAX.
+
+## 5. Tabelas novas (CSV da Fase 10)
+
+**Obter Dados → Texto/CSV**, com **Origem do arquivo = 65001 (UTF-8)** e **delimitador = ponto e vírgula**.
+No Power Query, em *Alterar tipo → Usando localidade*, escolha **Português (Brasil)**: os CSVs usam vírgula
+como decimal.
+
+| Tabela no modelo | Arquivo | Grão (uma linha = ...) |
+|---|---|---|
+| `pc_iniciativas` | `reports/phase10/10b_matriz_prioridade.csv` | iniciativa |
+| `pc_monte_carlo` | `reports/phase10/10b_monte_carlo_faixas.csv` | iniciativa × visão × medida (+ linhas TOTAL) |
+| `pc_curva` | `reports/phase10/10b_curva_mensal.csv` | mês do programa |
+| `pc_kpis` | `reports/phase10/10b_kpis_acompanhamento.csv` | KPI |
+| `cts_cliente` | `reports/phase10/10c_rentabilidade_cliente.csv` | cliente |
+| `cts_sku` | `reports/phase10/10c_rentabilidade_sku.csv` | SKU |
+| `cts_faixa_ecom` | `reports/phase10/10c_ecommerce_faixa_pedido.csv` | faixa de valor do pedido |
+
+**Relações:** `cts_sku[sku_id]` → `dim_sku[sku_id]` (1:1 na prática; marque `dim_sku` como lado 1) e
+`cts_cliente[customer_id]` → `dim_customer[customer_id]`. As tabelas `pc_*` ficam **desconectadas**: já são
+resultados agregados do programa, e ligá-las ao calendário real não faz sentido (o "mês" delas é o mês do
+programa, não uma data).
+
+## 6. Medidas DAX novas
+
+```dax
+Escala = 10
+```
+Os dados estão em 10% do volume; cada cliente e SKU representa um real, mas os **totais** precisam × 10.
+
+```dax
+Contribuição (R$ mi) = DIVIDE ( SUM ( cts_sku[contrib_mercado] ) * [Escala], 1e6 )
+SKUs com Contribuição Negativa = COUNTROWS ( FILTER ( cts_sku, cts_sku[contrib_mercado] < 0 ) )
+```
+`FILTER` percorre a tabela e devolve só as linhas negativas; `COUNTROWS` conta essas linhas.
+
+```dax
+Custo de Servir % Receita =
+DIVIDE ( SUM ( cts_cliente[custo] ), SUM ( cts_cliente[receita] ) )
+```
+Na visão por canal (segmentação `channel`), deve dar ~3,4% no B2B e ~17% no e-commerce.
+
+```dax
+Ganho Regime p50 (R$ mi) =
+DIVIDE ( SUM ( pc_iniciativas[regime_p50_mercado] ), 1e6 )
+
+Programa p50 (R$ mi) =
+DIVIDE (
+    CALCULATE ( SUM ( pc_monte_carlo[p50] ),
+        pc_monte_carlo[id] = "TOTAL", pc_monte_carlo[visao] = "mercado", pc_monte_carlo[medida] = "regime" ),
+    1e6 )
+```
+Atenção: o p50 do **total** (R$ 7,1 mi) vem da linha TOTAL do Monte Carlo, não da soma dos p50 das
+iniciativas. A mediana de uma soma não é igual à soma das medianas; aqui elas ficam próximas, mas a medida
+certa é a da linha TOTAL.
+
+```dax
+Payback (mês) =
+MINX ( FILTER ( pc_curva, pc_curva[saldo_acumulado] > 0 ), pc_curva[mes] )
+```
+Primeiro mês em que o saldo acumulado (ganho − investimento) fica positivo. **Conferência:** 4.
+
+## 7. Páginas novas
+
+| Página | Visuais (tipo e por quê) |
+|---|---|
+| **5. Linha de base de custo** | Cartões: custo total nas duas visões · Barras agrupadas: custo por atividade, dados × mercado (comparar duas séries por categoria) · Tabela: custo por pedido, linha e unidade por canal |
+| **6. Programa de redução** | Barras horizontais: ganho p50 por iniciativa com barras de erro p10–p90 (ranking com incerteza) · Dispersão: esforço × ganho, tamanho = CAPEX, cor = risco (matriz de priorização) · Colunas: ganho mensal; **gráfico separado** de linha para o saldo acumulado (nunca dois eixos y no mesmo visual) · Tabela: KPIs com linha de base e meta |
+| **7. Custo de servir** | Colunas agrupadas: margem × custo médio por faixa de pedido do e-commerce (o ponto de equilíbrio aparece onde as barras se cruzam) · Colunas agrupadas: contribuição por zona e classe ABC · Tabela: SKUs com contribuição negativa (`cts_sku`, filtro < 0) |
+
+**Revisão da v1:** na página 3, troque o "Colunas + linha" (dois eixos y) por dois visuais lado a lado:
+paletes por hora de chegada (colunas) e dock-to-stock por hora (linha). Dois eixos com escalas diferentes
+induzem leituras erradas de correlação.
+
+**Conferência v2:** custo total R$ 96,7 mi (dados) e R$ 54,3 mi (mercado); programa p50 R$ 7,1 mi/ano;
+CAPEX R$ 1,7 mi; payback no mês 4; 26 SKUs negativos.

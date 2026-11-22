@@ -201,13 +201,14 @@ for i, cfg in CAT.items():
 acum = (mensal.sum(axis=1) - capex_mes).cumsum()
 save(pd.DataFrame({"mes": meses, "ganho_mes": mensal.sum(axis=1), "capex_mes": capex_mes, "saldo_acumulado": acum}).round(0),
      "10b_curva_mensal", out=PH10)
-# Área empilhada do ganho mensal por iniciativa + linha do saldo acumulado (mostra a rampa e o payback).
-fig, ax = plt.subplots(figsize=(9, 4))
+# Dois painéis com eixo próprio (nunca dois eixos y no mesmo gráfico):
+# em cima, área empilhada do ganho mensal por iniciativa (a rampa); embaixo, linha do saldo acumulado (o payback).
+fig, (ax, ax2) = plt.subplots(2, 1, figsize=(9, 6), sharex=True, gridspec_kw={"height_ratios": [3, 2]})
 ax.stackplot(meses, (mensal.clip(lower=0) / 1e3).T.values, labels=mensal.columns, alpha=0.85)
-ax.set_xlabel("mês do programa"); ax.set_ylabel("ganho no mês (R$ mil)")
-ax2 = ax.twinx(); ax2.plot(meses, acum / 1e6, color="black", marker="o", lw=1.5, label="saldo acumulado")
-ax2.axhline(0, color="grey", ls=":"); ax2.set_ylabel("saldo acumulado (R$ mi)")
+ax.set_ylabel("ganho no mês (R$ mil)")
 ax.legend(loc="upper left", fontsize=7, ncol=3); ax.set_title("Rampa do programa (p50, visão de mercado)")
+ax2.plot(meses, acum / 1e6, color="black", marker="o", lw=1.5)
+ax2.axhline(0, color="grey", ls=":"); ax2.set_ylabel("saldo acumulado (R$ mi)"); ax2.set_xlabel("mês do programa")
 savefig(fig, "10b_rampa_mensal", out=PH10)
 print(f"Saldo acumulado positivo a partir do mês {int(meses[acum.values > 0][0])}; "
       f"saldo no mês 12: R$ {acum.iloc[-1] / 1e6:,.1f} mi")

@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel SDC</title>
+<meta name="description" content="Painel do programa de redução de custos de um CD multitemperatura fictício (dados sintéticos).">
+<style>
+  /* Cores por PAPEL (tokens): claro e escuro trocam aqui, o resto do código usa os nomes */
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10);
+    --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;
+    --o1: #184f95; --o2: #3987e5; --o3: #86b6ef;          /* rampa ordinal azul (A, B, C) */
+    --good: #006300; --bad: #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+      --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+      --s1: #3987e5; --s2: #d95926; --s3: #199e70;
+      --o1: #9ec5f4; --o2: #5598e7; --o3: #256abf;
+      --good: #0ca30c; --bad: #e66767;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70;
+    --o1: #9ec5f4; --o2: #5598e7; --o3: #256abf;
+    --good: #0ca30c; --bad: #e66767;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink);
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 16px 48px; }
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 0 0 4px; }
+  p { margin: 0 0 8px; }
+  .sub { color: var(--ink-2); max-width: 760px; }
+  .note { color: var(--muted); font-size: 13px; }
+  button.theme { background: var(--surface); color: var(--ink); border: 1px solid var(--ring);
+                 border-radius: 8px; padding: 6px 12px; font: inherit; cursor: pointer; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 20px 0; }
+  .tile { background: var(--surface); border: 1px solid var(--ring); border-radius: 12px; padding: 14px 16px; }
+  .tile .k { color: var(--ink-2); font-size: 13px; }
+  .tile .v { font-size: 28px; font-weight: 650; font-variant-numeric: tabular-nums; line-height: 1.2; }
+  .tile .d { color: var(--muted); font-size: 12px; }
+  .card { background: var(--surface); border: 1px solid var(--ring); border-radius: 12px; padding: 16px; margin: 16px 0; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+  .grid2 .card { margin: 0; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); margin: 6px 0; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+  svg { display: block; width: 100%; overflow: visible; }
+  svg text { fill: var(--ink-2); font-size: 12px; font-variant-numeric: tabular-nums; }
+  svg .lbl { fill: var(--ink); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+  th { color: var(--ink-2); font-weight: 600; }
+  td.n, th.n { text-align: right; }
+  .scroll { overflow-x: auto; }
+  details { margin-top: 8px; }
+  summary { cursor: pointer; color: var(--ink-2); font-size: 13px; }
+  #tip { position: fixed; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--ring);
+         border-radius: 8px; padding: 8px 10px; font-size: 13px; box-shadow: 0 4px 16px rgba(0,0,0,.12);
+         opacity: 0; transition: opacity .1s; max-width: 280px; z-index: 10; }
+  #tip b { display: block; margin-bottom: 2px; }
+  .hit { fill: transparent; cursor: default; }
+  footer { margin-top: 32px; color: var(--muted); font-size: 13px; }
+  a { color: var(--s1); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Sapucaí Distribution Center · Programa de redução de custos</h1>
+      <p class="sub">CD multitemperatura (seco, resfriado, congelado), ano-base nov/2025–out/2026, escala cheia.
+        <b>Empresa e dados fictícios</b>; valores em R$ são estimativas de ordem de grandeza.
+        <span class="note">EN: fictional DC cost-reduction dashboard, synthetic data.</span></p>
+    </div>
+    <button class="theme" id="theme" type="button" aria-label="Alternar tema claro/escuro">Tema</button>
+  </header>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section class="card">
+    <h2>Onde está o custo do CD</h2>
+    <p class="note">As perdas por frio dos dados estão muito acima do mercado. A visão "ajustada" rebaixa a perda por frio
+      a 1% da receita do frio (premissa estimada). A priorização usa a visão ajustada.</p>
+    <div class="legend" id="lg-ativ"></div>
+    <div id="ch-ativ"></div>
+    <details><summary>Ver tabela</summary><div class="scroll" id="tb-ativ"></div></details>
+  </section>
+
+  <section class="card">
+    <h2>Custo de servir por canal</h2>
+    <div class="scroll" id="tb-canal"></div>
+  </section>
+
+  <section class="card">
+    <h2>Ganho por iniciativa</h2>
+    <p class="note">Ganho em regime (R$ mil/ano, visão de mercado). Barra = p50 de 10 mil sorteios de Monte Carlo;
+      traço = faixa p10–p90. Valores negativos são custos (inventário cíclico, capital de estoque).</p>
+    <div id="ch-inic"></div>
+    <details><summary>Ver tabela</summary><div class="scroll" id="tb-inic"></div></details>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <h2>Ganho mensal do programa</h2>
+      <p class="note">R$ mil por mês, p50 na visão de mercado, com a rampa de cada iniciativa.</p>
+      <div id="ch-mes"></div>
+    </section>
+    <section class="card">
+      <h2>Saldo acumulado (ganho − investimento)</h2>
+      <p class="note">R$ mi. O programa se paga quando a linha passa do zero.</p>
+      <div id="ch-saldo"></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Plano em ondas (12 meses)</h2>
+    <p class="note">Barra clara = rampa até o ganho pleno; barra cheia = ganho pleno.</p>
+    <div class="legend" id="lg-gantt"></div>
+    <div id="ch-gantt"></div>
+  </section>
+
+  <section class="card">
+    <h2>KPIs de acompanhamento</h2>
+    <p class="note">Linha de base medida nos dados do ano-base; metas propostas, a validar com a operação.</p>
+    <div class="scroll" id="tb-kpi"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <h2>E-commerce: margem × custo por pedido</h2>
+      <p class="note">Média por faixa de valor do pedido (R$). Abaixo de R$ 25, a margem empata com o custo.</p>
+      <div class="legend" id="lg-fx"></div>
+      <div id="ch-fx"></div>
+      <details><summary>Ver tabela</summary><div class="scroll" id="tb-fx"></div></details>
+    </section>
+    <section class="card">
+      <h2>Contribuição por zona e curva ABC</h2>
+      <p class="note">Margem − custo de servir, R$ mi/ano, visão de mercado. <span id="neg"></span></p>
+      <div class="legend" id="lg-abc"></div>
+      <div id="ch-abc"></div>
+      <details><summary>Ver tabela</summary><div class="scroll" id="tb-abc"></div></details>
+    </section>
+  </div>
+
+  <footer>
+    Projeto de portfólio feito com apoio de IA (Claude). Código, notebooks e premissas no repositório
+    <a href="https://github.com/Mazeik/multi-temperature-dc-simulation">multi-temperature-dc-simulation</a>.
+    Gerado por <code>python src/build_dashboard.py</code> a partir de <code>reports/</code>.
+  </footer>
+</div>
+<div id="tip" role="tooltip"></div>
+
+<script>
+const D = {"atividades": [{"label": "Perdas de produto", "dados": 60.85, "mercado": 18.45}, {"label": "Separação", "dados": 10.47, "mercado": 10.47}, {"label": "Aluguel", "dados": 7.74, "mercado": 7.74}, {"label": "Capital em estoque", "dados": 5.42, "mercado": 5.42}, {"label": "Indiretos", "dados": 4.94, "mercado": 4.94}, {"label": "Recebimento", "dados": 3.06, "mercado": 3.06}, {"label": "Energia", "dados": 1.91, "mercado": 1.91}, {"label": "Embalagem e expedição", "dados": 0.89, "mercado": 0.89}, {"label": "Estrutura", "dados": 0.54, "mercado": 0.54}, {"label": "Reabastecimento", "dados": 0.46, "mercado": 0.46}, {"label": "Devoluções", "dados": 0.36, "mercado": 0.36}, {"label": "Inventário cíclico", "dados": 0.04, "mercado": 0.04}], "canais": [{"canal": "B2B", "custo_dados": 92.846, "custo_mercado": 50.676, "pedido_dados": 498.715, "pedido_mercado": 272.203, "unidade_dados": 0.361, "unidade_mercado": 0.197}, {"canal": "E-commerce", "custo_dados": 3.818, "custo_mercado": 3.583, "pedido_dados": 8.316, "pedido_mercado": 7.805, "unidade_dados": 1.866, "unidade_mercado": 1.752}, {"canal": "Total", "custo_dados": 96.664, "custo_mercado": 54.259, "pedido_dados": 149.801, "pedido_mercado": 84.086, "unidade_dados": 0.373, "unidade_mercado": 0.209}], "iniciativas": [{"id": "I01", "nome": "Kit de doca fria + POP-01 (8 docas)", "onda": "Onda 1 (0-3 meses)", "risco": "medio", "esforco": 2, "capex": 760, "p10": 1567, "p50": 2271, "p90": 3063, "dados_p50": 10709, "inicio": 2, "rampa": 3}, {"id": "I07", "nome": "+1 doca fria em cada câmara (após o agendamento)", "onda": "Onda 3 (6-12 meses)", "risco": "alto", "esforco": 3, "capex": 760, "p10": 699, "p50": 1074, "p90": 1537, "dados_p50": 1074, "inicio": 10, "rampa": 1}, {"id": "I02", "nome": "Agendamento distribuído de docas", "onda": "Onda 1 (0-3 meses)", "risco": "baixo", "esforco": 1, "capex": 0, "p10": 628, "p50": 874, "p90": 1122, "dados_p50": 874, "inicio": 1, "rampa": 2}, {"id": "I03", "nome": "Slotting otimizado das faces (PuLP)", "onda": "Onda 1 (0-3 meses)", "risco": "baixo", "esforco": 1, "capex": 25, "p10": 713, "p50": 848, "p90": 971, "dados_p50": 848, "inicio": 2, "rampa": 1}, {"id": "I04", "nome": "Carrinho multi-volume no e-commerce (lote de 8)", "onda": "Onda 2 (3-6 meses)", "risco": "medio", "esforco": 2, "capex": 148, "p10": 594, "p50": 825, "p90": 1066, "dados_p50": 825, "inicio": 4, "rampa": 2}, {"id": "I06", "nome": "Trava de vida útil de 70% no WMS + scorecard F004/F014", "onda": "Onda 1 (0-3 meses)", "risco": "medio", "esforco": 1, "capex": 0, "p10": 565, "p50": 736, "p90": 910, "dados_p50": 735, "inicio": 1, "rampa": 1}, {"id": "I05", "nome": "Reabastecimento da face por mínimo (gatilho no WMS)", "onda": "Onda 1 (0-3 meses)", "risco": "medio", "esforco": 1, "capex": 0, "p10": 482, "p50": 695, "p90": 907, "dados_p50": 695, "inicio": 3, "rampa": 2}, {"id": "I09", "nome": "Estoque de segurança e ponto de pedido por SKU", "onda": "Onda 2 (3-6 meses)", "risco": "medio", "esforco": 2, "capex": 0, "p10": -174, "p50": -123, "p90": -84, "dados_p50": -123, "inicio": 4, "rampa": 3}, {"id": "I08", "nome": "Inventário cíclico por ABC (POP-04)", "onda": "Onda 1 (0-3 meses)", "risco": "baixo", "esforco": 1, "capex": 0, "p10": -143, "p50": -126, "p90": -115, "dados_p50": -126, "inicio": 1, "rampa": 1}], "totais": {"mercado_regime": {"p10": 6.2, "p50": 7.1, "p90": 8.1}, "mercado_ano 1": {"p10": 4.4, "p50": 5.1, "p90": 5.9}, "dados_regime": {"p10": 12.2, "p50": 15.5, "p90": 19.3}, "dados_ano 1": {"p10": 9.1, "p50": 11.8, "p90": 14.9}}, "mensal": [{"mes": 1, "ganho": 87, "capex": 785, "saldo": -0.7}, {"mes": 2, "ganho": 257, "capex": 0, "saldo": -0.44}, {"mes": 3, "ganho": 349, "capex": 148, "saldo": -0.24}, {"mes": 4, "ganho": 472, "capex": 0, "saldo": 0.23}, {"mes": 5, "ganho": 503, "capex": 0, "saldo": 0.74}, {"mes": 6, "ganho": 500, "capex": 0, "saldo": 1.24}, {"mes": 7, "ganho": 500, "capex": 0, "saldo": 1.74}, {"mes": 8, "ganho": 500, "capex": 0, "saldo": 2.24}, {"mes": 9, "ganho": 500, "capex": 760, "saldo": 1.98}, {"mes": 10, "ganho": 589, "capex": 0, "saldo": 2.56}, {"mes": 11, "ganho": 589, "capex": 0, "saldo": 3.15}, {"mes": 12, "ganho": 589, "capex": 0, "saldo": 3.74}], "payback": 4, "capex_total": 1.69, "kpis": [{"iniciativa": "I01", "kpi": "% paletes resfriados acima de 30 min na doca", "base": 27.09, "meta": "≤ 5%", "freq": "diário", "dono": "Recebimento"}, {"iniciativa": "I01", "kpi": "% paletes congelados acima de 15 min na doca", "base": 62.71, "meta": "≤ 5%", "freq": "diário", "dono": "Recebimento"}, {"iniciativa": "I01", "kpi": "Perda por frio (% da receita do frio)", "base": 4.12, "meta": "≤ 1%", "freq": "mensal", "dono": "Qualidade"}, {"iniciativa": "I02/I07", "kpi": "Espera p90 da carreta resfriada no pátio (min)", "base": 348.33, "meta": "≤ 240", "freq": "semanal", "dono": "Recebimento"}, {"iniciativa": "I03/I05", "kpi": "% visitas atendidas na face de picking", "base": 26.4, "meta": "≥ 85%", "freq": "semanal", "dono": "Armazenagem"}, {"iniciativa": "I04", "kpi": "Linhas por hora no e-commerce", "base": 34.66, "meta": "≥ 90", "freq": "diário", "dono": "Operações"}, {"iniciativa": "I06", "kpi": "% paletes aceitos com < 70% de vida útil", "base": 6.02, "meta": "0%", "freq": "diário", "dono": "Recebimento"}, {"iniciativa": "I08", "kpi": "Acuracidade de inventário (%)", "base": 95.81, "meta": "≥ 98,5%", "freq": "mensal", "dono": "Inventário"}, {"iniciativa": "I09", "kpi": "Fill rate em unidades (%)", "base": 92.42, "meta": "≥ 97%", "freq": "semanal", "dono": "PCP"}, {"iniciativa": "Programa", "kpi": "Custo por pedido B2B (R$)", "base": 498.72, "meta": "−10% em 12 meses", "freq": "mensal", "dono": "Controladoria"}, {"iniciativa": "Programa", "kpi": "Custo por unidade e-commerce (R$)", "base": 1.87, "meta": "−25% em 12 meses", "freq": "mensal", "dono": "Controladoria"}], "faixas": [{"label": "< 25", "margem": 4.32, "custo": 4.29, "pct": 26.4, "neg": 49.4}, {"label": "25–50", "margem": 11.18, "custo": 7.38, "pct": 31.9, "neg": 11.8}, {"label": "50–75", "margem": 18.48, "custo": 10.01, "pct": 21.6, "neg": 2.2}, {"label": "75–100", "margem": 25.86, "custo": 12.3, "pct": 11.2, "neg": 0.2}, {"label": "100–150", "margem": 35.54, "custo": 15.17, "pct": 7.3, "neg": 0.0}, {"label": "150–250", "margem": 51.76, "custo": 20.22, "pct": 1.5, "neg": 0.0}, {"label": "≥ 250", "margem": 79.71, "custo": 27.68, "pct": 0.0, "neg": 0.0}], "contrib": [{"label": "Seco", "A": 306.3, "B": 72.7, "C": 25.3}, {"label": "Resfriado", "A": 238.2, "B": 20.3, "C": 3.1}, {"label": "Congelado", "A": 98.4, "B": 13.3, "C": 2.8}], "sku_neg": 26, "sku_neg_mi": -0.64, "frio": {"dados": 56.0, "mercado": 13.6}, "custo": {"dados": 96.7, "mercado": 54.3}};
+const NF = (d) => new Intl.NumberFormat("pt-BR", { minimumFractionDigits: d, maximumFractionDigits: d });
+const f0 = NF(0).format, f1 = NF(1).format, f2 = NF(2).format;
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const SVGNS = "http://www.w3.org/2000/svg";
+
+// ---------- tema (botão vence a preferência do sistema; lembrado só neste navegador) ----------
+const btn = document.getElementById("theme");
+try { const t = localStorage.getItem("sdc-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+btn.onclick = () => {
+  const escuro = matchMedia("(prefers-color-scheme: dark)").matches;
+  const atual = document.documentElement.dataset.theme || (escuro ? "dark" : "light");
+  const novo = atual === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = novo;
+  try { localStorage.setItem("sdc-theme", novo); } catch (e) {}
+  render();
+};
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+
+// ---------- dica flutuante (tooltip) ----------
+const tip = document.getElementById("tip");
+function showTip(ev, html) {
+  tip.innerHTML = html; tip.style.opacity = 1;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = ev.clientX + 14, y = ev.clientY + 14;
+  if (x + w > innerWidth - 8) x = ev.clientX - w - 14;
+  if (y + h > innerHeight - 8) y = ev.clientY - h - 14;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+function hideTip() { tip.style.opacity = 0; }
+function hover(el, html) {
+  el.addEventListener("mousemove", (e) => showTip(e, html));
+  el.addEventListener("mouseleave", hideTip);
+}
+
+// ---------- utilidades SVG ----------
+function el(tag, attrs, parent) {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+function svg(host, h) {
+  host.innerHTML = "";
+  const w = Math.max(host.clientWidth, 280);
+  return [el("svg", { viewBox: `0 0 ${w} ${h}`, height: h, role: "img" }, host), w];
+}
+// Corta rótulos longos com reticências para caber na largura (o nome completo fica na dica)
+function fit(s, px) { const max = Math.floor(px / 6.6); return s.length > max ? s.slice(0, max - 1) + "…" : s; }
+function txt(s, x, y, attrs, parent) { const t = el("text", { x, y, ...attrs }, parent); t.textContent = s; return t; }
+// Barra com ponta de dados arredondada (4px) e base reta, no sentido do valor
+function bar(parent, x0, x1, y0, y1, horiz, color) {
+  const r = Math.min(4, Math.abs(horiz ? y1 - y0 : x1 - x0) / 2, Math.abs(horiz ? x1 - x0 : y1 - y0));
+  let d;
+  if (horiz) {
+    const s = x1 >= x0 ? 1 : -1, xe = x1 - s * r;
+    d = `M${x0},${y0} H${xe} Q${x1},${y0} ${x1},${y0 + r} V${y1 - r} Q${x1},${y1} ${xe},${y1} H${x0} Z`;
+  } else {
+    const s = y1 <= y0 ? 1 : -1, ye = y1 + s * r;
+    d = `M${x0},${y0} V${ye} Q${x0},${y1} ${x0 + r},${y1} H${x1 - r} Q${x1},${y1} ${x1},${ye} V${y0} Z`;
+  }
+  return el("path", { d, fill: color }, parent);
+}
+function niceTicks(lo, hi, n) {
+  const span = hi - lo || 1, step0 = span / n, mag = Math.pow(10, Math.floor(Math.log10(step0)));
+  const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => s >= step0);
+  const ticks = [];
+  for (let v = Math.floor(lo / step) * step; v <= hi + 1e-9; v += step) ticks.push(+v.toFixed(10));
+  return ticks;
+}
+function legend(id, items) {
+  document.getElementById(id).innerHTML = items.map(([n, c]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
+}
+function table(id, head, rows, numCols) {
+  const th = head.map((h, i) => `<th class="${numCols.includes(i) ? "n" : ""}">${h}</th>`).join("");
+  const tr = rows.map((r) => "<tr>" + r.map((c, i) => `<td class="${numCols.includes(i) ? "n" : ""}">${c}</td>`).join("") + "</tr>").join("");
+  document.getElementById(id).innerHTML = `<table><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table>`;
+}
+
+// ---------- barras horizontais agrupadas (com faixa opcional p10–p90) ----------
+function hbars(host, rows, series, opts) {
+  const labelW = Math.min(opts.labelW || 190, host.clientWidth * 0.42);
+  const bandH = series.length * 12 + (series.length - 1) * 2 + 12;
+  const top = 8, bottom = 24, h = top + rows.length * bandH + bottom;
+  const [s, w] = svg(host, h);
+  const right = 56, x0 = labelW + 8, x1 = w - right;
+  const vals = rows.flatMap((r) => series.map((se) => r[se.key]).concat(opts.whisker ? [r.p10, r.p90] : []));
+  const lo = Math.min(0, ...vals), hi = Math.max(0, ...vals);
+  const ticks = niceTicks(lo, hi, 5), tmin = Math.min(ticks[0], lo), tmax = Math.max(ticks[ticks.length - 1], hi);
+  const X = (v) => x0 + (v - tmin) / (tmax - tmin) * (x1 - x0);
+  ticks.forEach((t) => {
+    el("line", { x1: X(t), x2: X(t), y1: top, y2: h - bottom, stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, s);
+    txt(opts.fmt(t), X(t), h - 6, { "text-anchor": "middle" }, s);
+  });
+  rows.forEach((r, i) => {
+    const yb = top + i * bandH;
+    txt(fit(r.label, labelW), labelW, yb + bandH / 2 + 4, { "text-anchor": "end", class: "lbl" }, s);
+    series.forEach((se, j) => {
+      const y = yb + 6 + j * 14;
+      bar(s, X(0), X(r[se.key]), y, y + 12, true, css(se.color));
+      if (opts.direct && j === series.length - 1 || opts.directAll)
+        txt(opts.fmt(r[se.key]), X(Math.max(0, r[se.key])) + 4, y + 10, {}, s);
+    });
+    if (opts.whisker) {
+      const y = yb + 12;
+      el("line", { x1: X(r.p10), x2: X(r.p90), y1: y, y2: y, stroke: css("--ink"), "stroke-width": 2 }, s);
+      [r.p10, r.p90].forEach((v) => el("line", { x1: X(v), x2: X(v), y1: y - 4, y2: y + 4, stroke: css("--ink"), "stroke-width": 2 }, s));
+    }
+    const hit = el("rect", { x: 0, y: yb, width: w, height: bandH, class: "hit" }, s);
+    hover(hit, opts.tip(r));
+  });
+}
+
+// ---------- colunas verticais agrupadas ----------
+function vbars(host, cats, series, opts) {
+  const h = opts.h || 240, top = 12, bottom = 28, left = 44;
+  const [s, w] = svg(host, h);
+  const vals = cats.flatMap((c) => series.map((se) => c[se.key]));
+  const lo = Math.min(0, ...vals), hi = Math.max(0, ...vals);
+  const ticks = niceTicks(lo, hi, 4), tmin = Math.min(ticks[0], lo), tmax = Math.max(ticks[ticks.length - 1], hi);
+  const Y = (v) => h - bottom - (v - tmin) / (tmax - tmin) * (h - top - bottom);
+  ticks.forEach((t) => {
+    el("line", { x1: left, x2: w, y1: Y(t), y2: Y(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, s);
+    txt(opts.fmt(t), left - 6, Y(t) + 4, { "text-anchor": "end" }, s);
+  });
+  const band = (w - left) / cats.length, gap = 2;
+  const bw = Math.min(28, (band * 0.7 - gap * (series.length - 1)) / series.length);
+  cats.forEach((c, i) => {
+    const cx = left + band * (i + 0.5), start = cx - (bw * series.length + gap * (series.length - 1)) / 2;
+    series.forEach((se, j) => {
+      const x = start + j * (bw + gap);
+      bar(s, x, x + bw, Y(0), Y(c[se.key]), false, css(se.color));
+    });
+    if (opts.labelEvery === undefined || i % opts.labelEvery === 0)
+      txt(c.label, cx, h - 8, { "text-anchor": "middle" }, s);
+    const hit = el("rect", { x: cx - band / 2, y: top, width: band, height: h - top - bottom, class: "hit" }, s);
+    hover(hit, opts.tip(c));
+  });
+}
+
+// ---------- linha com mira (crosshair) ----------
+function line(host, pts, opts) {
+  const h = opts.h || 240, top = 12, bottom = 28, left = 44, right = 12;
+  const [s, w] = svg(host, h);
+  const ys = pts.map((p) => p.y), lo = Math.min(0, ...ys), hi = Math.max(0, ...ys);
+  const ticks = niceTicks(lo, hi, 4), tmin = Math.min(ticks[0], lo), tmax = Math.max(ticks[ticks.length - 1], hi);
+  const X = (i) => left + i / (pts.length - 1) * (w - left - right);
+  const Y = (v) => h - bottom - (v - tmin) / (tmax - tmin) * (h - top - bottom);
+  ticks.forEach((t) => {
+    el("line", { x1: left, x2: w - right, y1: Y(t), y2: Y(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, s);
+    txt(opts.fmt(t), left - 6, Y(t) + 4, { "text-anchor": "end" }, s);
+  });
+  pts.forEach((p, i) => txt(p.label, X(i), h - 8, { "text-anchor": "middle" }, s));
+  el("path", { d: pts.map((p, i) => `${i ? "L" : "M"}${X(i)},${Y(p.y)}`).join(" "), fill: "none",
+               stroke: css("--s1"), "stroke-width": 2 }, s);
+  const cross = el("line", { y1: top, y2: h - bottom, stroke: css("--muted"), "stroke-width": 1, opacity: 0 }, s);
+  const dot = el("circle", { r: 5, fill: css("--s1"), stroke: css("--surface"), "stroke-width": 2, opacity: 0 }, s);
+  const hit = el("rect", { x: left, y: top, width: w - left - right, height: h - top - bottom, class: "hit" }, s);
+  hit.addEventListener("mousemove", (e) => {
+    const r = s.getBoundingClientRect(), x = (e.clientX - r.left) * (w / r.width);
+    const i = Math.max(0, Math.min(pts.length - 1, Math.round((x - left) / (w - left - right) * (pts.length - 1))));
+    cross.setAttribute("x1", X(i)); cross.setAttribute("x2", X(i)); cross.setAttribute("opacity", 1);
+    dot.setAttribute("cx", X(i)); dot.setAttribute("cy", Y(pts[i].y)); dot.setAttribute("opacity", 1);
+    showTip(e, opts.tip(pts[i]));
+  });
+  hit.addEventListener("mouseleave", () => { cross.setAttribute("opacity", 0); dot.setAttribute("opacity", 0); hideTip(); });
+}
+
+// ---------- plano em ondas (Gantt) ----------
+function gantt(host, rows, colors) {
+  const labelW = Math.min(250, host.clientWidth * 0.45), rowH = 22, top = 4, bottom = 24;
+  const h = top + rows.length * rowH + bottom;
+  const [s, w] = svg(host, h);
+  const x0 = labelW + 8, x1 = w - 8, M = (m) => x0 + (m - 1) / 12 * (x1 - x0);
+  for (let m = 1; m <= 13; m++) {
+    el("line", { x1: M(m), x2: M(m), y1: top, y2: h - bottom, stroke: css("--grid"), "stroke-width": 1 }, s);
+    if (m <= 12) txt(String(m), (M(m) + M(m + 1)) / 2, h - 8, { "text-anchor": "middle" }, s);
+  }
+  rows.forEach((r, i) => {
+    const y = top + i * rowH + 5, c = css(colors[r.onda]);
+    txt(fit(`${r.id} ${r.nome}`, labelW), labelW, y + 10, { "text-anchor": "end", class: "lbl" }, s);
+    const ini = M(r.inicio), cheio = M(Math.min(r.inicio + r.rampa - 1, 13)), fim = M(13);
+    el("rect", { x: ini, y, width: Math.max(cheio - ini, 0), height: 12, fill: c, opacity: 0.4 }, s);
+    bar(s, cheio + (cheio > ini ? 2 : 0), fim, y, y + 12, true, c);
+    const hit = el("rect", { x: 0, y: y - 5, width: w, height: rowH, class: "hit" }, s);
+    hover(hit, `<b>${r.id} · ${r.nome}</b>${r.onda}<br>Início no mês ${r.inicio}, ganho pleno após ${r.rampa} mês(es)<br>` +
+               `p50: R$ ${f0(r.p50)} mil/ano · CAPEX R$ ${f0(r.capex)} mil · risco ${r.risco}`);
+  });
+}
+
+// ---------- montagem do painel ----------
+function tiles() {
+  const t = D.totais;
+  const items = [
+    ["Custo do CD", `R$ ${f1(D.custo.mercado)} mi`, `ajustado ao mercado · R$ ${f1(D.custo.dados)} mi nos dados`],
+    ["Perda por frio", `R$ ${f1(D.frio.mercado)} mi`, `ajustada · R$ ${f1(D.frio.dados)} mi nos dados`],
+    ["Ganho em regime (p50)", `R$ ${f1(t.mercado_regime.p50)} mi`, `por ano · p10–p90: ${f1(t.mercado_regime.p10)}–${f1(t.mercado_regime.p90)}`],
+    ["Ganho no ano 1 (p50)", `R$ ${f1(t["mercado_ano 1"].p50)} mi`, `nos dados: R$ ${f1(t["dados_ano 1"].p50)} mi`],
+    ["Investimento", `R$ ${f1(D.capex_total)} mi`, "CAPEX total do programa"],
+    ["Payback", `mês ${D.payback}`, "saldo acumulado positivo"],
+  ];
+  document.getElementById("tiles").innerHTML = items.map(([k, v, d]) =>
+    `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join("");
+}
+
+function render() {
+  hideTip();
+  tiles();
+  const S = [{ key: "dados", name: "como nos dados", color: "--s2" }, { key: "mercado", name: "ajustada ao mercado", color: "--s1" }];
+  legend("lg-ativ", S.map((x) => [x.name, css(x.color)]));
+  hbars(document.getElementById("ch-ativ"), D.atividades, S, {
+    labelW: 170, fmt: f1, directAll: true,
+    tip: (r) => `<b>${r.label}</b>Nos dados: R$ ${f2(r.dados)} mi<br>Ajustada: R$ ${f2(r.mercado)} mi`,
+  });
+  table("tb-ativ", ["Atividade", "Nos dados (R$ mi)", "Ajustada (R$ mi)"],
+        D.atividades.map((r) => [r.label, f2(r.dados), f2(r.mercado)]), [1, 2]);
+  table("tb-canal", ["Canal", "Custo (R$ mi) dados", "ajustado", "Por pedido (R$) dados", "ajustado", "Por unidade (R$) dados", "ajustado"],
+        D.canais.map((c) => [c.canal, f1(c.custo_dados), f1(c.custo_mercado), f2(c.pedido_dados), f2(c.pedido_mercado),
+                             f2(c.unidade_dados), f2(c.unidade_mercado)]), [1, 2, 3, 4, 5, 6]);
+
+  const ini = D.iniciativas.map((r) => ({ ...r, label: `${r.id} ${r.nome}` }));
+  hbars(document.getElementById("ch-inic"), ini, [{ key: "p50", name: "p50", color: "--s1" }], {
+    labelW: 300, fmt: f0, whisker: true,
+    tip: (r) => `<b>${r.id} · ${r.nome}</b>p50: R$ ${f0(r.p50)} mil/ano<br>p10–p90: R$ ${f0(r.p10)}–${f0(r.p90)} mil<br>` +
+                `Nos dados: R$ ${f0(r.dados_p50)} mil<br>CAPEX: R$ ${f0(r.capex)} mil · ${r.onda} · risco ${r.risco}`,
+  });
+  table("tb-inic", ["ID", "Iniciativa", "Onda", "p10", "p50", "p90", "Nos dados (p50)", "CAPEX (R$ mil)"],
+        D.iniciativas.map((r) => [r.id, r.nome, r.onda, f0(r.p10), f0(r.p50), f0(r.p90), f0(r.dados_p50), f0(r.capex)]), [3, 4, 5, 6, 7]);
+
+  vbars(document.getElementById("ch-mes"), D.mensal.map((m) => ({ ...m, label: String(m.mes) })),
+        [{ key: "ganho", name: "ganho", color: "--s1" }],
+        { fmt: f0, tip: (m) => `<b>Mês ${m.mes}</b>Ganho: R$ ${f0(m.ganho)} mil` + (m.capex ? `<br>Investimento: R$ ${f0(m.capex)} mil` : "") });
+  line(document.getElementById("ch-saldo"), D.mensal.map((m) => ({ y: m.saldo, label: String(m.mes), m })),
+       { fmt: f1, tip: (p) => `<b>Mês ${p.m.mes}</b>Saldo acumulado: R$ ${f2(p.y)} mi` });
+
+  const ondas = [...new Set(D.iniciativas.map((r) => r.onda))].sort();
+  const cores = Object.fromEntries(ondas.map((o, i) => [o, ["--s1", "--s2", "--s3"][i]]));
+  legend("lg-gantt", ondas.map((o) => [o, css(cores[o])]));
+  gantt(document.getElementById("ch-gantt"),
+        [...D.iniciativas].sort((a, b) => a.onda.localeCompare(b.onda) || a.inicio - b.inicio), cores);
+
+  table("tb-kpi", ["Iniciativa", "KPI", "Linha de base", "Meta proposta", "Frequência", "Dono"],
+        D.kpis.map((k) => [k.iniciativa, k.kpi, (k.base < 10 && k.kpi.includes("R$") ? f2 : f1)(k.base), k.meta, k.freq, k.dono]), [2]);
+
+  const FX = [{ key: "margem", name: "margem média", color: "--s1" }, { key: "custo", name: "custo de servir médio", color: "--s2" }];
+  legend("lg-fx", FX.map((x) => [x.name, css(x.color)]));
+  vbars(document.getElementById("ch-fx"), D.faixas, FX, {
+    fmt: f0, tip: (c) => `<b>Pedido R$ ${c.label}</b>Margem: R$ ${f2(c.margem)}<br>Custo de servir: R$ ${f2(c.custo)}<br>` +
+                         `${f1(c.pct)}% dos pedidos · ${f1(c.neg)}% com prejuízo`,
+  });
+  table("tb-fx", ["Faixa (R$)", "Margem média", "Custo médio", "% dos pedidos", "% com prejuízo"],
+        D.faixas.map((c) => [c.label, f2(c.margem), f2(c.custo), f1(c.pct), f1(c.neg)]), [1, 2, 3, 4]);
+
+  const AB = [{ key: "A", name: "curva A", color: "--o1" }, { key: "B", name: "curva B", color: "--o2" }, { key: "C", name: "curva C", color: "--o3" }];
+  legend("lg-abc", AB.map((x) => [x.name, css(x.color)]));
+  vbars(document.getElementById("ch-abc"), D.contrib, AB, {
+    fmt: f0, tip: (c) => `<b>${c.label}</b>A: R$ ${f1(c.A)} mi<br>B: R$ ${f1(c.B)} mi<br>C: R$ ${f1(c.C)} mi`,
+  });
+  table("tb-abc", ["Zona", "A (R$ mi)", "B (R$ mi)", "C (R$ mi)"], D.contrib.map((c) => [c.label, f1(c.A), f1(c.B), f1(c.C)]), [1, 2, 3]);
+  document.getElementById("neg").textContent =
+    `${D.sku_neg} SKUs, todos curva C, têm contribuição negativa (R$ ${f2(D.sku_neg_mi)} mi/ano).`;
+}
+
+let rt;
+addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 150); });
+render();
+</script>
+</body>
+</html>
