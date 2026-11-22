@@ -1,4 +1,4 @@
-# Fase 10 · Programa de redução de custos — resumo executivo
+# Fase 10: Programa de redução de custos
 
 > *EN summary: the DC costs R$ 96.7M/yr as in the data, or R$ 54.3M/yr if cold-chain losses are brought
 > down to a market-like 1% of cold revenue. After de-duplicating the Phase 5–9 savings register (raw sum
@@ -11,20 +11,20 @@ Notebooks: [`10a`](../notebooks/10a_cost_baseline_pipeline.ipynb) (linha de base
 [`10b`](../notebooks/10b_monte_carlo_roadmap.ipynb) (Monte Carlo, priorização, plano e KPIs) e
 [`10c`](../notebooks/10c_cost_to_serve_client_sku.ipynb) (custo de servir por cliente e SKU) · tabelas em
 [`phase10/`](phase10/) · premissas em [`config/cost_program.yaml`](../config/cost_program.yaml).
-**Escala cheia, ano-base nov/2025–out/2026, valores estimados.** Decisões do John: perdas de frio em duas
+Escala cheia, ano-base nov/2025–out/2026, valores estimados. Decisões do John: perdas de frio em duas
 visões e horizonte de 12 meses.
 
 ## 1. Linha de base: duas visões das perdas de frio
 
 As baixas por frio dos dados (R$ 56,0 mi/ano: 2,4% da receita do resfriado e 8,1% do congelado) estão muito
-acima de uma operação madura. A **visão de mercado** rebaixa essa perda a **1% da receita da zona**. É uma
-premissa estimada, sem fonte específica, e fica no config. **A priorização usa a visão de mercado**, que é
+acima de uma operação madura. A visão de mercado rebaixa essa perda a 1% da receita da zona. É uma
+premissa estimada, sem fonte específica, e fica no config. A priorização usa a visão de mercado, que é
 a conservadora.
 
 | Indicador | Como nos dados | Ajustada ao mercado |
 |---|---|---|
 | Perda por frio (R$ mi/ano) | 56,0 | 13,6 |
-| **Custo total do CD (R$ mi/ano)** | **96,7** | **54,3** |
+| Custo total do CD (R$ mi/ano) | 96,7 | 54,3 |
 | Custo em % da receita movimentada | 3,5% | 2,0% |
 | Custo por pedido B2B | R$ 499 | R$ 272 |
 | Custo por unidade B2B | R$ 0,36 | R$ 0,20 |
@@ -36,16 +36,16 @@ Ele fica fora da base e é citado como exposição.
 
 ## 2. Consolidação: por que o total não é a soma do registro
 
-A soma bruta do [`savings_register.csv`](savings_register.csv) dá **R$ 23,3 mi/ano**, mas não serve como
+A soma bruta do [`savings_register.csv`](savings_register.csv) dá R$ 23,3 mi/ano, mas não serve como
 meta. Ela mistura escala 10% com escala cheia, conta o slotting em quatro fases e inclui uma evitação de
-custo que não reduz a base: o quadro fixo × temporários, R$ 2,9 mi frente a um quadro dimensionado para o pico.
+custo que não reduz a base: o quadro fixo com temporários, R$ 2,9 mi frente a um quadro dimensionado para o pico.
 Cada linha recebeu um destino rastreável em
 [`10a_reconciliacao_registro.csv`](phase10/10a_reconciliacao_registro.csv). Slotting e carrinho foram
-recalculados **juntos**: a sobreposição deu só R$ 26 mil, descontados do carrinho.
+recalculados juntos: a sobreposição deu só R$ 26 mil, descontados do carrinho.
 
 | # | Iniciativa | Ganho em regime p50, mercado (R$ mil/ano) | Visão dos dados (R$ mil/ano) | CAPEX (R$ mil) | Onda |
 |---|---|---|---|---|---|
-| I01 | Kit de doca fria + POP-01 (8 docas) | **2.271** | 10.709 | 760 | 1 |
+| I01 | Kit de doca fria + POP-01 (8 docas) | 2.271 | 10.709 | 760 | 1 |
 | I07 | +1 doca fria por câmara (após o agendamento) | 1.074 | 1.074 | 760 | 3 |
 | I02 | Agendamento distribuído de docas | 874 | 874 | 0 | 1 |
 | I03 | Slotting otimizado das faces | 848 | 848 | 25 | 1 |
@@ -55,22 +55,22 @@ recalculados **juntos**: a sobreposição deu só R$ 26 mil, descontados do carr
 | I08 | Inventário cíclico por ABC (custo) | −126 | −126 | 0 | 1 |
 | I09 | ES/PP por SKU (custo de capital; o ganho é serviço) | −123 | −123 | 0 | 2 |
 
-O p50 por iniciativa já desconta a **captura** esperada pelo risco de implantação. Por isso fica abaixo do
+O p50 por iniciativa já desconta a captura esperada pelo risco de implantação. Por isso fica abaixo do
 valor-base do 10a.
 
 ## 3. Quanto o programa rende (Monte Carlo, 10 mil sorteios)
 
-| R$ mi | p10 | **p50** | p90 |
+| R$ mi | p10 | p50 | p90 |
 |---|---|---|---|
-| Regime anual, visão de mercado | 6,2 | **7,1** | 8,1 |
-| Ano 1, visão de mercado | 4,4 | **5,1** | 5,9 |
+| Regime anual, visão de mercado | 6,2 | 7,1 | 8,1 |
+| Ano 1, visão de mercado | 4,4 | 5,1 | 5,9 |
 | Regime anual, visão dos dados | 12,2 | 15,5 | 19,3 |
 | Ano 1, visão dos dados | 9,1 | 11,8 | 14,9 |
 
-- CAPEX total de **R$ 1,7 mi**. O ganho do ano 1 supera o CAPEX em **100% dos sorteios**, nas duas visões.
+- CAPEX total de R$ 1,7 mi. O ganho do ano 1 supera o CAPEX em 100% dos sorteios, nas duas visões.
   Ganho líquido do ano 1 (p50): R$ 3,4 mi no mercado e R$ 10,1 mi nos dados.
-- Na curva mês a mês (p50, mercado), o saldo acumulado fica **positivo no mês 4** e fecha o ano em
-  **+R$ 3,7 mi**.
+- Na curva mês a mês (p50, mercado), o saldo acumulado fica positivo no mês 4 e fecha o ano em
+  +R$ 3,7 mi.
 - **O kit de doca fria decide a incerteza** (correlação de postos de 0,81 com o total). Antes de prometer
   o número, a premissa a validar é a fração da perda crônica que o kit evita (20–60%), com um piloto em 2 docas.
 
@@ -80,9 +80,9 @@ valor-base do 10a.
 
 | Onda | Iniciativas | Por quê |
 |---|---|---|
-| **1 · 0–3 meses** | I02 agendamento · I03 slotting · I01 kit de doca fria + POP-01 · I06 trava de 70% · I05 reabastecimento por mínimo · I08 inventário cíclico | Procedimento e configuração de WMS, CAPEX baixo; o kit é o maior valor nas duas visões |
-| **2 · 3–6 meses** | I04 carrinho do e-commerce · I09 ES/PP por SKU | Dependem de TI e de treinamento |
-| **3 · 6–12 meses** | I07 +1 doca fria por câmara | Obra de maior risco, só se a espera da carreta fria continuar acima da meta após 3 meses de agendamento |
+| 1 · 0–3 meses | I02 agendamento · I03 slotting · I01 kit de doca fria + POP-01 · I06 trava de 70% · I05 reabastecimento por mínimo · I08 inventário cíclico | Procedimento e configuração de WMS, CAPEX baixo; o kit é o maior valor nas duas visões |
+| 2 · 3–6 meses | I04 carrinho do e-commerce · I09 ES/PP por SKU | Dependem de TI e de treinamento |
+| 3 · 6–12 meses | I07 +1 doca fria por câmara | Obra de maior risco, só se a espera da carreta fria continuar acima da meta após 3 meses de agendamento |
 
 Habilitadoras sem valor no total: telemetria e preventiva das câmaras (o evento de jan/2026 custou
 R$ ~20,7 mi), 8D com o Fornecedor 010 (recalls), FEFO dirigido (devoluções por validade curta), POP-02
@@ -111,7 +111,7 @@ no turno 2, liquidação de descontinuados e calendário de promoções com acei
 | Achado | Evidência |
 |---|---|
 | Todo cliente paga o custo do CD | A margem do cadastro é ~30% da receita (preço = 1,2–1,6 × custo); o custo do CD é ~3,5% |
-| **Pedido pequeno de e-commerce empata** | Pedidos < R$ 25 são 26% do total; margem média R$ 4,32 × custo R$ 4,29; 49% deles dão prejuízo |
+| Pedido pequeno de e-commerce empata | Pedidos < R$ 25 são 26% do total; margem média de R$ 4,32 contra custo de R$ 4,29; 49% deles dão prejuízo |
 | E-commerce custa ~17% da receita do cliente; a loja, ~3,4% | Faixa de 11% a 28% entre clientes de e-commerce |
 | 26 SKUs (todos curva C) destroem valor | −R$ ~0,6 mi/ano: descontinuados parados e itens de giro baixo do seco |
 

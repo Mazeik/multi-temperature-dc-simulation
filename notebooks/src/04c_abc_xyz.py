@@ -86,7 +86,7 @@ pd.crosstab(abc.zone, abc.abc, margins=True)
 # %% [markdown]
 # **Leitura:** 20% dos SKUs (122) fazem 80% da receita — Pareto clássico. Todos os A são **X**
 # (demanda semanal estável), o que é ótimo: os itens que mais importam são previsíveis, então ruptura
-# neles é **falha de política de estoque**, não de previsão. A variabilidade se concentra na cauda C
+# neles vem da política de estoque, já que a demanda é fácil de prever. A variabilidade se concentra na cauda C
 # (187 SKUs CY/CZ). O frio tem proporcionalmente mais itens A (41% do resfriado) que o seco (14%).
 # Um SKU não teve nenhuma demanda nos 24 meses (classificado CZ e sinalizado).
 

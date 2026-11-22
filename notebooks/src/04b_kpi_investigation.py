@@ -51,7 +51,7 @@ otif_canal
 # %% [markdown]
 # **Leitura:** no B2B o *on time* é razoável (~90%), mas o *in full* despenca (~23%). Com ~32 linhas
 # por pedido, basta uma ou duas linhas cortadas para o pedido inteiro sair "incompleto".
-# Ou seja, **o OTIF do B2B é um problema de ruptura de estoque, não de transporte.**
+# Ou seja, o que derruba o OTIF do B2B é a falta de produto no estoque.
 
 # %%
 # Gráfico de linhas: evolução mensal das três medidas — linha é o melhor tipo para tendência no tempo.
@@ -121,7 +121,7 @@ promo_fill
 # %% [markdown]
 # **Leitura:** promoção comunicada a tempo tem fill rate **melhor** que a média (o planejamento reforça
 # o estoque); promoção **não comunicada** derruba o fill rate em ~10 p.p. Como 57% das promoções não
-# chegam ao planejamento antes do início, isso é uma causa de ruptura **de processo**, não de estoque.
+# chegam ao planejamento antes do início, a ruptura aqui nasce de uma falha de comunicação com o planejamento.
 
 # %% [markdown]
 # ## 3. Pico de fim de ano (dez/2025 – jan/2026): por que o *on time* caiu?

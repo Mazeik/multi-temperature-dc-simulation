@@ -1,4 +1,4 @@
-# Relatório executivo · Sapucaí Distribution Center (SDC)
+# Relatório executivo: Sapucaí Distribution Center (SDC)
 
 > *EN summary: one-page board report. Half the orders ship late or incomplete (OTIF 52%), mostly because
 > reorder points ignore supplier lead times. The biggest money leak is cold-chain product loss on the
@@ -7,14 +7,14 @@
 > month 4. Four decisions are requested from the board.*
 
 **Empresa e dados fictícios** (projeto de portfólio, feito com apoio de IA). Ano-base nov/2025–out/2026, escala
-cheia. Valores em R$ são **estimativas de ordem de grandeza** e servem para comparar decisões, não para orçamento.
+cheia. Valores em R$ são estimativas de ordem de grandeza e servem para comparar decisões, não para orçamento.
 Detalhes técnicos nos resumos das fases em [`reports/`](.).
 
 ## 1. Situação
 
 | Indicador | Hoje | Referência |
 |---|---|---|
-| OTIF (pedido completo e no prazo) | **52%** (B2B 21%) | meta usual ≥ 90% |
+| OTIF (pedido completo e no prazo) | 52% (B2B 21%) | meta usual ≥ 90% |
 | Fill rate (unidades) | 92,6% | ≥ 97% |
 | Acuracidade de inventário | 96% | ≥ 98,5% |
 | Perda por frio | 4,1% da receita do frio | ~1% em operação madura (estimativa) |
@@ -39,12 +39,12 @@ Detalhes técnicos nos resumos das fases em [`reports/`](.).
 
 | Onda | O que muda | Ganho em regime p50 (R$ mi/ano) | CAPEX (R$ mi) |
 |---|---|---|---|
-| **1 · 0–3 meses** | Kit de doca fria + POP de recebimento, agendamento de docas, slotting, trava de vida útil no WMS, reabastecimento por mínimo, inventário cíclico ABC | 5,3 | 0,8 |
-| **2 · 3–6 meses** | Carrinho multi-volume no e-commerce, estoque de segurança por SKU | 0,7 | 0,1 |
-| **3 · 6–12 meses** | +1 doca fria por câmara (condicional) | 1,1 | 0,8 |
+| 1 · 0–3 meses | Kit de doca fria + POP de recebimento, agendamento de docas, slotting, trava de vida útil no WMS, reabastecimento por mínimo, inventário cíclico ABC | 5,3 | 0,8 |
+| 2 · 3–6 meses | Carrinho multi-volume no e-commerce, estoque de segurança por SKU | 0,7 | 0,1 |
+| 3 · 6–12 meses | +1 doca fria por câmara (condicional) | 1,1 | 0,8 |
 | **Total** | | **7,1** (faixa p10–p90: 6,2–8,1) | **1,7** |
 
-- **Ano 1:** R$ 5,1 mi de ganho (p50), payback no **mês 4**. O ganho supera o investimento em todos os
+- **Ano 1:** R$ 5,1 mi de ganho (p50), payback no mês 4. O ganho supera o investimento em todos os
   10 mil cenários simulados.
 - **Visão dos dados** (sem ajustar a perda de frio): R$ 15,5 mi/ano em regime. O número defendido é o
   conservador, de R$ 7,1 mi.
@@ -55,7 +55,7 @@ Detalhes técnicos nos resumos das fases em [`reports/`](.).
 
 | # | Decisão | Por quê | Prazo |
 |---|---|---|---|
-| 1 | Aprovar o kit de doca fria (R$ 760 mil), começando por um **piloto em 2 docas** | Maior ganho e maior incerteza do programa; o piloto mede a fração da perda evitável | Imediato |
+| 1 | Aprovar o kit de doca fria (R$ 760 mil), começando por um piloto em 2 docas | Maior ganho e maior incerteza do programa; o piloto mede a fração da perda evitável | Imediato |
 | 2 | Autorizar trava de vida útil de 70% no WMS e renegociação com os fornecedores F004, F014 e F010 | Vencimento e recalls vêm de poucos fornecedores | 30 dias |
 | 3 | Avaliar pedido mínimo ou frete por faixa no e-commerce | Pedidos < R$ 25 não pagam o custo de servir | Onda 2 |
 | 4 | Pedir orçamentos reais para a estrutura das câmaras (ampliação seletiva × estantes móveis) e para a doca extra | A decisão depende do preço; o drive-in foi descartado porque quebra o FEFO | Mês 6 |
