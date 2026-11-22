@@ -58,8 +58,8 @@ mesma estrutura: **o problema**, **o que foi feito**, **o resultado** e **como f
 5. **O resultado.** A maior parte do custo do CD é **perda de produto no frio**, não mão de obra. Um kit
    barato de doca fria com procedimento paga o investimento em menos de um mês. Na mão de obra, o slotting
    e o carrinho de e-commerce reduzem cerca de R$ 2,5 mi/ano.
-6. **A próxima etapa (Fase 10).** Juntar todos os ganhos em um programa único de redução de custos, sem
-   contar nada duas vezes, com prioridade e cronograma de 12 meses.
+6. **O programa (Fase 10).** Juntando todos os ganhos sem contar nada duas vezes, e com a perda de frio em
+   nível de mercado, o programa vale ~R$ 7 mi/ano, com R$ 1,7 mi de investimento pago no 4º mês.
 
 ---
 
