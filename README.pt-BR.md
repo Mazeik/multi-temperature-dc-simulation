@@ -1,115 +1,122 @@
-# CD Multitemperatura — Simulação e Otimização
+# CD multitemperatura: simulação e otimização
 
 🇺🇸 [English version](README.md)
 
-Projeto de portfólio em supply chain, escrito como caso de negócio: um **gêmeo digital** simplificado de um
-grande centro de distribuição de alimentos multitemperatura (seco, resfriado e congelado). Gera 24 meses de
-operação simulada, diagnostica os problemas com dados e monta um **programa de redução de custos** com
-ganhos medidos e sem dupla contagem.
+Minha experiência é em processos e qualidade. Eu queria entender, por dentro, como funciona a gestão de
+um armazém, e fiz este projeto para isso. Montei um CD de alimentos fictício (seco, resfriado e
+congelado) no Sul de Minas, gerei dois anos de operação sintética e tratei os dados como se fossem de
+uma empresa real: descobrir o que está errado, medir quanto custa e decidir o que atacar primeiro.
 
-> **Aviso:** a *Sapucaí Distribution Center (SDC)* é uma empresa **fictícia**. Todos os dados são
-> **sintéticos** (gerados por código) e os parâmetros são estimativas de ordem de grandeza. Veja
-> [`docs/assumptions.md`](docs/assumptions.md). Qualquer semelhança com empresas reais é coincidência.
+A empresa (*Sapucaí Distribution Center*) e os dados são inventados. Os valores em R$ são estimativas
+de ordem de grandeza: servem para comparar decisões, não como orçamento. Premissas em
+[`docs/assumptions.md`](docs/assumptions.md).
 
-**Comece por aqui:** [relatório executivo](reports/executive_report.md) (uma página) ·
-[painel interativo](https://mazeik.github.io/multi-temperature-dc-simulation/dashboard/)
-(ou abra [`docs/dashboard/index.html`](docs/dashboard/index.html) no computador) ·
-[guia de estudo](docs/guia_do_projeto.md) (linguagem simples)
+Para ver o resultado rápido: [painel interativo](https://mazeik.github.io/multi-temperature-dc-simulation/dashboard/)
+e [relatório executivo](reports/executive_report.md) (uma página).
 
-## Em poucas palavras (para recrutadores e quem não é da área)
+[![Painel do programa de redução de custos](docs/img/dashboard.png)](https://mazeik.github.io/multi-temperature-dc-simulation/dashboard/)
 
-Um **centro de distribuição (CD)** é o galpão onde uma empresa recebe produtos dos fornecedores, guarda e
-monta os pedidos das lojas e dos clientes da internet. Este CD é **inventado**: trabalha com alimentos
-secos, resfriados e congelados.
+## Como o CD está hoje
 
-- **O que foi feito:** um programa criou dois anos de operação "de mentira", mas realista (caminhões,
-  pedidos, estoque, perdas), com **12 problemas escondidos**, como falta de produto, fornecedor atrasando
-  e alimento estragando na doca, fora da câmara fria.
-- **Quem fez o quê:** o projeto foi feito com a ajuda do **Claude, uma IA da Anthropic**. Foi o Claude que
-  escreveu o gerador e **plantou os problemas**. A análise foi feita depois, **sem abrir o gerador nem o
-  gabarito**, como se fossem dados de uma empresa real. Só no fim o resultado foi comparado com o gabarito:
-  os 12 problemas foram encontrados. Eu defini o escopo, tomei as decisões, revisei os resultados e usei o
-  projeto para aprender as ferramentas.
-- **Principal descoberta:** o maior custo não é a mão de obra, e sim **comida perdida no frio**. Uma
-  solução barata (vedação e cortina de ar nas docas frias, com um procedimento padrão) lidera o programa.
-  Mudanças no método de trabalho economizam milhões por ano sem contratar ninguém.
-- **Ferramentas:** Python, SQL, otimização matemática, simulação, Power BI e ferramentas de qualidade
-  (Pareto, FMEA, POPs).
+Ano-base nov/2025 a out/2026, ~1.500 lojas (B2B) e e-commerce, ~6.000 SKUs, 18.144 posições de palete
+e 24 docas.
 
-## 1. A situação
-
-A SDC atende ~1.500 lojas (B2B) e clientes de e-commerce a partir de um galpão de ~25.000 m², com 18.144
-posições de palete, ~6.000 SKUs e 24 docas. FEFO e controle de validade, rastreabilidade de lote e recall,
-limite de exposição na doca, separação de palete/caixa/unidade e forte sazonalidade tornam a operação difícil.
-
-| Indicador (ano-base nov/2025–out/2026) | Hoje | Meta usual |
+| Indicador | Hoje | Referência usual |
 |---|---|---|
-| OTIF (completo e no prazo) | **52%** (B2B 21%) | ≥ 90% |
-| Fill rate (unidades) | 92,6% | ≥ 97% |
-| Acuracidade de inventário | 96% | ≥ 98,5% |
-| Perda por frio | 4,1% da receita do frio | ~1% em operação madura (estimativa) |
-| Pedidos de dezembro separados na noite prevista | 17% | ≥ 90% |
-| Custo do CD | R$ 96,7 mi/ano (3,5% da receita movimentada) | — |
+| OTIF (pedido completo e no prazo) | 52% (lojas: 21%) | 90% ou mais |
+| Fill rate (unidades) | 92,6% | 97% ou mais |
+| Acuracidade de inventário | 96% | 98,5% ou mais |
+| Perda por frio | 4,1% da receita do frio | ~1% (estimativa) |
+| Pedidos de dezembro separados na noite prevista | 17% | 90% ou mais |
+| Custo do CD | R$ 96,7 mi/ano | |
 
-![Planta do CD](docs/img/layout.png)
+## O que encontrei
 
-## 2. O que os dados mostraram
+1. **Metade dos pedidos sai incompleta ou atrasada.** O ponto de pedido era o mesmo número de dias para
+   todos os produtos de uma zona, sem considerar o prazo de cada fornecedor (correlação de 0,09 entre
+   os dois). Um pedido de loja tem ~32 itens, então basta faltar um para ele sair incompleto.
+2. **Palete frio espera demais na doca.** 27% dos resfriados e 63% dos congelados passam do tempo
+   máximo. É a maior perda de dinheiro do CD. O gerador exagerou essa perda (4% da receita do frio),
+   por isso todos os números do plano usam também uma versão ajustada a ~1%, mais perto do mercado.
+3. **No Natal a separação não dá conta.** Sem preparo, um pico de +40% gera uma fila de ~8 dias.
+   Colocar os itens mais visitados nas posições mais perto (slotting) resolve a maior parte sem
+   contratar.
+4. **Poucos fornecedores concentram o problema.** Dois entregam lotes com menos de 70% da validade
+   (72% do que venceu veio deles), três atrasam quase sempre e um causou os dois recalls.
+5. **Pedido pequeno de e-commerce dá prejuízo.** Abaixo de R$ 25 (1 em cada 4 pedidos), a margem mal
+   cobre o custo de separar e embalar.
 
-1. **O nível de serviço é problema de estoque, não de transporte.** O ponto de pedido era fixo em dias por
-   zona e ignorava o lead time do fornecedor (correlação de 0,09). O pedido B2B tem ~32 linhas, e basta
-   faltar uma para ele deixar de ser completo.
-2. **O custo é perda de produto no frio, não mão de obra.** Passam do tempo máximo na doca 27% dos paletes
-   resfriados e 63% dos congelados. Um ponto de perda no frio vale mais que toda a otimização da separação.
-3. **A separação está no limite no pico.** Sem preparo, o Natal +40% gera ~8 dias de fila. O slotting
-   resolve a maior parte sem contratar ninguém.
-4. **Poucos fornecedores geram as perdas.** Dois aceitam lotes abaixo de 70% de vida útil (72% das unidades
-   vencidas), três atrasam sempre e um causou os dois recalls.
-5. **O pedido pequeno de e-commerce não se paga.** Abaixo de R$ 25 (1 em cada 4 pedidos), a margem só empata
-   com o custo de separar e embalar.
+## O que eu faria primeiro
 
-## 3. O programa (12 meses)
+Um piloto barato em 2 docas frias (vedação, cortina de ar e um procedimento de recebimento), junto com
+agendamento de docas e trava de validade no WMS. O plano completo tem três ondas em 12 meses:
 
-A soma bruta do registro de economias das fases dá R$ 23,3 mi/ano, mas mistura escalas e conta o slotting
-quatro vezes. O programa abaixo já tira a dupla contagem, usa a perda de frio ajustada ao mercado (a visão
-conservadora) e passa as premissas incertas por um Monte Carlo de 10 mil sorteios:
-
-| Onda | O que muda | Ganho em regime p50 (R$ mi/ano) | CAPEX (R$ mi) |
+| Onda | O que muda | Ganho estimado (R$ mi/ano) | Investimento (R$ mi) |
 |---|---|---|---|
-| **1 · 0–3 meses** | Kit de doca fria + POP de recebimento, agendamento de docas, slotting, trava de vida útil no WMS, reabastecimento por mínimo, inventário cíclico ABC | 5,3 | 0,8 |
-| **2 · 3–6 meses** | Carrinho multi-volume no e-commerce, estoque de segurança por SKU | 0,7 | 0,1 |
-| **3 · 6–12 meses** | +1 doca fria por câmara (condicional) | 1,1 | 0,8 |
-| **Total** | | **7,1** (p10–p90: 6,2–8,1) | **1,7** |
+| 0 a 3 meses | Kit de doca fria e procedimento de recebimento, agendamento de docas, slotting, trava de validade no WMS, reabastecimento por mínimo, inventário cíclico | 5,3 | 0,8 |
+| 3 a 6 meses | Carrinho multi-pedido no e-commerce, estoque de segurança por SKU | 0,7 | 0,1 |
+| 6 a 12 meses | Mais uma doca fria por câmara, se o agendamento não bastar | 1,1 | 0,8 |
+| Total | | perto de 7 | 1,7 |
 
-**Ano 1: R$ 5,1 mi (p50), payback no mês 4.** Sem o ajuste de mercado, o ganho em regime é de R$ 15,5 mi/ano.
-O kit de doca fria concentra a incerteza, por isso o primeiro passo é um piloto em 2 docas. Cada iniciativa
-tem um KPI de acompanhamento com linha de base, meta e dono.
+No primeiro ano, o ganho estimado fica em torno de R$ 5 milhões e o investimento se paga por volta do
+quarto mês. Quase toda a incerteza está no kit da doca fria, e é por isso que ele começa como piloto.
+Faixas, premissas e sensibilidade estão no [resumo da Fase 10](reports/phase10_summary.md).
 
-![Programa de economias](reports/phase10/figures/10b_matriz_valor_esforco.png)
+## Como trabalhei com a IA
 
-## 4. Como foi feito
+Fiz o projeto em dupla com o Claude, uma IA da Anthropic. Ele escreveu a maior parte do código e me
+ajudou na análise. Eu entrei com o olhar de processos e qualidade e com as decisões. Também foi o Claude
+que escreveu o gerador de dados e escondeu 12 problemas nele. Por isso, a análise foi feita sem abrir o
+gerador, e o gabarito só foi consultado no fim: 11 problemas apareceram na Fase 4 e o último na Fase 5.
+
+Algumas decisões que foram minhas:
+
+- **Não aceitar a perda de frio dos dados como verdade.** 4% da receita do frio é alto demais para um CD
+  real. Pedi uma segunda visão ajustada ao mercado e é ela que define as prioridades.
+- **Não somar os ganhos das fases.** A soma direta dava R$ 23,3 mi/ano, mas misturava escalas e contava
+  o slotting em quatro fases. Pedi para consolidar sem dupla contagem, e o número caiu para ~R$ 7 mi.
+- **Prometer resultado em 12 meses.** Um plano de um ano é mais fácil de cobrar. O VPL de 5 anos ficou
+  só como referência.
+- **Deixar a escolha da estrutura das câmaras para quem tem o orçamento.** Seletivo, drive-in ou
+  estante móvel depende de preço real. Montei a comparação como uma decisão para a gerência, em vez de
+  decidir com premissa.
+
+A parte de qualidade (Pareto, Ishikawa, FMEA, procedimentos padrão e inventário cíclico) é a mais
+próxima do que eu já fazia no trabalho.
+
+## O que uma simulação não substitui
+
+Num CD de verdade, eu não começaria pela planilha. Antes de abrir os dados, passaria alguns turnos na
+doca fria e conversaria com quem recebe, confere e guarda: por que o palete fica 30 minutos parado? Falta
+gente, falta espaço na antecâmara, os caminhões chegam todos juntos? Faria o mesmo com o pessoal da
+separação antes do Natal. Os dados mostram onde dói. Quem trabalha ali sabe por quê.
+
+Aqui não dá para fazer isso. Por isso, as causas que aponto são hipóteses que eu confirmaria no galpão
+antes de gastar qualquer dinheiro.
+
+Outras limitações:
+
+- As lojas dos dados têm perfis quase iguais, então o custo de servir varia pouco entre clientes. Com
+  dados reais, é nessa análise que aparecem os clientes caros. Frete e impostos ficam fora do escopo.
+- A maior parte das análises roda com 10% do volume e é ampliada. Cada resumo informa a escala usada.
+- As premissas de custo ficam em [`config/`](config/) e precisariam ser calibradas com a contabilidade
+  real.
+
+## Como foi feito
 
 | Fase | Pergunta | Método | Detalhes |
 |---|---|---|---|
-| 0–1 Fundação e layout | Como é o CD? | Premissas, zoneamento, endereçamento, fluxo em U | [premissas](docs/assumptions.md) · [layout](docs/layout.md) · [processos](docs/processes.md) |
+| 0–1 Fundação e layout | Como é o CD? | Premissas, zoneamento, endereçamento, fluxo em U | [premissas](docs/assumptions.md), [layout](docs/layout.md), [processos](docs/processes.md) |
 | 2 Gerador de dados | Como ter dados realistas? | Operação sintética de 24 meses, conferência de conservação do estoque e export "legado sujo" | [modelo de dados](docs/data_model.md) |
-| 3 Banco de dados | Como consultar? | Modelo estrela em SQLite e consultas de KPI | [schema](sql/01_schema.sql) · [KPIs](sql/02_kpis.sql) |
-| 4 Diagnóstico e estoque | Por que o OTIF é 52%? | Qualidade dos dados, KPIs, ABC/XYZ, previsão, estoque de segurança, FEFO | [resumo](reports/phase4_summary.md) · [modelo Power BI](powerbi/README.md) |
-| 5 Slotting | Onde cada SKU deve ficar? | Modelo de alocação (PuLP + HiGHS) × regra simples | [resumo](reports/phase5_summary.md) |
+| 3 Banco de dados | Como consultar? | Modelo estrela em SQLite e consultas de KPI | [schema](sql/01_schema.sql), [KPIs](sql/02_kpis.sql) |
+| 4 Diagnóstico e estoque | Por que o OTIF é 52%? | Qualidade dos dados, KPIs, ABC/XYZ, previsão, estoque de segurança, FEFO | [resumo](reports/phase4_summary.md), [modelo Power BI](powerbi/README.md) |
+| 5 Slotting | Onde cada SKU deve ficar? | Modelo de alocação (PuLP + HiGHS) comparado com uma regra simples | [resumo](reports/phase5_summary.md) |
 | 6 Simulação | O que acontece no Natal +40%? | Simulação de eventos discretos (SimPy), validada e calibrada | [resumo](reports/phase6_summary.md) |
 | 7 Separação e mão de obra | Quantas pessoas por turno? | Separação em lote, roteirização, quadro de 12 meses | [resumo](reports/phase7_summary.md) |
-| 8 Custos e cenários | Quanto custa e onde investir? | Custeio por atividade, custo de servir, VPL, decisão de estrutura (S01) | [resumo](reports/phase8_summary.md) |
+| 8 Custos e cenários | Quanto custa e onde investir? | Custeio por atividade, custo de servir, VPL, decisão de estrutura das câmaras | [resumo](reports/phase8_summary.md) |
 | 9 Qualidade | De onde vêm as perdas? | Pareto, Ishikawa, FMEA, rastreio de recall, inventário cíclico, [POPs](docs/sops/) | [resumo](reports/phase9_summary.md) |
-| 10 Programa de custos | Quanto dá para economizar de verdade? | Pipeline sem dupla contagem, Monte Carlo, valor × esforço × risco, ondas, custo de servir por cliente e SKU | [resumo](reports/phase10_summary.md) |
-| 11 Fechamento | Como apresentar? | Relatório executivo e painel | [relatório](reports/executive_report.md) · [painel](docs/dashboard/index.html) |
-
-## 5. Limitações
-
-- Dados sintéticos: os valores em R$ servem para comparar decisões, não como orçamento. As premissas de custo
-  ficam em [`config/`](config/) e devem ser calibradas com a contabilidade real.
-- A perda de frio dos dados está acima do mercado; os resultados mostram as duas visões.
-- As lojas dos dados têm perfis quase iguais, por isso o custo de servir varia pouco entre clientes. Com dados
-  reais, é nessa análise que aparecem os clientes caros. Frete e impostos ficam fora do escopo.
-- A maior parte das análises roda com 10% do volume e é ampliada; cada resumo informa a escala usada.
+| 10 Programa de custos | Quanto dá para economizar de verdade? | Consolidação sem dupla contagem, Monte Carlo, priorização, ondas, custo de servir por cliente e SKU | [resumo](reports/phase10_summary.md) |
+| 11 Fechamento | Como apresentar? | Relatório executivo e painel | [relatório](reports/executive_report.md), [painel](docs/dashboard/index.html) |
 
 ## Como rodar
 
@@ -135,7 +142,7 @@ descobrível: para o exercício valer, analise os dados primeiro e leia o gerado
 
 ```
 ├── config/          # parameters.yaml (CD), data_generation.yaml, cost_program.yaml (Fase 10)
-├── docs/            # premissas, layout, processos, cenários, POPs, guia de estudo, dashboard/
+├── docs/            # premissas, layout, processos, cenários, POPs, dashboard/
 ├── src/             # gerador (dcsim), simulação (flowsim), funções de apoio, gerador do painel
 ├── sql/             # schema e consultas de KPI
 ├── notebooks/       # análises 04a-10c (editar notebooks/src/*.py e regenerar)
@@ -146,10 +153,10 @@ descobrível: para o exercício valer, analise os dados primeiro e leia o gerado
 
 ## Tecnologias
 
-Python (pandas, NumPy, statsmodels, SimPy, PuLP) · SQL (SQLite) · Power BI (DAX) · HTML/SVG · Git
+Python (pandas, NumPy, statsmodels, SimPy, PuLP), SQL (SQLite), Power BI (DAX), HTML/SVG e Git.
 
 ## Autor
 
-**John Wesley da Silva** — Engenheiro de Produção (pós-graduado em Engenharia de Processos), com background
-em processos e qualidade, focado em supply chain e análise de dados. Feito com a ajuda do Claude (Anthropic).
+**John Wesley da Silva**, engenheiro de produção, pós-graduado em Engenharia de Processos, com experiência
+em processos e qualidade e migrando para supply chain e análise de dados.
 [LinkedIn](https://www.linkedin.com/in/john-wesley-da-silva/)

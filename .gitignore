@@ -27,3 +27,6 @@ drafts/
 
 # Configuração local do preview do Claude
 .claude/
+
+# Guia de estudo pessoal (não publicar)
+docs/guia_do_projeto.md

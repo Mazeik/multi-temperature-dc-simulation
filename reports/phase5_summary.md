@@ -3,8 +3,8 @@
 > *EN summary: pick faces were assigned in SKU-code order and reserve putaway goes to the first free
 > slot; 71 of 122 A-items had no pick face. Re-slotting with a PuLP/HiGHS assignment model cuts
 > estimated picking + replenishment cost by ~8% (≈R$ 91k/yr at 10% scale, payback ~1 week), about
-> 20% more than a simple "most-picked SKU nearest" rule. The key insight: the best face candidates are
-> SKUs with many visits per pallet, not the top sellers. Keeping faces replenished adds ≈R$ 88k/yr.*
+> 20% more than a simple "most-picked SKU nearest" rule. The best face candidates turned out to be SKUs
+> with many visits per pallet, which are often not the top sellers. Keeping faces replenished adds ≈R$ 88k/yr.*
 
 Notebooks: [`05a`](../notebooks/05a_slotting_diagnosis.ipynb) (diagnóstico) e
 [`05b`](../notebooks/05b_slotting_optimization.ipynb) (otimização). Tabelas em [`phase5/`](phase5/).

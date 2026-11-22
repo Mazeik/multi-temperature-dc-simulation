@@ -1,7 +1,8 @@
 # Relatório executivo · Sapucaí Distribution Center (SDC)
 
-> *EN summary: one-page board report. The DC's service problem (OTIF 52%) comes from inventory policy,
-> not transport; its cost problem is product loss in the cold chain, not labor. A 12-month, three-wave
+> *EN summary: one-page board report. Half the orders ship late or incomplete (OTIF 52%), mostly because
+> reorder points ignore supplier lead times. The biggest money leak is cold-chain product loss on the
+> docks. A 12-month, three-wave
 > program worth R$ 7.1M/yr at run-rate (p50, market-adjusted view) needs R$ 1.7M of capex and pays back in
 > month 4. Four decisions are requested from the board.*
 
@@ -22,11 +23,11 @@ Detalhes técnicos nos resumos das fases em [`reports/`](.).
 
 ## 2. O que os dados mostram
 
-1. **O nível de serviço é problema de estoque, não de transporte.** O ponto de pedido era fixo em dias por
-   zona e ignorava o lead time do fornecedor. Basta uma linha faltar para o pedido B2B, que tem ~32 linhas,
+1. **Metade dos pedidos sai incompleta ou atrasada.** O ponto de pedido era fixo em dias por zona e
+   ignorava o lead time do fornecedor. Basta uma linha faltar para o pedido B2B, que tem ~32 linhas,
    deixar de ser completo.
-2. **O custo é perda de produto no frio, não mão de obra.** Paletes ficam além do tempo máximo na doca:
-   27% no resfriado e 63% no congelado. Cada ponto de perda no frio vale mais que toda a otimização de separação.
+2. **Palete frio espera demais na doca.** Passam do tempo máximo 27% dos resfriados e 63% dos congelados.
+   É a maior perda de dinheiro do CD: cada ponto de perda no frio vale mais que toda a otimização da separação.
 3. **A separação já está no limite no pico.** Sem preparo, o Natal +40% gera ~8 dias de fila. O slotting
    resolve a maior parte sem contratar ninguém.
 4. **Fornecedores específicos geram perdas.** Dois aceitam lotes abaixo de 70% de vida útil (72% das

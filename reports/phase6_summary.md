@@ -5,8 +5,8 @@
 > monthly order queue (full scale). Findings: picking capacity is the peak-season risk (Christmas +40%
 > without preparation → 8-day queue); re-slotting from Phase 5 lifts December on-time picking from 17%
 > to 77% with no extra staff and avoids ≈R$ 287k of temporary labor per peak; distributed dock
-> scheduling cuts cold-truck yard waits at zero cost; observed cold-dock exposure is a process issue,
-> not a forklift shortage.*
+> scheduling cuts cold-truck yard waits at zero cost; the current reach-truck fleet could keep cold-dock
+> exposure within limits, so the long waits come from how the dock is run.*
 
 Código: [`src/flowsim.py`](../src/flowsim.py) · notebooks [`06a`](../notebooks/06a_simulation_validation.ipynb)
 (validação e calibração) e [`06b`](../notebooks/06b_simulation_scenarios.ipynb) (cenários) · tabelas em
@@ -29,7 +29,7 @@ Código: [`src/flowsim.py`](../src/flowsim.py) · notebooks [`06a`](../notebooks
 
 | # | Achado | Evidência |
 |---|---|---|
-| 1 | **A exposição de frio na doca é problema de processo, não de frota** | O modelo prevê 10–15 min de espera do palete; o real é de 28–36 min |
+| 1 | **A espera do palete frio na doca vem do processo: a frota atual daria conta** | Com as retráteis que existem, o modelo prevê 10–15 min de espera do palete; o real é de 28–36 min |
 | 2 | **A doca fria é o gargalo do recebimento** (4 + 4 docas no projeto) | Espera p90 do caminhão no pátio: ~5,8 h no resfriado e ~2,8 h no congelado; no seco, < 1 h |
 | 3 | **A separação já está no limite no pico atual** | Só 17% dos pedidos de dezembro saem na noite prevista |
 | 4 | **Natal +40% sem preparo leva ao colapso** | Fila de ~8 dias em dezembro e ~13 em janeiro |
