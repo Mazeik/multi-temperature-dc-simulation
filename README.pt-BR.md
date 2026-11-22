@@ -6,6 +6,26 @@ Projeto de portfólio em supply chain: um **gêmeo digital** simplificado de um 
 
 > **Aviso:** a *Sapucaí Distribution Center (SDC)* é uma empresa **fictícia**. Todos os dados são **sintéticos** (gerados por código) e os parâmetros são estimativas de ordem de grandeza. Veja [`docs/assumptions.md`](docs/assumptions.md). Qualquer semelhança com empresas reais é coincidência.
 
+## Em poucas palavras (para recrutadores e quem não é da área)
+
+Um **centro de distribuição (CD)** é o galpão onde uma empresa recebe produtos dos fornecedores, guarda e
+monta os pedidos das lojas e dos clientes da internet. Este CD é **inventado**: trabalha com alimentos
+secos, resfriados e congelados.
+
+- **O que foi feito:** um programa criou dois anos de operação "de mentira", mas realista (caminhões,
+  pedidos, estoque, perdas), com **12 problemas escondidos**, como falta de produto, fornecedor atrasando
+  e alimento estragando na doca, fora da câmara fria.
+- **Quem fez o quê:** o projeto foi feito com a ajuda do **Claude, uma IA da Anthropic**. Foi o Claude que
+  escreveu o gerador e **plantou os problemas**. A análise foi feita depois, **sem abrir o gerador nem o
+  gabarito**, como se fossem dados de uma empresa real. Só no fim o resultado foi comparado com o gabarito:
+  os 12 problemas foram encontrados. Eu defini o escopo, tomei as decisões, revisei os resultados e usei o
+  projeto para aprender as ferramentas.
+- **Principal descoberta:** o maior custo não é a mão de obra, e sim **comida perdida no frio**. Uma
+  solução barata (vedação e cortina de ar nas docas frias, com um procedimento padrão) se paga em menos de
+  um mês. Mudanças no método de trabalho economizam milhões por ano sem contratar ninguém.
+- **Ferramentas:** Python, SQL, otimização matemática, simulação, Power BI e ferramentas de qualidade
+  (Pareto, FMEA, POPs). Guia de estudo em linguagem simples: [`docs/guia_do_projeto.md`](docs/guia_do_projeto.md).
+
 ## O caso de negócio
 
 A SDC atende ~1.500 lojas (B2B) e clientes de e-commerce a partir de um galpão de ~25.000 m², com 18.144 posições de palete, ~6.000 SKUs e 24 docas. As restrições reais deixam o problema difícil: FEFO e controle de validade, rastreabilidade de lote e recall, limite de exposição na doca (cadeia do frio), separação de palete/caixa/unidade e forte sazonalidade.
