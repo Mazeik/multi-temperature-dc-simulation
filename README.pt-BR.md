@@ -68,7 +68,7 @@ O gerador é aberto, então o gabarito é tecnicamente descobrível: para o exer
 | 7. Picking e mão de obra | Separação em lote no e-commerce, roteirização na planta cheia, quadro de 12 meses por turno — [resumo](reports/phase7_summary.md) | Concluída |
 | 8. Custos e cenários | Custeio por atividade, custo de servir, carteira de investimentos (VPL/payback), decisão S01 da estrutura das câmaras — [resumo](reports/phase8_summary.md) | Concluída |
 | 9. Qualidade | Pareto das perdas, Ishikawa 6M, FMEA do recebimento frio, rastreio de recall, inventário cíclico ABC, [POPs](docs/sops/) — [resumo](reports/phase9_summary.md) | Concluída |
-| 10. Programa de redução de custos | Linha de base de custo do galpão (custo por pedido/linha/palete, cost-to-serve), pipeline de economias das fases 4–9 com investimento e payback | Planejada |
+| 10. Programa de redução de custos | Linha de base em duas visões das perdas de frio, pipeline de economias sem dupla contagem, Monte Carlo, matriz valor × esforço × risco, plano de 12 meses, KPIs de acompanhamento, custo de servir por cliente e SKU — [resumo](reports/phase10_summary.md) | Concluída |
 | 11. Fechamento | Relatório executivo e dashboard final | Planejada |
 
 ## Resultados da Fase 4 (diagnóstico)
@@ -135,6 +135,17 @@ recalls são rastreados de ponta a ponta com balanço de massa de 100% e apontam
 mesmo SKU. O inventário cíclico conta mais os itens C que os A; um programa ABC por risco corrige isso.
 Quatro POPs transformam os achados em padrão de trabalho. Detalhes em
 [reports/phase9_summary.md](reports/phase9_summary.md).
+
+## Resultados da Fase 10 (programa de redução de custos)
+
+O CD custa R$ 96,7 mi/ano como nos dados, ou R$ 54,3 mi/ano com a perda de frio rebaixada a 1% da receita
+do frio, um nível de mercado (estimativa). A priorização usa essa visão, que é a conservadora. A soma bruta
+do registro de economias dá R$ 23,3 mi, mas mistura escalas e conta o slotting quatro vezes. Sem dupla
+contagem, o programa vale **R$ 7,1 mi/ano em regime** (p50; p10–p90 de R$ 6,2 a 8,1 mi) e **R$ 5,1 mi no
+ano 1**, com R$ 1,7 mi de CAPEX que se pagam no mês 4. O kit de doca fria concentra a incerteza, por isso o
+primeiro passo é um piloto para validá-lo. No custo de servir, pedidos de e-commerce abaixo de R$ 25 (1 em
+cada 4) mal pagam a separação e a embalagem, e 26 SKUs curva C, parados ou de giro baixo, destroem valor.
+Detalhes: [reports/phase10_summary.md](reports/phase10_summary.md).
 
 ## Estrutura do repositório
 

@@ -1,0 +1,10 @@
+﻿id;dados;mercado;iniciativa
+I01;0,989;0,815;Kit de doca fria + POP-01 (8 docas)
+I02;0,076;0,307;Agendamento distribuído de docas
+I06;0,068;0,246;Trava de vida útil de 70% no WMS + scorecard F004/F014
+I04;0,074;0,229;Carrinho multi-volume no e-commerce (lote de 8)
+I05;0,048;0,207;Reabastecimento da face por mínimo (gatilho no WMS)
+I07;0,046;0,192;+1 doca fria em cada câmara (após o agendamento)
+I03;0,048;0,159;Slotting otimizado das faces (PuLP)
+I09;-0,005;0,024;Estoque de segurança e ponto de pedido por SKU
+I08;-0,007;0,008;Inventário cíclico por ABC (POP-04)

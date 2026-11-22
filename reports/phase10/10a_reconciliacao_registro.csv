@@ -1,0 +1,14 @@
+﻿fase;acao;brl_ano_estimado;iniciativa;tratamento;motivo
+5;Slotting das faces por giro (modelo PuLP);91499,0;I03;substituída;recalculada em escala cheia e hora paga (seção 3)
+5;Reabastecimento por mínimo (face atende 85% das visitas);88157,0;I05;usada;× 10 (escala) × fator de hora paga
+6;Slotting otimizado reduz temporários no pico (simulação Natal +40%);287040,0;I03;fora do total;as horas de pico já estão no ganho anual do slotting
+6;Agendamento distribuído de docas (simulação);0,0;I02;substituída;a Fase 8 valorou a espera em R$
+7;Separação em lote do e-commerce (carrinho de 8 pedidos);930996,0;I04;substituída;"Fase 8 a hora paga; aqui incremental sobre o slotting"
+7;Roteirização S-shape/melhor rota no WMS (B2B seco);49836,0;—;fora do total;com slotting por popularidade o ganho de rota cai a ~0 (07a)
+7;Quadro fixo + temporários (vs. fixo dimensionado para o pico);2904797,0;—;fora do total;"evitação de custo frente a um quadro fixo para o pico; não reduz a base"
+8;Kit de doca fria + POP (8 docas) (investimento);14135537,0;I01;usada;nas duas visões de perda de frio
+8;+1 doca fria em cada câmara (após agendamento) (investimento);1826955,0;I07;usada;já incremental ao agendamento
+8;Carrinho multi-volume no e-commerce (investimento);1226178,0;I04;substituída;descontada a interação com o slotting
+8;Agendamento distribuído de docas (investimento);952209,0;I02;usada;estadia de carreta (simulação)
+8;Slotting otimizado (investimento);952940,0;I03;substituída;mesmo modelo, recalculado aqui
+9;Programa de inventário cíclico por ABC (custo adicional);-119641,0;I08;usada;custo (valor negativo)

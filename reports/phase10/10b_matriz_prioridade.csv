@@ -1,0 +1,10 @@
+﻿id;iniciativa;esforco;risco;capex;inicio_mes;regime_p50_mercado;regime_p10_mercado;ano1_p50_mercado;regime_p50_dados;prioridade;onda
+I02;Agendamento distribuído de docas;1;baixo;0;1;873523,5;627712,4;837126,7;873523,5;873,5;Onda 1 (0-3 meses)
+I03;Slotting otimizado das faces (PuLP);1;baixo;25000;2;847501,4;713222,8;776876,3;847501,4;847,5;Onda 1 (0-3 meses)
+I01;Kit de doca fria + POP-01 (8 docas);2;medio;760000;2;2270878,1;1567368,8;1791451,4;10708641,6;757,0;Onda 1 (0-3 meses)
+I06;Trava de vida útil de 70% no WMS + scorecard F004/F014;1;medio;0;1;735554,2;565127,4;702482,1;734739,4;490,4;Onda 1 (0-3 meses)
+I05;Reabastecimento da face por mínimo (gatilho no WMS);1;medio;0;3;694957,2;481514,8;520302,7;694957,2;463,3;Onda 1 (0-3 meses)
+I08;Inventário cíclico por ABC (POP-04);1;baixo;0;1;-125963,3;-142586,7;-125963,3;-125963,3;-126,0;Onda 1 (0-3 meses)
+I04;Carrinho multi-volume no e-commerce (lote de 8);2;medio;148500;4;825200,2;593660,2;548701,0;825200,2;275,1;Onda 2 (3-6 meses)
+I09;Estoque de segurança e ponto de pedido por SKU;2;medio;0;4;-123161,6;-174412,3;-76979,7;-123161,6;-41,1;Onda 2 (3-6 meses)
+I07;+1 doca fria em cada câmara (após o agendamento);3;alto;760000;10;1073586,4;698637,2;122655,0;1073586,4;143,1;Onda 3 (6-12 meses)

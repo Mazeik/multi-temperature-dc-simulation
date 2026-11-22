@@ -69,7 +69,7 @@ analyze the data first and read the generator afterwards.
 | 7. Picking & labor | E-commerce batch picking, routing on the full-scale layout, 12-month staffing plan per shift — [summary](reports/phase7_summary.md) | Done |
 | 8. Costs & scenarios | Activity-based costing, cost-to-serve, investment portfolio (NPV/payback), S01 cold-storage racking decision — [summary](reports/phase8_summary.md) | Done |
 | 9. Quality | Loss Pareto, 6M fishbone, FMEA of cold receiving, recall traceability, ABC cycle counting, [SOPs](docs/sops/) — [summary](reports/phase9_summary.md) | Done |
-| 10. Cost reduction program | Whole-facility cost baseline (cost per order/line/pallet, cost-to-serve), savings pipeline from phases 4–9 with investment and payback | Planned |
+| 10. Cost reduction program | Cost baseline in two cold-loss views, de-duplicated savings pipeline, Monte Carlo, value × effort × risk matrix, 12-month roadmap, tracking KPIs, cost-to-serve by customer and SKU — [summary](reports/phase10_summary.md) | Done |
 | 11. Wrap-up | Executive report and final dashboard | Planned |
 
 ## Phase 4 findings (diagnosis)
@@ -134,6 +134,17 @@ chamber equipment failure and frozen loads accepted above −18 °C. Both recall
 100% mass balance and point to the same supplier and SKU. Cycle counting covers C items more often than
 A items; a risk-based ABC program fixes that. Four SOPs turn the findings into standard work. Details:
 [reports/phase9_summary.md](reports/phase9_summary.md).
+
+## Phase 10 findings (cost reduction program)
+
+The DC costs R$ 96.7M/yr as in the data, or R$ 54.3M/yr if cold-chain losses are brought down to a
+market-like 1% of cold revenue (an estimate; prioritization uses this conservative view). The raw savings
+register adds up to R$ 23.3M, but it mixes scales and counts slotting four times; once de-duplicated, the
+program is worth **R$ 7.1M/yr at run-rate** (p50; p10–p90 R$ 6.2–8.1M) and **R$ 5.1M in year 1** for
+R$ 1.7M of capex, paying back in month 4. The cold-dock kit drives most of the uncertainty, so a pilot
+should validate it first. Cost-to-serve: e-commerce orders under R$ 25 (1 in 4) barely cover picking and
+packing, and 26 slow or discontinued C items destroy value. Details:
+[reports/phase10_summary.md](reports/phase10_summary.md).
 
 ## Repository structure
 

@@ -1,0 +1,124 @@
+# Fase 10 - Programa de redução de custos. TODAS as premissas são ESTIMATIVAS (editar aqui, nunca no código).
+# Decisões do John (22/11/2026): perdas de frio em duas visões (dados x mercado) e horizonte de 12 meses.
+
+horizon_months: 12
+monte_carlo:
+  draws: 10000
+  seed: 42
+
+# Visão "ajustada ao mercado": perda por cadeia do frio rebaixada para esta % da receita da zona.
+# Estimativa de ordem de grandeza para operações maduras (não é dado de fonte específica). A priorização usa esta visão.
+market_cold_chain_loss_pct_revenue: { chilled: 1.0, frozen: 1.0 }
+
+# Captura do ganho conforme o risco de implantação (fração do ganho estimado que de fato se realiza).
+# Triangular (mínimo, mais provável, máximo).
+capture_by_risk:
+  baixo: [0.80, 0.95, 1.00]
+  medio: [0.50, 0.80, 1.00]
+  alto:  [0.30, 0.60, 0.90]
+# Atraso possível no início da iniciativa (meses, sorteio inteiro uniforme entre mínimo e máximo)
+delay_months_by_risk:
+  baixo: [0, 0]
+  medio: [0, 1]
+  alto:  [0, 3]
+
+# Catálogo de iniciativas. value_uncertainty = multiplicador triangular sobre o valor-base (incerteza da premissa).
+# go_live_month = mês do horizonte em que o ganho começa (1 = primeiro mês); ramp_months = meses até o ganho pleno.
+# effort: 1 baixo (procedimento/configuração), 2 médio (compra pequena, treinamento, TI), 3 alto (obra/projeto).
+initiatives:
+  I01:
+    name: "Kit de doca fria + POP-01 (8 docas)"
+    source: "Fases 8 e 9"
+    basis: "fração evitável da perda CRÔNICA de frio"
+    avoidable_share: [0.20, 0.40, 0.60]   # mesma faixa da sensibilidade da Fase 8
+    capex_brl: 760000
+    go_live_month: 2
+    ramp_months: 3
+    effort: 2
+    risk: medio
+  I02:
+    name: "Agendamento distribuído de docas"
+    source: "Fases 6 e 8"
+    basis: "estadia de carretas (simulação)"
+    value_uncertainty: [0.50, 1.00, 1.50]  # custo de estadia a confirmar com transportadoras
+    capex_brl: 0
+    go_live_month: 1
+    ramp_months: 2
+    effort: 1
+    risk: baixo
+  I03:
+    name: "Slotting otimizado das faces (PuLP)"
+    source: "Fases 5, 6 e 8"
+    basis: "horas de separação e retrátil"
+    value_uncertainty: [0.70, 1.00, 1.20]
+    capex_brl: 25000
+    go_live_month: 2
+    ramp_months: 1
+    effort: 1
+    risk: baixo
+  I04:
+    name: "Carrinho multi-volume no e-commerce (lote de 8)"
+    source: "Fases 7 e 8"
+    basis: "horas de separação e-commerce (já sem a sobreposição com o slotting)"
+    value_uncertainty: [0.50, 1.00, 1.20]
+    capex_brl: 148500
+    go_live_month: 4
+    ramp_months: 2
+    effort: 2
+    risk: medio
+  I05:
+    name: "Reabastecimento da face por mínimo (gatilho no WMS)"
+    source: "Fase 5"
+    basis: "horas de separação no pulmão evitadas (sobre o slotting ótimo)"
+    value_uncertainty: [0.40, 1.00, 1.10]  # modelo da Fase 5 em escala 10%, menos testado que os demais
+    capex_brl: 0
+    go_live_month: 3
+    ramp_months: 2
+    effort: 1
+    risk: medio
+  I06:
+    name: "Trava de vida útil de 70% no WMS + scorecard F004/F014"
+    source: "Fases 4 e 9"
+    basis: "fração evitável do vencimento de lotes aceitos abaixo de 70% de vida"
+    avoidable_share: [0.50, 0.80, 0.90]    # parte vira recusa ao fornecedor; parte ainda vence
+    capex_brl: 0
+    go_live_month: 1
+    ramp_months: 1
+    effort: 1
+    risk: medio                            # recusar lote pode gerar ruptura até o fornecedor se ajustar
+  I07:
+    name: "+1 doca fria em cada câmara (após o agendamento)"
+    source: "Fases 6 e 8"
+    basis: "estadia de carreta frigorífica (simulação)"
+    value_uncertainty: [0.50, 1.00, 1.50]
+    capex_brl: 760000
+    go_live_month: 10                      # projeto + obra; decidir após 3 meses de agendamento
+    ramp_months: 1
+    effort: 3
+    risk: alto
+  I08:
+    name: "Inventário cíclico por ABC (POP-04)"
+    source: "Fase 9"
+    basis: "custo adicional de contagem (acuracidade 96% -> 98,5%)"
+    value_uncertainty: [0.90, 1.00, 1.30]  # multiplica o custo
+    capex_brl: 0
+    go_live_month: 1
+    ramp_months: 1
+    effort: 1
+    risk: baixo
+  I09:
+    name: "Estoque de segurança e ponto de pedido por SKU"
+    source: "Fase 4"
+    basis: "custo de capital do estoque adicional (o ganho é nível de serviço, não custo do CD)"
+    value_uncertainty: [0.50, 1.00, 2.00]  # multiplica o custo
+    capex_brl: 0
+    go_live_month: 4
+    ramp_months: 3
+    effort: 2
+    risk: medio
+
+# Ondas do plano (meses do horizonte)
+waves:
+  "Onda 1 (0-3 meses)": [1, 3]
+  "Onda 2 (3-6 meses)": [4, 6]
+  "Onda 3 (6-12 meses)": [7, 12]

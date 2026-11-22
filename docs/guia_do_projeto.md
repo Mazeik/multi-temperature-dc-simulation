@@ -219,7 +219,19 @@ mesma estrutura: **o problema**, **o que foi feito**, **o resultado** e **como f
     B trimestral, C semestral, para chegar a ≥ 98,5% de acuracidade.
 - **Como falar:** "Os números mostram onde está o problema; o POP é o que faz a melhoria durar."
 
-### Fase 10 · Programa de redução de custos (próxima)
+### Fase 10 · Programa de redução de custos
+
+- **Resultado em uma frase:** "Sem dupla contagem e com perdas de frio em nível de mercado, o programa vale
+  ~R$ 7 mi por ano em regime e ~R$ 5 mi no primeiro ano, com R$ 1,7 mi de investimento que se pagam no 4º
+  mês." Detalhes em [`phase10_summary.md`](../reports/phase10_summary.md).
+- **Por que duas visões:** os dados exageram a perda no frio (R$ 56 mi). Ajustada a 1% da receita do frio,
+  ela cai para R$ 13,6 mi, e o custo do CD, de R$ 96,7 para R$ 54,3 mi. Mostrar as duas é honesto: quem lê
+  vê o número dos dados e o número que você defenderia numa empresa real.
+- **Monte Carlo em linguagem simples:** em vez de chutar um número, o computador sorteia as premissas
+  incertas 10 mil vezes. p10 = "em 90% dos casos dá mais que isso"; p50 = o meio; p90 = cenário bom.
+- **Custo de servir:** pedido de e-commerce abaixo de R$ 25 (1 em cada 4) quase não paga a separação e a
+  embalagem; 26 SKUs curva C dão prejuízo (parados ou de giro baixo).
+- **O que foi planejado antes (e como ficou):**
 
 - **Ideia:** cada fase registrou seus ganhos em [`savings_register.csv`](../reports/savings_register.csv).
   Somar tudo direto daria um número errado. A Fase 10 vai:

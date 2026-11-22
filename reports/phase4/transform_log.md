@@ -16,3 +16,8 @@
 - 2026-11-21 21:47 | 09a | Pareto de perdas (baixas + devoluções descartadas) por causa; Ishikawa 6M com evidências; FMEA do recebimento frio com ocorrência convertida da taxa medida
 - 2026-11-21 21:48 | 09b | rastreio de ponta a ponta dos 2 recalls (recebimento, guarda, expedição, clientes, baixa) e balanço de massa
 - 2026-11-21 21:50 | 09c | acuracidade por classe/tipo/zona/natureza; cobertura = contagens/ano ÷ endereços ocupados (~1 por palete); programa ABC 12/4/2 por ano + gatilhos
+- 2026-11-22 09:48 | 10a | linha de base = 08a (R$ 96.7 mi); visão de mercado: frio a {'chilled': 1.0, 'frozen': 1.0}% da receita da zona; slotting+carrinho recalculados juntos (interação descontada do carrinho); registro reconciliado em 10a_reconciliacao_registro.csv
+- 2026-11-22 09:50 | 10b | Monte Carlo 10000 sorteios (semente 42), triangulares e captura por risco de config/cost_program.yaml, iniciativas independentes; horizonte 12 meses; KPIs medidos no ano-base
+- 2026-11-22 09:52 | 10c | custo de servir por cliente e SKU (ABC: linhas, palete-dia, valor em estoque, paletes recebidos, reabastecimentos, baixas diretas por SKU); fecha com a Fase 8; valores por entidade em escala dos dados, totais x10
+- 2026-11-22 09:53 | 10c | custo de servir por cliente e SKU (ABC: linhas, palete-dia, valor em estoque, paletes recebidos, reabastecimentos, baixas diretas por SKU); fecha com a Fase 8; valores por entidade em escala dos dados, totais x10
+- 2026-11-22 09:54 | 10c | custo de servir por cliente e SKU (ABC: linhas, palete-dia, valor em estoque, paletes recebidos, reabastecimentos, baixas diretas por SKU); fecha com a Fase 8; valores por entidade em escala dos dados, totais x10

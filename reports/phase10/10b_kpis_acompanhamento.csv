@@ -1,0 +1,12 @@
+﻿iniciativa;kpi;linha_de_base;meta_proposta;frequencia;dono
+I01;% paletes resfriados acima de 30 min na doca;27,09;≤ 5%;diário;Recebimento
+I01;% paletes congelados acima de 15 min na doca;62,71;≤ 5%;diário;Recebimento
+I01;Perda por frio (% da receita do frio);4,12;≤ 1%;mensal;Qualidade
+I02/I07;Espera p90 da carreta resfriada no pátio (min);348,33;≤ 240;semanal;Recebimento
+I03/I05;% visitas atendidas na face de picking;26,4;≥ 85%;semanal;Armazenagem
+I04;Linhas por hora no e-commerce;34,66;≥ 90;diário;Operações
+I06;% paletes aceitos com < 70% de vida útil;6,02;0%;diário;Recebimento
+I08;Acuracidade de inventário (%);95,81;≥ 98,5%;mensal;Inventário
+I09;Fill rate em unidades (%);92,42;≥ 97%;semanal;PCP
+Programa;Custo por pedido B2B (R$);498,72;−10% em 12 meses;mensal;Controladoria
+Programa;Custo por unidade e-commerce (R$);1,87;−25% em 12 meses;mensal;Controladoria

@@ -1,0 +1,10 @@
+﻿id;iniciativa;fonte;base_do_valor;valor_dados;valor_mercado;capex;esforco;risco;inicio_mes;rampa_meses;payback_meses_mercado
+I01;Kit de doca fria + POP-01 (8 docas);Fases 8 e 9;fração evitável da perda CRÔNICA de frio;14135536,8;2997768,2;760000;2;medio;2;3;3,0
+I02;Agendamento distribuído de docas;Fases 6 e 8;estadia de carretas (simulação);952209,5;952209,5;0;1;baixo;1;2;0,0
+I03;Slotting otimizado das faces (PuLP);Fases 5, 6 e 8;horas de separação e retrátil;952940,3;952940,3;25000;1;baixo;2;1;0,3
+I04;Carrinho multi-volume no e-commerce (lote de 8);Fases 7 e 8;horas de separação e-commerce (já sem a sobreposição com o slotting);1200180,4;1200180,4;148500;2;medio;4;2;1,5
+I05;Reabastecimento da face por mínimo (gatilho no WMS);Fase 5;horas de separação no pulmão evitadas (sobre o slotting ótimo);1091727,6;1091727,6;0;1;medio;3;2;0,0
+I06;Trava de vida útil de 70% no WMS + scorecard F004/F014;Fases 4 e 9;fração evitável do vencimento de lotes aceitos abaixo de 70% de vida;1048604,9;1048604,9;0;1;medio;1;1;0,0
+I07;+1 doca fria em cada câmara (após o agendamento);Fases 6 e 8;estadia de carreta frigorífica (simulação);1826955,1;1826955,1;760000;3;alto;10;1;5,0
+I08;Inventário cíclico por ABC (POP-04);Fase 9;custo adicional de contagem (acuracidade 96% -> 98,5%);-119641,0;-119641,0;0;1;baixo;1;1;
+I09;Estoque de segurança e ponto de pedido por SKU;Fase 4;custo de capital do estoque adicional (o ganho é nível de serviço, não custo do CD);-108072,6;-108072,6;0;2;medio;4;3;
