@@ -64,3 +64,54 @@ Cada entrada separa o que foi **palpite**, o que foi **evidência** e o que aind
 **Como testar:** perguntar no recebimento se existe liberação por exceção; simular na Fase 6 um critério por SKU (por exemplo, baseado no giro e no `min_sale_days`) e medir o corte, a perda por vencimento e o risco de vencer no estoque.
 
 **Status:** hipótese plausível, **não confirmada**. Ponto de atenção: aceitar menos vida útil reduz a ruptura, mas aumenta o risco de vencimento, então a decisão precisa dos dois números.
+
+---
+
+## 4. Por que o Fornecedor 004 entrega com ~57% de vida útil restante
+
+**Minha primeira ideia (processos e qualidade):** se o critério de 70% pode estar errado (entrada 3), falta entender por que o produto chega "velho". Na minha experiência, mandar lote velho costuma ser **limpeza de estoque parado** do fornecedor. Falta de controle de FIFO seria esporádica; sendo constante, parece **deliberado**. Se for acordo de preço, o que decide é o histórico com o cliente: sem muitas reclamações, faz sentido financeiramente; com muitas, o ganho de um lado piora o outro.
+
+**O que os dados mostram**
+- **Não é transporte nem prazo.** O prazo nominal do 004 (6 dias) é menor que o dos demais do seco (média de 8,3 dias), e ele é o mais pontual (atraso médio de 0,14 dia contra 1,31).
+- **O lote já sai velho.** A idade do lote na chegada (chegada menos fabricação) é de **178 dias em média** no 004 (42% da vida útil consumida), contra **~50 dias (12%)** nos demais do seco. A vida total do lote é igual (425 contra 414 dias).
+- **É constante, não esporádico.** A idade média fica entre 176 e 180 dias em todos os semestres de 2024 a 2026, e 76% a 80% dos paletes chegam com mais de 90 dias, contra 11% nos outros fornecedores. O palete mais novo do 004 (44 a 51 dias) tem a idade média dos demais. Isso apoia a leitura de que é **deliberado**.
+- **O cliente não reclama mais.** Devoluções por 1.000 unidades expedidas: 7,3 nos SKUs do 004 e 7,3 nos demais do seco. Devolução por "validade curta": 1,5 contra 1,45. Não há sinal de insatisfação maior com esses produtos.
+- **Mas o custo aparece em outro lugar.** A baixa por vencimento é de 0,93 unidade por 1.000 expedidas no 004, contra 0,39 nos demais (2,4 vezes), e o corte por falta de produto é de 22% nos 24 meses contra 5% nos demais do seco (entradas 2 e 5).
+
+**O que os dados não mostram:** a política de expedição do fornecedor (FIFO ou não), se há acordo de idade máxima do lote em contrato e o preço efetivamente praticado por lote.
+
+**Como testar / ação possível (5W2H):** pedir a data de fabricação no pedido de compra; incluir no contrato uma idade máxima do lote na saída (por exemplo, 20% da vida útil); auditar o estoque do fornecedor; quantificar em R$ o corte (receita perdida) contra a economia de preço (entrada 5).
+
+**Status:** hipótese plausível e coerente com o padrão de lote constantemente velho, **não confirmada**. Relacionado às entradas 2 e 3.
+
+---
+
+## 5. Compensa manter o Fornecedor 004? O trade-off em R$
+
+**Minha primeira ideia (processos e qualidade):** se a gestão mantém o fornecedor mesmo com tanta recusa, o trade-off deveria compensar. Mas pode não compensar, e a gestão só não ter visto isso ainda.
+
+**Premissas (são estimativas):** valores do dataset em escala 10% (multiplicar por ~10 para a escala completa, de forma linear); período de 24 meses (nov/2024 a out/2026); o "corte em excesso" é a diferença entre o corte do 004 (22,3%) e o dos demais do seco (5,3%, que já inclui o Fornecedor 007, também alto), e é tratado como **venda perdida (limite superior)**, pois parte dos clientes pode comprar depois ou aceitar substituto; margem = preço − custo unitário cadastrado.
+
+**O que os dados mostram**
+
+| 24 meses (dataset 10%) | Fornecedor 004 | Demais do seco |
+|---|---|---|
+| SKUs | 51 | 398 |
+| Corte | **22,3%** | 5,3% |
+| Receita expedida | R$ 70,0 mi | R$ 204,3 mi |
+| Margem gerada | **R$ 22,3 mi (31,9%)** | R$ 62,2 mi (30,4%) |
+
+- **Manter compensa em termos absolutos.** O 004 gera R$ 22,3 mi de margem em 24 meses, com margem percentual um pouco maior que a dos outros. Cortá-lo sem substituto perderia esse valor. O fornecedor também é o mais pontual.
+- **Mas está deixando dinheiro na mesa.** O corte em excesso é de ~1,46 milhão de unidades, o que representa **R$ 16,5 mi de receita e R$ 5,0 mi de margem** em 24 meses (cerca de R$ 2,5 mi por ano no dataset; ~R$ 25 mi por ano na escala completa, como ordem de grandeza). Isso equivale a ~23% da margem atual do próprio 004.
+- **A baixa por vencimento é pequena perto disso.** O excesso sobre a taxa dos demais é de ~3,5 mil unidades, ou R$ 13,6 mil no dataset. O argumento de "lote velho vence no estoque" é fraco; o custo real do lote velho é a recusa e o corte.
+- **O prêmio de preço é irregular.** O custo unitário do 004, por categoria, comparado com os demais: Higiene e Limpeza +38%, Matinais e Cereais +23%, Bebidas +8%, Mercearia +1%, Biscoitos e Doces −4%. Não há desconto que compense o lote velho; por isso a hipótese de "acordo de preço" se enfraquece.
+
+**O que os dados não mostram:** o preço de um fornecedor alternativo para esses SKUs, o custo de manusear e devolver os paletes recusados e se o corte vira venda perdida de fato.
+
+**Leitura:** a gestão provavelmente não errou ao manter o fornecedor, mas pode estar **deixando de capturar** parte do ganho por não tratar a recusa e o corte como um custo do fornecedor.
+
+**Cenários (margem recuperada em 24 meses, dataset 10%):** recuperar 25% do corte em excesso = R$ 1,3 mi; 50% = R$ 2,5 mi; 75% = R$ 3,8 mi. As alavancas são (a) critério de aceitação por SKU, com base em giro e `min_sale_days`; (b) idade máxima do lote na saída, em contrato; (c) fornecedor secundário para os SKUs de maior giro.
+
+**Minha proposta (como analista de logística):** fortalecer a relação com o fornecedor. Uma das bases de supply chain é a parceria com fornecedores, então eu proporia uma aproximação com o 004 para trabalharmos juntos e reduzir os 22% de corte. Levar para a conversa os dados da recusa, o custo para os dois lados e um acordo sobre a idade do lote.
+
+**Status:** análise financeira sustentada nos dados, com as premissas acima; a causa (limpeza de estoque) continua **não confirmada**. A proposta de parceria é uma recomendação a validar com a gestão.
