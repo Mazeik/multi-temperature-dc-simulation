@@ -46,3 +46,21 @@ Cada entrada separa o que foi **palpite**, o que foi **evidência** e o que aind
 **Status:** hipótese **não confirmada**.
 
 > *Correção (23/nov):* uma versão anterior desta entrada dizia que o 004 teve 0 recusas de nov a jan. Estava errada: a consulta usou o `supplier_id` 4 (que é o Fornecedor 005) no lugar do `supplier_id` 3 (Fornecedor 004). Os números acima foram refeitos com o identificador correto.
+
+---
+
+## 3. A recusa de 58% do Fornecedor 004: o problema pode estar no critério
+
+**Minha primeira ideia (processos e qualidade):** investigar o **critério** de aceitação. Será que 70% de vida útil restante faz sentido para todos os produtos? Qual é o giro desses SKUs? E por que o fornecedor foi escolhido e mantido com tanta recusa? Deve haver um motivo.
+
+**O que os dados mostram**
+- **A regra de 70% não é aplicada de forma uniforme.** Em todos os outros fornecedores do seco, nenhum palete com vida restante ≤ 70% foi aceito. No 004, 5.290 paletes foram aceitos nessa faixa (41% dos que chegaram com ≤ 70%), e essa proporção é parecida em qualquer doca, dia da semana, ano e faixa de vida restante (de 40% a 70%). Nada nos dados explica *quais* passaram.
+- **O critério é mais rígido do que o mínimo de venda cadastrado.** Os 7.778 paletes recusados do seco tinham todos vida restante acima do `min_sale_days` do SKU (que equivale a 25% da vida útil; o pior palete recusado tinha 31,6%).
+- **O giro é alto.** Os SKUs do 004 vendem ~229 unidades/dia por SKU, contra ~94 dos demais do seco (2,5 vezes). Os 51 SKUs (11% do seco) respondem por ~24% das unidades demandadas (estimativa minha).
+- **Por que foi mantido (hipótese):** é o mais pontual do seco (atraso médio de 0,14 dia contra 1,31 dia nos demais) e tem alto volume. O custo unitário é ~15% maior, com preço de venda proporcional (margem igual).
+
+**O que os dados não mostram:** quem autorizou os paletes aceitos abaixo de 70% e por quê. A tabela não tem campo de aprovação ou exceção.
+
+**Como testar:** perguntar no recebimento se existe liberação por exceção; simular na Fase 6 um critério por SKU (por exemplo, baseado no giro e no `min_sale_days`) e medir o corte, a perda por vencimento e o risco de vencer no estoque.
+
+**Status:** hipótese plausível, **não confirmada**. Ponto de atenção: aceitar menos vida útil reduz a ruptura, mas aumenta o risco de vencimento, então a decisão precisa dos dois números.
