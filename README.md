@@ -3,10 +3,7 @@
 🇧🇷 [Versão em português](README.pt-BR.md)
 
 My background is in process engineering and quality. I wanted to understand how a warehouse is actually
-run, so I built this project to learn it. I set up a fictional food distribution center (dry, chilled and
-frozen) in southern Minas Gerais, Brazil, generated two years of synthetic operations and treated the
-data as if it came from a real company: find what is wrong, put a price on it and decide what to fix
-first.
+run, so I asked Claude, an AI assistant, to build this case the way an experienced supply chain analyst would, and I study it topic by topic and add my own reading of the data. Claude set up a fictional food distribution center (dry, chilled and frozen) in southern Minas Gerais, Brazil, generated two years of synthetic operations and treated the data as if it came from a real company: find what is wrong, put a price on it and decide what to fix first. My own questions, hypotheses and decisions are logged in [`docs/diario_de_analise.md`](docs/diario_de_analise.md).
 
 The company (*Sapucaí Distribution Center*) and the data are made up. R$ figures are order-of-magnitude
 estimates for comparing decisions, not a budget. Assumptions in [`docs/assumptions.md`](docs/assumptions.md).

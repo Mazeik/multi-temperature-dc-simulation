@@ -115,3 +115,5 @@ Cada entrada separa o que foi **palpite**, o que foi **evidência** e o que aind
 **Minha proposta (como analista de logística):** fortalecer a relação com o fornecedor. Uma das bases de supply chain é a parceria com fornecedores, então eu proporia uma aproximação com o 004 para trabalharmos juntos e reduzir os 22% de corte. Levar para a conversa os dados da recusa, o custo para os dois lados e um acordo sobre a idade do lote.
 
 **Status:** análise financeira sustentada nos dados, com as premissas acima; a causa (limpeza de estoque) continua **não confirmada**. A proposta de parceria é uma recomendação a validar com a gestão.
+
+Plano de ação completo e roteiro da conversa com o fornecedor: [docs/plano_fornecedor_004.md](plano_fornecedor_004.md).

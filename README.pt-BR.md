@@ -2,10 +2,7 @@
 
 🇺🇸 [English version](README.md)
 
-Minha experiência é em processos e qualidade. Eu queria entender, por dentro, como funciona a gestão de
-um armazém, e fiz este projeto para isso. Montei um CD de alimentos fictício (seco, resfriado e
-congelado) no Sul de Minas, gerei dois anos de operação sintética e tratei os dados como se fossem de
-uma empresa real: descobrir o que está errado, medir quanto custa e decidir o que atacar primeiro.
+Minha experiência é em processos e qualidade. Eu queria entender, por dentro, como funciona a gestão de um armazém, e pedi ao Claude, um assistente de IA, que montasse este caso como faria um analista experiente de supply chain. Eu estudo cada tópico e acrescento a minha leitura dos dados. O Claude montou um CD de alimentos fictício (seco, resfriado e congelado) no Sul de Minas, gerou dois anos de operação sintética e tratou os dados como se fossem de uma empresa real: descobrir o que está errado, medir quanto custa e decidir o que atacar primeiro. As minhas perguntas, hipóteses e decisões ficam registradas em [`docs/diario_de_analise.md`](docs/diario_de_analise.md).
 
 A empresa (*Sapucaí Distribution Center*) e os dados são inventados. Os valores em R$ são estimativas
 de ordem de grandeza: servem para comparar decisões, não como orçamento. Premissas em
