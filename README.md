@@ -84,6 +84,23 @@ Some of the decisions that were mine:
 The quality part (Pareto, fishbone, FMEA, standard procedures and cycle counting) is the closest to what
 I already did at work.
 
+## Timeline
+
+I built this project in **2 days**, but it came after months of study and smaller projects.
+
+| When | What happened |
+|---|---|
+| Before Aug 2026 | Hands-on experience in processes, quality, production planning and logistics |
+| Aug 2026 | Started learning Python with AI, in the Data Science Academy course |
+| Sep 2026 | Python, Git/GitHub and pandas, in the Téo Me Why course |
+| Oct 2026 | Power BI, at Data Science Academy. Reading *Supply Chain Management* by Chopra and Meindl (Portuguese edition), the book this project builds on |
+| Nov 2026 | First analysis projects on GitHub |
+| Nov 20–21 | Idea for the multi-temperature DC, scenario choice and plan approval |
+| **Nov 21–22** | **Built phases 0 to 11 with Claude**: I set the questions, assumptions and decisions, and the AI wrote most of the code |
+| From Nov 23 | Phase-by-phase study and re-investigation of the data without looking at the answer key, logged in [`docs/diario_de_analise.md`](docs/diario_de_analise.md) |
+
+The speed comes from the AI. What I bring is knowing **which questions to ask, what to doubt and what to decide**.
+
 ## What a simulation can't replace
 
 In a real DC, I would not start with the spreadsheet. Before opening the data, I would spend a few shifts

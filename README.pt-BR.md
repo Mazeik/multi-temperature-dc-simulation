@@ -84,6 +84,23 @@ Algumas decisões que foram minhas:
 A parte de qualidade (Pareto, Ishikawa, FMEA, procedimentos padrão e inventário cíclico) é a mais
 próxima do que eu já fazia no trabalho.
 
+## Linha do tempo
+
+O projeto foi construído em **2 dias**, mas veio depois de meses de estudo e de projetos menores.
+
+| Quando | O que aconteceu |
+|---|---|
+| Antes de ago/2026 | Experiência prática em processos, qualidade, PCP e logística |
+| Ago/2026 | Comecei a estudar Python com IA, no curso da Data Science Academy |
+| Set/2026 | Python, Git/GitHub e pandas, no curso do Téo Me Why |
+| Out/2026 | Power BI, na Data Science Academy. Leitura de *Gestão da Cadeia de Suprimentos* (Chopra e Meindl), livro em que me baseio neste projeto |
+| Nov/2026 | Primeiros projetos de análise no GitHub |
+| 20 a 21/nov | Ideia do CD multitemperatura, escolha do cenário e aprovação do plano |
+| **21 a 22/nov** | **Construção das fases 0 a 11 com o Claude**: eu defini as perguntas, as premissas e as decisões, e a IA escreveu a maior parte do código |
+| A partir de 23/nov | Estudo fase a fase e reinvestigação dos dados sem consultar o gabarito, registrada em [`docs/diario_de_analise.md`](docs/diario_de_analise.md) |
+
+A velocidade vem da IA. O que eu trago é saber **que perguntas fazer, o que desconfiar e o que decidir**.
+
 ## O que uma simulação não substitui
 
 Num CD de verdade, eu não começaria pela planilha. Antes de abrir os dados, passaria alguns turnos na
