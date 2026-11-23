@@ -29,7 +29,7 @@ PH7 = ROOT / "reports" / "phase7"
 P = params(); prm = fs.carregar_parametros(); slot = fs.carregar_slotting()
 LB, CUSTO = P["labor"], P["labor_cost"]
 ESCALA = prm["scale"]
-NOITES = LB["nights_per_month"] + 4 * P["simulation"]["sunday_shift_share"]   # noites-equivalentes/mês
+NOITES = LB["nights_per_month"] + 4 * P["flow_simulation"]["sunday_shift_share"]   # noites-equivalentes/mês
 HORAS_UTEIS = LB["shift_hours"] * LB["utilization_target"] * (1 - LB["absenteeism"])
 plt.rcParams.update({"axes.spines.top": False, "axes.spines.right": False})
 pd.set_option("display.width", 160)

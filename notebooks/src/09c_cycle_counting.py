@@ -20,7 +20,7 @@ from dcanalysis import q, save, savefig, log, params, register_saving, ROOT, OUT
 NB = "09c"
 PH9 = ROOT / "reports" / "phase9"
 P = params(); C = P["costs"]
-K = P["simulation"]["scale_factor"]
+K = P["flow_simulation"]["scale_factor"]
 FATOR_PAGO = 1 / (P["labor"]["utilization_target"] * (1 - P["labor"]["absenteeism"]))
 c_op = P["labor_cost"]["picker_brl_h"] * FATOR_PAGO
 plt.rcParams.update({"axes.spines.top": False, "axes.spines.right": False})

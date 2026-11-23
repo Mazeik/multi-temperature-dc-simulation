@@ -42,7 +42,7 @@ NB = "10c"
 PH8, PH10 = ROOT / "reports" / "phase8", ROOT / "reports" / "phase10"
 P = params()
 INI, FIM = P["costs"]["base_year"]
-K = P["simulation"]["scale_factor"]
+K = P["flow_simulation"]["scale_factor"]
 ZONAS = ["dry", "chilled", "frozen"]
 plt.rcParams.update({"axes.spines.top": False, "axes.spines.right": False})
 pd.set_option("display.width", 160)

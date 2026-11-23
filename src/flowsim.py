@@ -34,7 +34,7 @@ def carregar_parametros():
         p = yaml.safe_load(f)
     with open(ROOT / "config" / "data_generation.yaml", encoding="utf-8") as f:
         g = yaml.safe_load(f)
-    s = p["simulation"]
+    s = p["flow_simulation"]
     return {
         "docks": dict(p["facility"]["docks"]),
         "forklifts": dict(s["forklifts"]),

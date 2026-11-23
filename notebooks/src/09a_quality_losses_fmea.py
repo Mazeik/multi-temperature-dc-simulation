@@ -24,7 +24,7 @@ NB = "09a"
 PH9 = ROOT / "reports" / "phase9"
 P = params(); C = P["costs"]
 INI, FIM = C["base_year"]
-K = P["simulation"]["scale_factor"]
+K = P["flow_simulation"]["scale_factor"]
 plt.rcParams.update({"axes.spines.top": False, "axes.spines.right": False})
 pd.set_option("display.width", 160)
 

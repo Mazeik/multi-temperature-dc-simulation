@@ -29,7 +29,7 @@ from dcanalysis import q, save, savefig, log, params, register_saving, ROOT
 NB = "08c"
 PH8 = ROOT / "reports" / "phase8"
 P = params(); S, C = P["s01"], P["costs"]
-K = P["simulation"]["scale_factor"]
+K = P["flow_simulation"]["scale_factor"]
 D = S["lane_depth"]
 FRIO = ["chilled", "frozen"]
 POS = {z: P["facility"]["zones"][z]["pallet_positions"] for z in FRIO}
@@ -144,7 +144,7 @@ venc = q("""SELECT s.zone, SUM(m.qty_units * s.unit_cost) AS custo FROM fact_mov
          i=C["base_year"][0], f=C["base_year"][1]).set_index("zone").custo.reindex(FRIO).fillna(0) * K
 kwh_m3 = C["energy_kwh_m3_year"]
 precos = C["racking_capex_brl_position"]
-put_min = P["simulation"]["putaway_min_per_pallet"]
+put_min = P["flow_simulation"]["putaway_min_per_pallet"]
 
 def custos_opcao(r):
     z, o = r.zona, r.opcao

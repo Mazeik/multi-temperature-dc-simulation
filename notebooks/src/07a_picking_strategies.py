@@ -133,7 +133,7 @@ faces["dist"] = (faces.x - ox).abs() + (faces.y - oy).abs()
 print(f"Planta seco: {B['aisles']} ruas, {len(faces):,} faces, profundidade da rua {prof_rua:.1f} m")
 
 # Popularidade: curva real de visitas dos SKUs secos (Fase 5), reamostrada para o nº de faces
-rng = np.random.default_rng(P["simulation"]["seed"])
+rng = np.random.default_rng(P["flow_simulation"]["seed"])
 vis = slot[(slot.zone == "dry") & (slot.visitas_ano > 0)].visitas_ano.values
 pop = np.sort(rng.choice(vis, len(faces)))[::-1]
 pop = pop / pop.sum()
