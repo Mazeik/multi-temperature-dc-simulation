@@ -36,8 +36,13 @@ Cada entrada separa o que foi **palpite**, o que foi **evidência** e o que aind
 **O que os dados mostram**
 - O corte subiu **só no seco**: 27,2% em 24–26/dez contra 7,9% no resto de dezembro. Resfriado (7,2%) e congelado (1,4%) ficaram no normal.
 - O Fornecedor 004 responde por ~41 mil das ~66 mil unidades cortadas nesses 3 dias (corte de 67% nos SKUs dele). O Fornecedor 007 também ficou alto (38%).
-- Os recebimentos desses fornecedores não caíram de forma óbvia em dezembro. O Fornecedor 004 teve 0 paletes recusados de nov a jan, então a recusa por vida útil dele (57% no período todo) aconteceu **em outra época**.
+- O Fornecedor 004 (SUP-004, seco, 51 SKUs de mercearia, higiene, bebidas, matinais e biscoitos, prazo nominal de 6 dias) tem recusa **crônica**: ~58% dos paletes são recusados em **todos os meses** de nov/2024 a out/2026, com vida útil restante média de ~57%.
+- O corte dos SKUs dele é alto o tempo todo (13% a 18% no 4º trimestre/2025, 48% em fev/2026), contra ~3% dos demais fornecedores. O pico de 24–26/dez é o ponto mais alto de um problema que já existia.
 
-**Pontos em aberto:** falta separar *quais SKUs* do Fornecedor 004 acabaram, e se o estoque existia no CD mas fora da face de picking (reposição) ou acabou de fato.
+**Hipótese:** como mais da metade do que o 004 entrega é recusada no recebimento, o CD fica cronicamente sem os SKUs dele, e o pico de Natal expôs isso.
 
-**Status:** hipótese de ruptura de fornecimento no seco; **não confirmada**.
+**Pontos em aberto:** o porquê de a vida útil restante ser baixa (fabricante, transporte ou data de fabricação no pedido?), e se o estoque dos SKUs do 004 chegou a zerar ou ficou parado em outro endereço.
+
+**Status:** hipótese **não confirmada**.
+
+> *Correção (23/nov):* uma versão anterior desta entrada dizia que o 004 teve 0 recusas de nov a jan. Estava errada: a consulta usou o `supplier_id` 4 (que é o Fornecedor 005) no lugar do `supplier_id` 3 (Fornecedor 004). Os números acima foram refeitos com o identificador correto.
