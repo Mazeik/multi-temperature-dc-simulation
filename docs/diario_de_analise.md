@@ -117,3 +117,36 @@ Cada entrada separa o que foi **palpite**, o que foi **evidência** e o que aind
 **Status:** análise financeira sustentada nos dados, com as premissas acima; a causa (limpeza de estoque) continua **não confirmada**. A proposta de parceria é uma recomendação a validar com a gestão.
 
 Plano de ação completo e roteiro da conversa com o fornecedor: [docs/plano_fornecedor_004.md](plano_fornecedor_004.md).
+
+---
+
+## 6. Como reduzir a falta de produto no seco sem aumentar o vencimento
+
+**Minha primeira ideia (processos e qualidade):** aceitar lote mais velho só faz sentido se o produto girar rápido, e não só no CD: preciso saber com o comercial e com o cliente quanto tempo o produto fica na prateleira dele. Senão eu só "jogo a bomba para frente": o produto vence na casa do cliente e vira devolução. Se o giro também for rápido no cliente, eu proporia reduzir o critério dos 70% para esses produtos.
+
+**Como melhorei a ideia:** destrinchar o fornecedor por item. Quais são os mais velhos? Qual o impacto de cada um (curva ABC)? Dá para trocar os piores itens por outros fornecedores e manter os melhores?
+
+**O que os dados mostram** (51 itens do 004, 24 meses, dataset 10%; tabela completa em [reports/abc_fornecedor004.csv](../reports/abc_fornecedor004.csv))
+
+| Classe (margem em R$) | Itens | Margem | Corte |
+|---|---|---|---|
+| A | 6 | R$ 17,6 mi (79%) | 18,7% |
+| B | 11 | R$ 3,5 mi | 32,8% |
+| C | 34 | R$ 1,15 mi (5%) | 32,8% |
+
+- **Um único item (SKU000447) responde por 46% da margem** do fornecedor.
+- **Não existe item "pior" em idade ou recusa.** A vida restante média na chegada fica entre 57% e 62% em todos os itens; a recusa tem mediana de 58% (de 36% a 69%). Quanto mais recusa, mais corte (correlação de 0,81): o problema é do fornecedor inteiro, não de poucos itens.
+- **A regra dos 70% não separa o velho do novo.** As cargas aceitas chegam com 58,8% de vida restante; as recusadas, com 57,6%. 90% das aceitas estavam abaixo de 70%, e das cargas abaixo de 70% cerca de 40% passam. Isso indica aplicação inconsistente, o que combina com a falta de registro de quem autoriza (entrada 3).
+- **Em dias, a idade muda muito.** Itens de 180 dias de validade chegam com ~76 dias de fabricado (104 restantes); itens de 720 a 1.080 dias (higiene e limpeza) chegam com ~368 dias (506 restantes). A regra em porcentagem recusa produtos que ainda têm mais de um ano de validade.
+
+**O que os dados não mostram:** o giro dos produtos no cliente e o tempo de prateleira lá; se existe outro fornecedor com produto equivalente (cada item tem um único fornecedor no cadastro).
+
+**Conferência e premissas:** a margem total (R$ 22,31 mi) e o corte (22,3%) batem com a entrada 5. A margem usa preço e custo atuais do cadastro (**estimativa**). Dois itens estão sem categoria (SKU000212 e SKU000312) e três estão descontinuados; foram mantidos e sinalizados.
+
+**Leitura e próximos passos:**
+1. Proteger os 6 itens A: regra por dias restantes (não só em %) e registro de quem autoriza as exceções.
+2. Rever o critério dos 70% por produto, só onde o giro for rápido no CD e no cliente (o dado do cliente vem do comercial).
+3. Os itens C (R$ 1,15 mi, corte de 33%) são candidatos a trocar de fornecedor, se o comercial confirmar que há equivalente.
+4. Testar o critério por produto na simulação (Fase 6), medindo corte, mercadoria vencida e ocupação.
+
+**Status:** análise sustentada nos dados; a leitura sobre a aplicação inconsistente da regra deve ser confirmada com o recebimento. As propostas são recomendações a validar com a gestão.
