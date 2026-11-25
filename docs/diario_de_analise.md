@@ -265,3 +265,35 @@ Plano de ação completo e roteiro da conversa com o fornecedor: [docs/plano_for
 5. Medir na simulação (Fase 6) o corte evitado contra o risco de vencimento.
 
 **Limites:** o 014 tem só 5 itens e R$ 1,6 mi de margem; o preço dele não tem desconto que compense (o laticínio custa em média R$ 8,74 contra R$ 5,76 nos demais, mas são itens diferentes, então não dá para concluir). O transporte de ~4 dias é o observado nos dados.
+
+---
+
+## 10. Por que a perda de frio disparou em janeiro de 2026
+
+**Pergunta:** a perda de frio em jan/2026 foi de 9,84% do expedido, contra ~1% nos outros meses. O que aconteceu?
+
+**Minha primeira ideia (processos e qualidade):** primeiro eu verificaria os registros de manutenção e de temperatura da doca, porque não é normal a perda subir tanto. Mas estranho ser só uma parte: se a doca ou o resfriamento tivessem falhado, eu esperaria perder tudo ou quase tudo. Por isso também falaria com os fornecedores, para saber se aconteceu algo do lado deles.
+
+Também sugiro à Qualidade um piloto com os 7 fornecedores de frio: medir a temperatura ao abrir o caminhão, antes de descarregar, com a tolerância definida pela Qualidade. Fora da tolerância, fazer uma inspeção mais detalhada ou devolver. Se essa checagem já existe, o ponto é garantir que seja cumprida.
+
+**O que os dados mostram** (dataset 10%, valores a custo):
+- Perda de frio em jan/26: 216.109 unidades, R$ 2,30 milhões, contra cerca de R$ 0,23 milhão num mês típico (mediana). Os 9,84% dividem a perda por tudo o que foi expedido, inclusive o seco; só sobre o frio expedido são 26%.
+- Nas cargas recebidas de 5 a 20/jan, 453 de 1.181 paletes frios foram perdidos (R$ 2,21 milhões, 126 produtos). Resfriado: 34 em cada 100 (resto do período: 1). Congelado: 44 em cada 100 (resto: 8). A baixa vem em geral no dia seguinte, quase sempre o palete inteiro.
+- Tempo fora do frio na doca (mediana): 47 a 54 min, contra 18 a 21. Mas o tempo não explica tudo: com até 20 min, perderam-se 16% na janela contra 0,3% fora dela.
+- Perda parcial dentro do mesmo caminhão (5 a 18/jan): de 70 caminhões com 4 paletes ou mais, 68 perderam só uma parte, 1 tudo e 1 nada.
+- A perda subiu nos 7 fornecedores de frio; em 6 passou de 37 em cada 100 paletes e o outro ficou em 24 (só 17 paletes). Um fornecedor sozinho não explica.
+- No resfriado, cargas que chegaram entre 4 e 8 °C perderam 41 a 50 em cada 100, contra 26 a 36 nas mais frias. No congelado não há padrão claro.
+
+**Sobre a proposta do piloto:**
+- A checagem já está prevista no [POP-01](sops/POP-01_recebimento_refrigerado.md): congelado aceita até -18 °C, quarentena de -18 a -15, recusa acima de -15; resfriado aceita de 0 a 8 °C. Falta confirmar se é cumprida.
+- Na base não há carga fria recusada por temperatura nos 24 meses, e cerca de 1 em cada 6 paletes de congelado entrou acima de -18 °C.
+- Sozinha, a checagem não teria evitado a perda de janeiro: as cargas estavam abaixo do limite de recusa. Vale medir também a temperatura do produto, não só a do caminhão.
+
+**Hipótese (não confirmada):** algo falhou no recebimento nessas duas semanas (refrigeração da doca ou porta aberta, por exemplo), e a demora piorou o efeito. A base não tem temperatura da doca, das câmaras nem do produto.
+
+**Próximos passos:**
+1. Registros de temperatura e manutenção da doca, hora a hora.
+2. Saber como se decide que um palete está perdido.
+3. Temperatura do produto na saída do fornecedor e na chegada.
+4. Piloto de verificação com a Qualidade.
+5. Cumprir o tempo máximo de doca do POP-01.
