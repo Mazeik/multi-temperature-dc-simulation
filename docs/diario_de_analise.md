@@ -361,3 +361,80 @@ Além disso: antes de liberar uma compra, comparar o que vai chegar com os lugar
 3. Piloto do checklist com cores no turno 2, comparando antes e depois.
 4. Observar o trabalho e reforçar o treinamento do procedimento de guarda.
 5. Avaliar a leitura do código do endereço na guarda, com alerta do sistema se estiver errado.
+
+---
+
+## 13. Fornecedor 009: o prazo combinado não é o prazo real
+
+**Pergunta:** o 009 atrasa em 80 de cada 100 pedidos. O que fazer?
+
+**Minha primeira ideia (processos e qualidade):** o prazo combinado de 7 dias não reflete o processo real do fornecedor, de cerca de 12 dias: o atraso é a regra, não a exceção. Eu ajustaria o estoque de segurança à realidade e, em paralelo, iniciaria um trabalho com o fornecedor para reduzir o prazo de entrega.
+
+**O que os dados mostram** (Fornecedor 009 = `supplier_id` 8, seco, 24 itens; dataset 10%, 24 meses):
+- Prazo combinado de 7 dias; real de 12,1 em média. Em nenhum mês a média ficou perto de 7 (de 10,6 a 15,3).
+- Nenhuma carga recusada. De cada 100 unidades pedidas pelos clientes, 18 não são entregues (nos demais do seco, sem o 004, o 007 e o 009, cerca de 2).
+- 98% das unidades não entregues foram pedidas quando o item estava sem estoque.
+- Lucro bruto dos itens do fornecedor: R$ 3,2 mi.
+
+**Teste da ideia** (ano-base nov/25 a out/26; estimativas):
+- Planejar com 12 dias fixos não basta: só 54 de cada 100 pedidos chegam em até 12 dias; para 95, são 21 dias.
+
+| Planejamento | Estoque de segurança (un) | Custo por ano |
+|---|---|---|
+| 7 dias (premissa do planejamento atual) | 5.949 | referência |
+| 12 dias fixos | 7.790 | + R$ 10 mil |
+| 12 dias com a variação | 18.091 | + R$ 26 mil |
+| Meta: 12 dias, variando a metade | 11.410 | + R$ 16 mil |
+| Meta: 9 dias, variando a metade | 10.645 | + R$ 15 mil |
+
+- O cenário com variação exige cerca de R$ 85 mil a mais em estoque; o benefício máximo é de R$ 333 mil de lucro por ano. Nenhum item ficou com risco de vencimento.
+- Premissas: meta de não faltar em 95% das vezes; custo de capital de 15% ao ano; cálculo estático, ainda não simulado.
+
+**Proposta (5W2H):**
+- **O quê:** ajustar o estoque de segurança e trabalhar prazo e regularidade com o fornecedor.
+- **Por quê:** reduzir a falta de produto causada pelos atrasos.
+- **Quem:** PCP/estoque (ajuste) e Compras (fornecedor).
+- **Onde:** parâmetros do planejamento e reunião com o fornecedor.
+- **Quando (sugestão):** ajuste imediato; reunião em até 2 semanas; acompanhamento mensal.
+- **Como:** mostrar o histórico, entender a causa do atraso e combinar prazo e variação máximos. Como a reserva calculada é quase o dobro do estoque médio atual, o aumento deve ser feito em etapas, começando pelos itens que mais faltam, e revisto conforme o fornecedor regularizar o prazo.
+- **Quanto (estimativa):** cerca de R$ 85 mil em estoque e R$ 26 mil por ano.
+
+**O que os dados não mostram:** por que o prazo cadastrado é de 7 dias e qual a causa do atraso no fornecedor.
+
+---
+
+## 14. Regra dos 70%: por que redesenhar a regra de aceitação
+
+**Pergunta:** a regra de 70% de vida útil está funcionando? E por que o 004 não envia produtos mais novos?
+
+**Minha primeira ideia (processos e qualidade):** a regra de 70% me parece arbitrária e precisa ser redesenhada, não apenas por causa da idade dos produtos do 004, mas porque ela gerou outros problemas que contribuíram para a empresa faturar menos do que poderia. Proponho critérios próprios para secos, refrigerados e congelados, considerando o giro de cada item. Em paralelo, combinaria com o fornecedor o envio de produtos com mais vida útil restante, com uma meta a estudar com Qualidade e Compras (80% como referência inicial).
+
+**Os problemas ligados à regra** (dataset 10%, 24 meses):
+- **Venda não atendida** (valor máximo): R$ 21,3 mi nos itens do 004 e R$ 3,0 mi nos do 014 (resfriado), os dois fornecedores com mais da metade dos paletes recusados.
+- **Aplicação inconsistente:** dos paletes aceitos, 90 de cada 100 (004) e 87 de cada 100 (014) estavam abaixo de 70%.
+- **Vencimento:** os itens do 014 somam 71 de cada 100 unidades vencidas no galpão (R$ 400 mil a custo). Ou seja, a regra barra muito e ainda deixa passar o que vence.
+- A regra não é a única causa: o lote já sai velho do fornecedor.
+
+**Por que o 004 envia lote velho** (seco):
+- Não é demora nossa no pedido. Quando o pedido é feito, o lote já tem 136 dias de fabricado (mediana), contra 32 nos demais do seco.
+- Pedir a cada 3 ou a cada 30 dias dá praticamente a mesma idade, e isso se repete em todos os trimestres (132 a 141 dias).
+- É compatível com estoque parado no fornecedor, mas não prova intenção: pode ser produção em lotes grandes ou pouca saída.
+- Hoje só 8 de 13.621 paletes chegam com 80% ou mais de vida útil.
+
+**Giro e novo mínimo** (estimativas): mínimo = prazo mínimo de venda + dias para vender o que chega + folga. Um pedido típico dos itens A do 004 dura de 7 a 10 dias. O resultado depende da folga:
+
+| Folga | Paletes do 004 que passariam |
+|---|---|
+| 30 dias | 99 de cada 100 |
+| 60 dias | 80 de cada 100 |
+| 90 dias | 59 de cada 100 |
+
+- Premissas: giro pelo pedido típico dividido pela venda pedida por dia; não considera o estoque que já está na frente. Efeito no vencimento ainda não simulado.
+
+**Proposta:**
+1. Qualidade e Compras definem a folga de cada grupo, mais exigente onde há vencimento (resfriado).
+2. Simular o vencimento antes de mudar a regra.
+3. Perguntar ao fornecedor quando o lote é produzido e quanto tempo fica parado, e combinar idade máxima na saída, em etapas.
+4. Registrar quem autoriza cada exceção e rever a regra em data marcada.
+
+**O que os dados não mostram:** o motivo de o lote ficar parado no fornecedor, nem quanto da venda não atendida se deve à regra e quanto ao fornecedor.
