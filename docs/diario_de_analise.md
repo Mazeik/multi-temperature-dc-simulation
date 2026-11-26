@@ -297,3 +297,67 @@ Também sugiro à Qualidade um piloto com os 7 fornecedores de frio: medir a tem
 3. Temperatura do produto na saída do fornecedor e na chegada.
 4. Piloto de verificação com a Qualidade.
 5. Cumprir o tempo máximo de doca do POP-01.
+
+---
+
+## 11. Paletes fora da estante mesmo com vaga
+
+**Pergunta:** em cerca de 1 a cada 5 dias há palete fora da estante, e alguns dias passam de 100% da capacidade. Por quê?
+
+**Minha primeira ideia (processos e qualidade):** primeiro eu procuraria entender com o responsável da área por que há paletes no chão mesmo com espaço nas estantes. A resposta mais óbvia seria que os lugares vazios são reservados para outro SKU, que está para chegar ou que tem mais espaço planejado do que precisa. Isso explica só parte: dias acima de 100% apontam para erro na programação de compra ou na previsão de demanda. Eu verificaria três pontos: o responsável, a previsão de demanda e a programação de pedidos comparada com a previsão.
+
+**O que os dados mostram** (dataset 10%, 731 dias):
+- Dias com palete fora da estante: seco 137, resfriado 175, congelado 134. Acima de 100% da capacidade: 36, 12 e 22.
+- Nesses dias as estantes não estavam cheias (mediana: seco 92%, resfriado 82%, congelado 89%).
+- Os endereços de separação têm produto fixo; os de reserva não (cada um recebeu de 8 a 65 produtos em 24 meses).
+- Vagas vazias ao fim do dia (mediana, reserva / separação / paletes fora): seco 87 / 22 / 53; resfriado 42 / 3 / 14; congelado 21 / 0 / 10.
+- Quando um palete foi guardado fora, já havia reserva suficiente na noite anterior em 81% dos casos no seco, 94% no resfriado e 90% no congelado.
+- 91% dos paletes guardados fora voltam para a estante, em geral no dia seguinte.
+- Compras, no seco: em ago/25 chegaram 1.869 paletes para 1.365 pedidos pelos clientes (compra de 1.980 contra média mensal de 1.566), com atraso de fornecedor estável. Set/25 teve 15 dias acima de 100%. Abr/25 teve sobra parecida sem passar de 100%, porque o armazém estava mais vazio.
+
+**O que revi:** eu achava que armazéns assim separavam o espaço por SKU. Aqui isso vale só para a separação, então a vaga reservada para outro produto não explica a maior parte dos paletes fora.
+
+**O que os dados não mostram:** o motivo de o palete ficar fora e a previsão de demanda (a base não guarda nenhum dos dois). Eu consideraria falta de tempo ou de pessoal para guardar; na minha experiência, essa justificativa às vezes esconde um problema de método, então eu mediria antes de concluir.
+
+**Próximos passos (5W2H):**
+
+| Item | Plano |
+|---|---|
+| O quê | Registrar o motivo de cada palete deixado fora da estante |
+| Por quê | Há vaga e mesmo assim o palete fica fora |
+| Onde | Seco, resfriado e congelado |
+| Quando | A cada turno, por 2 semanas |
+| Quem | Líder da área |
+| Como | Marcar "sem vaga", "vaga de outro produto", "falta de tempo ou de pessoa" ou "outro" |
+| Quanto | Planilha simples, sem investimento (só o tempo da equipe; estimativa) |
+
+Além disso: antes de liberar uma compra, comparar o que vai chegar com os lugares livres.
+
+---
+
+## 12. Acuracidade do estoque: onde o sistema e a prateleira não batem
+
+**Pergunta:** em 4.431 contagens, 179 não bateram (4,0%). Onde estão os erros e por que acontecem?
+
+**Minha primeira ideia (processos e qualidade):** antes de tudo, é preciso saber como a contagem é feita (por blocos ou prateleiras) e onde estão os erros; se ela não for por áreas, recomendo planejar uma contagem por áreas para localizar o problema. Para um produto encontrado fora do lugar, eu verificaria onde ele deveria estar: no mesmo corredor, em outro local ou em outro setor.
+
+**O que os dados mostram** (dataset 10%, 24 meses):
+- Motivos registrados: erro de contagem 114, produto encontrado onde não era esperado 49, guardado no lugar errado 11, não encontrado 5.
+- A contagem é por endereço, cerca de 7 por dia, espalhados, e não por blocos.
+- No seco, o corredor 2 tem 5,8 diferenças a cada 100 contagens, contra 3,2 no corredor 1. O trecho das posições 12 a 22 chega a 8,6 (25 em 292, amostra pequena).
+- Os 49 produtos achados fora do lugar eram todos do mesmo setor; 19 vinham de outro corredor. No corredor 2 do seco, 19 dos 31 eram do corredor 1. (O endereço de origem foi deduzido da correção feita pelo sistema no mesmo dia.)
+- De 84.743 paletes guardados na reserva, 791 tiveram o endereço corrigido depois (0,9%).
+- A taxa é de 2,0% no turno 2 contra 0,65% no turno 1. Um dos quatro operadores responde por 520 dos 791 casos (2,4% contra cerca de 0,4% nos demais), nos três setores.
+
+**Sobre o operador:** a concentração não prova falha da pessoa. Pode ser treinamento, equipamento, coletor ou o tipo de tarefa que recebe. É preciso observar o trabalho antes de concluir.
+
+**Minha proposta:** contagem e armazenagem são atividades distintas, mas a solução é relativamente simples: ao final da contagem, quem conta preenche um formulário de observações, enviado ao responsável da área, que analisa os problemas e age para evitar a recorrência. Acredito que o erro de guarda decorra de falhas na informação que chega à equipe. Recomendo um checklist diário, entregue no início do turno, com o que vai chegar e onde será armazenado. Se possível, identificar cada rua com uma cor, repetida no checklist.
+
+**O que os dados não mostram:** a causa do erro, a informação que a equipe recebe e como as correções fora da contagem são descobertas.
+
+**Próximos passos:**
+1. Contar de uma vez as posições 12 a 22 do corredor 2 do seco (cerca de 130 endereços, estimativa) e um trecho de comparação no corredor 1.
+2. Formulário com campos fixos (onde foi achado, onde deveria estar, produto, data, turno), também usado por quem separa pedidos, com resposta do responsável em até uma semana.
+3. Piloto do checklist com cores no turno 2, comparando antes e depois.
+4. Observar o trabalho e reforçar o treinamento do procedimento de guarda.
+5. Avaliar a leitura do código do endereço na guarda, com alerta do sistema se estiver errado.
