@@ -438,3 +438,72 @@ Além disso: antes de liberar uma compra, comparar o que vai chegar com os lugar
 4. Registrar quem autoriza cada exceção e rever a regra em data marcada.
 
 **O que os dados não mostram:** o motivo de o lote ficar parado no fornecedor, nem quanto da venda não atendida se deve à regra e quanto ao fornecedor.
+
+---
+
+## 15. Piloto da nova regra de aceitação
+
+**Pergunta:** até onde dá para afrouxar a regra de aceitação sem prejudicar o cliente, as perdas, o espaço e o resultado?
+
+**Minha primeira ideia (processos e qualidade):** antes de mudar a regra para todos, fazer um piloto com os 10 itens da curva A que têm maior retorno possível e afrouxar a folga até o ponto de equilíbrio. O limite mais importante é o cliente: o produto precisa chegar a ele com validade suficiente para ele vender.
+
+**Como testamos** (dataset 10%, 24 meses; estimativas):
+- Refizemos os 24 meses dia a dia, item por item, com os pedidos reais dos clientes. O modelo foi calibrado para reproduzir o corte real de cada item.
+- Para o cliente, medimos as unidades entregues com validade abaixo do prazo mínimo de venda.
+- Testamos a regra de 70% aplicada à risca, folgas de 150 a 0 dias, aceitar todas as cargas e uma validade mínima fixa por produto.
+
+**O que os dados mostram:**
+- **Seco (8 itens, todos do 004): o equilíbrio é uma folga de 18 dias.** Quem define é o item com a validade mais curta (SKU000447, 180 dias): com menos de 18 dias começa a vencer; com mais, o corte volta a subir. Com 18 dias:
+  - o corte cai de 15–46% para 0–1,5%;
+  - nenhum vencimento;
+  - o cliente não piora;
+  - cerca de 42 paletes a mais em média na zona seca;
+  - ganho líquido estimado de R$ 4,45 milhões (limite superior).
+- **Resfriado (SKU000471, do 014): a regra também recupera a venda.** Com a validade mínima fixa, 99 de cada 100 cargas passam e o corte cai de 31% para menos de 1%, sem aumento de vencimento. O outro item do 014 no piloto (SKU000506) ficou fora: o modelo não conseguiu reproduzir o vencido real dele.
+
+**Quatro achados que mudam o desenho da regra:**
+1. **A regra de 70% aplicada à risca derrubaria o galpão:** o corte iria para 78–93% nesses itens. Hoje são as exceções, sem registro, que mantêm a venda. A regra não está sendo seguida porque não funciona.
+2. **Espiral de recusa:** quando a regra considera o tamanho da carga que chega, uma recusa aumenta o pedido seguinte. O pedido maior leva mais dias para ser vendido e é recusado de novo. No SKU000447, o corte chega a 56% com folga de 45 dias e a 96% com 60. A regra não pode depender do pedido "inflado" pela recusa anterior.
+3. **Uma folga proporcional de 10% da vida útil dá o mesmo resultado** em todos os itens secos. É mais simples de explicar e aplicar do que um número de dias igual para tudo.
+4. **Uma premissa que caiu:** testamos exigir que o cliente recebesse, além do mínimo de venda, o tempo entre os pedidos dele (como "tempo para vender"). No resfriado, isso dava uma validade mínima maior que a vida inteira do produto, e o corte iria de 3% para 49% nos itens A. Os dados não sustentam essa exigência: as devoluções por validade são praticamente iguais em todas as áreas (cerca de 0,15% das unidades vendidas), e o intervalo entre pedidos é irregular, ou seja, não mede quanto tempo o cliente leva para vender. Sem essa parcela, o corte do resfriado fica em 2,6%.
+
+**Proposta: regra em 2 níveis** (para não pesar na operação diária):
+1. **Itens A (119, 80% das vendas): validade mínima na chegada calculada por produto,** recalculada uma vez por mês: mínimo de venda + dias para vender um pedido normal + 10% da vida útil (de 36% a 40% da vida útil nos itens secos do piloto). Não olha o estoque do dia nem o tamanho da carga, então não tem espiral. No teste, corte de 0–1,8% no seco, sem vencimento.
+2. **Itens B e C: regra da área:** mínimo de venda + 10% da vida útil, sem cálculo item a item.
+- Na doca, o operador vê um número por item (tela ou etiqueta). Toda exceção é registrada com o nome de quem autorizou, e a regra é revista em data marcada.
+- Para proteger o cliente, acompanhar todo mês as devoluções por validade; se subirem, rever o mínimo do item.
+- Fica para depois, só se fizer falta: regra por cliente na expedição (lotes mais curtos para quem vende mais rápido).
+
+**O que os dados não mostram:** o tempo real que o cliente leva para vender e o custo de usar o overflow no pico, quando a zona seca já passa de 98%.
+
+---
+
+## 16. A regra de aceitação nos 119 itens da curva A
+
+**Pergunta:** a regra de validade mínima por produto, testada no piloto, funciona em todos os itens da curva A?
+
+**Minha primeira ideia (processos e qualidade):** o resultado mostra uma otimização interessante, mas que exige cautela. Antes de considerar a regra consolidada, esses itens precisam de acompanhamento constante por pelo menos um trimestre.
+
+**O que os dados mostram** (dataset 10%, 24 meses; estimativas; 112 dos 119 itens reproduzidos pelo modelo):
+
+| Área | Itens | Falta de produto: hoje → com a regra | Vencido (unidades) | Ganho estimado em 24 meses |
+|---|---|---|---|---|
+| Seco | 62 | 8,8% → 3,0% | 4.971 → 0 | R$ 4,99 milhões |
+| Resfriado | 30 | 3,0% → 2,6% | 1.279 → 1.424 | R$ 0,15 milhão |
+| Congelado | 20 | 0,5% → 0,6% | 0 → 0 | cerca de zero |
+
+- Nenhum item piorou. Melhoraram 11: os 10 itens secos do Fornecedor 004 e um resfriado do 014 (SKU000471).
+- Quase todo o ganho vem do 004 (R$ 4,97 milhões). Nos outros fornecedores a regra não muda o resultado.
+- A validade mínima calculada fica em torno de 37% da vida útil no seco e no congelado e de 44% no resfriado; 99 a 100 de cada 100 cargas passam.
+- O cliente não piora: as unidades entregues abaixo do prazo mínimo de venda ficam iguais (0,33% no resfriado e praticamente zero no seco).
+- **Pontos de atenção:** o vencido do resfriado sobe 145 unidades (11%) e a zona seca precisa de cerca de 47 paletes a mais em média.
+- A regra não resolve a falta de produto do 007 (até 23%) e do 009 (até 21%): ali a causa é o atraso de entrega, que tem plano próprio (entradas 8 e 13).
+- Sete itens resfriados ficaram fora, porque o modelo não reproduziu o vencido real deles; entre eles o SKU000506, do 014.
+
+**Proposta: implantar com acompanhamento de pelo menos um trimestre**
+- **Indicadores mensais, por item:** falta de produto, vencido, devoluções por validade, ocupação da zona seca e exceções autorizadas na doca.
+- **Gatilhos para rever o mínimo do item:** vencido ou devoluções por validade acima do patamar de hoje por dois meses seguidos.
+- **Quem:** Qualidade/Recebimento (regra e exceções), PCP/Estoque (indicadores) e Compras (fornecedores 004 e 014).
+- **Quando:** revisão mensal; decisão de manter, ajustar ou recuar ao fim do trimestre.
+
+**O que os dados não mostram:** o comportamento real dos clientes com validade mais curta e o custo do espaço extra nos picos.
